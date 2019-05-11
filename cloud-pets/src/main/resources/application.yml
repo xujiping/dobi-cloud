@@ -1,0 +1,12 @@
+server:
+    port: 8081
+spring:
+    profiles:
+        active: dev
+    application:
+        name: dobi-pets
+management:
+    endpoints:
+        web:
+            exposure:
+                include=*:
