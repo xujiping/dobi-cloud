@@ -11,6 +11,11 @@
 
     <name>微服务项目</name>
 
+    <modules>
+        <module>cloud-base</module>
+        <module>cloud-db</module>
+    </modules>
+
     <!-- spring boot 2.0 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
