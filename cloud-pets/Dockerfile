@@ -2,7 +2,7 @@ FROM java:8
 
 VOLUME /tmp/pets
 
-ADD /target/pets-1.0-SNAPSHOT.jar /app.jar
+ADD /target/cloud-pets-1.0-SNAPSHOT.jar /app.jar
 
 RUN bash -c 'touch /app.jar'
 

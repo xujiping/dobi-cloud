@@ -1,0 +1,10 @@
+version: "3"
+services:
+    dobi-pets:
+        image: xjp1070860185/dobi-pets
+        ports:
+            - "8081:8081"
+        networks:
+            - webnet
+networks:
+    webnet:

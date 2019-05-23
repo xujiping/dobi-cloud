@@ -84,17 +84,17 @@ public class MyBatisPlusGeneratorUtil {
      * @param args
      */
     public static void main(String[] args) {
-        String url = "jdbc:mysql://localhost:3306/blue?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai";
+        String url = "jdbc:mysql://rm-m5e8r75zz97048wqp3o.mysql.rds.aliyuncs.com:3306/pets?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia/Shanghai";
         String username = "root";
-        String password = "root123";
+        String password = "Dobi123456";
         String driverName = "com.mysql.jdbc.Driver";
         String author = "xujiping";
         // TODO 检查输出目录是否正确
-        String outputDir = "D:\\javaProjects\\idea\\dobi2019\\cloud\\oauth-center\\src\\main\\java";
-        String packageName = "com.cloud.oauth";
+        String outputDir = "/Users/jipingxu/Documents/javaProjects/cloud/cloud-pets/src/main/java";
+        String packageName = "com.cloud.pets";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "sys_resource_server");
+                "pets");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }
