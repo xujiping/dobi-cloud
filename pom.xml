@@ -9,7 +9,8 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>微服务项目</name>
+    <name>cloud</name>
+    <description>微服务项目</description>
 
     <modules>
         <module>cloud-base</module>

@@ -5,3 +5,11 @@
 
 ## 接口文档  
 1. 宠物萌主：http://localhost:8081/doc.html  
+
+
+## 账号  
+1. 数据库：
+> root Dobi123456  
+> 公网：rm-m5e8r75zz97048wqp3o.mysql.rds.aliyuncs.com  
+> 内网：rm-m5e8r75zz97048wqp.mysql.rds.aliyuncs.com  
+
