@@ -7,6 +7,7 @@ import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.User;
 import com.cloud.pets.service.FileService;
 import com.cloud.pets.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @RestController
 @RequestMapping("/user")
+@Api(tags = "用户")
 public class UserController {
 
     @Value("${file.server}")
