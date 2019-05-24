@@ -1,4 +1,5 @@
 spring:
+#    # nacos服务配置
 #    cloud:
 #        nacos:
 #            discovery:
@@ -37,3 +38,5 @@ swagger:
     url:
     email: xjpdyx@hotmail.com
     description: 宠物微服务接口文档
+file:
+    server: /root/java/pets/

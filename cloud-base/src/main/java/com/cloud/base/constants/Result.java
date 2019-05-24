@@ -1,4 +1,4 @@
-package com.cloud.base.constants;
+package com.cloud.base.constantss;
 
 import java.io.Serializable;
 import java.util.Arrays;
