@@ -41,7 +41,7 @@ public class CarouselController {
             list = carousels.stream().map(carousel -> carouselService.wrapper(carousel)).collect(Collectors.toList());
         }
         rb.setData(list);
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

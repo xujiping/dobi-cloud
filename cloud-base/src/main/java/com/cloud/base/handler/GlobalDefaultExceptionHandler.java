@@ -77,7 +77,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
                 returnBean.setReturnCode(ReturnCode.FAIL, null);
             }
         }
-        return returnBean.toJsonString();
+        return returnBean.toJson();
     }
 
     private void log(String title, Exception e, HttpServletRequest request) {

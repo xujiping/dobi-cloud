@@ -74,7 +74,7 @@ public class DemandController {
             rb.setData(rows);
         }
         rb.setCount(spageUtil.getTotal());
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "刷新需求列表", httpMethod = "GET", response = Demand.class, notes =
@@ -140,7 +140,7 @@ public class DemandController {
         if (!add){
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "通过Id获取详情", httpMethod = "GET", response = DemandDto.class, notes = "获取详情")
@@ -154,7 +154,7 @@ public class DemandController {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }
         rb.setData(demandDto);
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

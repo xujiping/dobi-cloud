@@ -36,7 +36,7 @@ public class PetsCategoryController {
         long total = all.size();
         rb.setData(all);
         rb.setCount(total);
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "新增", httpMethod = "POST", response = ReturnBean.class, notes = "新增宠物类别")
@@ -50,7 +50,7 @@ public class PetsCategoryController {
         if (!add){
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "更新", httpMethod = "PUT", response = ReturnBean.class, notes = "更新名称、状态")
@@ -67,7 +67,7 @@ public class PetsCategoryController {
         if (!update){
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

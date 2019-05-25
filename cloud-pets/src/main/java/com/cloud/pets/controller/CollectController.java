@@ -42,7 +42,7 @@ public class CollectController {
         if (!add) {
             rb.setReturnCode(ReturnCode.FAIL, null);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

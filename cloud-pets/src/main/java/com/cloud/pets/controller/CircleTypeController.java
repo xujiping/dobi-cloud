@@ -33,7 +33,7 @@ public class CircleTypeController {
         List<CircleType> all = circleTypeService.getAll();
         rb.setData(all);
         rb.setCount((long) all.size());
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

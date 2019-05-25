@@ -69,7 +69,7 @@ public class CircleController {
             rb.setMaxTime(rows.get(rows.size() - 1).getCreateTime().getTime());
         }
         rb.setCount(spageUtil.getTotal());
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "刷新圈子列表", httpMethod = "GET", response = Circle.class, notes =
@@ -118,7 +118,7 @@ public class CircleController {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }
         rb.setData(circle);
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

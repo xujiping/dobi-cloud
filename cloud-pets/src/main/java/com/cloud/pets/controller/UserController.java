@@ -47,7 +47,7 @@ public class UserController {
                 rb.setData(user);
             }
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "更新用户信息", httpMethod = "POST", response = ReturnBean.class, notes = "更新用户信息")
@@ -68,7 +68,7 @@ public class UserController {
         if (!update){
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @PostMapping("head")
@@ -80,7 +80,7 @@ public class UserController {
         if (!upload){
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 

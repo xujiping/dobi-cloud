@@ -123,22 +123,6 @@ public class ReturnBean {
      *
      * @return
      */
-    public String toJsonString() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", code);
-        jsonObject.put("msg", msg);
-        jsonObject.put("data", JSON.toJSONString(data));
-        jsonObject.put("count", count);
-        jsonObject.put("minTime", minTime);
-        jsonObject.put("maxTime", maxTime);
-        return jsonObject.toJSONString();
-    }
-
-    /**
-     * 转换成json字符串
-     *
-     * @return
-     */
     public String toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", code);

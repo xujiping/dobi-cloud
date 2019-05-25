@@ -100,7 +100,7 @@ public class PetsController {
         if (!add){
             rb.setReturnCode(ReturnCode.FAIL, null);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "更新宠物", httpMethod = "POST", response = String.class, notes = "更新宠物信息")
@@ -135,7 +135,7 @@ public class PetsController {
         if (!add){
             rb.setReturnCode(ReturnCode.FAIL, null);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

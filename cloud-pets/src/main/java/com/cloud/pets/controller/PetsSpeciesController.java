@@ -44,7 +44,7 @@ public class PetsSpeciesController {
         long total = all.size();
         rb.setData(petsSpeciesDtos);
         rb.setCount(total);
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "新增", httpMethod = "POST", response = ReturnBean.class, notes = "新增品种类别")
@@ -62,7 +62,7 @@ public class PetsSpeciesController {
         if (!add) {
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
     @ApiOperation(value = "更新", httpMethod = "PUT", response = ReturnBean.class, notes = "更新名称、类别ID，发情期天数、状态")
@@ -83,7 +83,7 @@ public class PetsSpeciesController {
         if (!update) {
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }

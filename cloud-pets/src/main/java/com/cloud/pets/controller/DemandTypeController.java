@@ -33,7 +33,7 @@ public class DemandTypeController {
         List<DemandType> all = demandTypeService.getAll();
         rb.setData(all);
         rb.setCount((long) all.size());
-        return rb.toJsonString();
+        return rb.toJson();
     }
 
 }
