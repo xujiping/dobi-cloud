@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cloud.admin.entity.SysUser;
-import com.cloud.admin.entity.User;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
@@ -63,7 +62,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 SysUser user = userService.selectById(userId);
                 if (user == null) {

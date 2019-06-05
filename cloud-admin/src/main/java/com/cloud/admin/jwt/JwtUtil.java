@@ -2,7 +2,7 @@ package com.cloud.admin.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.cloud.admin.entity.User;
+import com.cloud.admin.entity.SysUser;
 
 /**
  * @Author: xujiping
@@ -16,7 +16,7 @@ public class JwtUtil {
      * @param user
      * @return
      */
-    public static String getToken(User user) {
+    public static String getToken(SysUser user) {
         String token = JWT.create()
                 // 存入token中的信息
                 .withAudience(user.getId())
