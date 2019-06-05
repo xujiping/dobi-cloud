@@ -24,6 +24,11 @@ public enum ReturnCode {
     NEED_LOGIN(1009, "访问的服务需要身份认证，请引导用户到登录页"),
 
     /**
+     * 第三方
+     */
+    WX_CODE_SESSION_ERROR(1400, "微信code2Session失败"),
+
+    /**
      * 宠物项目
      */
     PETS_NOT_EXISTS(2001, "不存在该宠物"),

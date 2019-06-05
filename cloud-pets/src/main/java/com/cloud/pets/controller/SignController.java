@@ -5,7 +5,6 @@ import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
-import com.cloud.base.util.RequestUtil;
 import com.cloud.pets.entity.User;
 import com.cloud.pets.service.TokenService;
 import com.cloud.pets.service.UserService;

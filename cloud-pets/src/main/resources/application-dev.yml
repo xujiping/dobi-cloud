@@ -40,3 +40,6 @@ swagger:
     description: 宠物微服务接口文档
 file:
     server: /root/java/pets/
+wx:
+    appid:
+    secret:
