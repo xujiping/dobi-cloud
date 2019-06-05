@@ -91,6 +91,6 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
             buffer.append("        " + name + ":" + request.getParameter(name) + ",");
         }
         buffer.append("]");
-        logger.error(buffer.toString(), e);
+        logger.error(buffer.toString());
     }
 }

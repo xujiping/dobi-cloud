@@ -13,6 +13,8 @@ public enum ReturnCode {
     FAIL(1, "操作失败，请检查后重试"),
     PARAMS_ERROR(100, "参数异常，请检查"),
     NOT_EXISTS(101, "目标不存在"),
+    NO_TOKEN(102, "无token，请重新登录"),
+    TOKEN_FAIL(401, "token认证失败，请重新登录"),
 
     /**
      * 用户
@@ -22,6 +24,7 @@ public enum ReturnCode {
     USER_NOT_EXISTS(1005, "用户不存在"),
     USER_BLOCK(1007, "用户已冻结，请联系我们"),
     NEED_LOGIN(1009, "访问的服务需要身份认证，请引导用户到登录页"),
+
 
     /**
      * 第三方

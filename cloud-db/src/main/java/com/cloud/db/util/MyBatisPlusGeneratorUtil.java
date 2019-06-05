@@ -38,7 +38,7 @@ public class MyBatisPlusGeneratorUtil {
         GlobalConfig gc = new GlobalConfig();
         //生成的文件目录
         gc.setOutputDir(outputDir);
-        gc.setFileOverride(true);
+        gc.setFileOverride(false);
         gc.setActiveRecord(true);
         //XML 二级缓存
         gc.setEnableCache(true);

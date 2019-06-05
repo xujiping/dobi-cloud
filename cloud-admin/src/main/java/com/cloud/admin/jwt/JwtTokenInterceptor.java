@@ -5,7 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.User;
+import com.cloud.admin.service.SysUserService;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,7 +28,10 @@ import java.lang.reflect.Method;
  * @Version 1.0
  */
 @Slf4j
+@AllArgsConstructor
 public class JwtTokenInterceptor implements HandlerInterceptor {
+
+    SysUserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -48,7 +56,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token，请重新登录");
+                    throw new BusinessException(ReturnCode.NO_TOKEN);
                 }
                 // 获取 token 中的 user id
                 String userId;
@@ -57,16 +65,16 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTDecodeException j) {
                     throw new RuntimeException("401");
                 }
-                User user = new User("1", "xjp", "123");
+                SysUser user = userService.selectById(userId);
                 if (user == null) {
-                    throw new RuntimeException("用户不存在，请重新登录");
+                    throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
                 }
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new RuntimeException("401");
+                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 return true;
             }

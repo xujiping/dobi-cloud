@@ -1,7 +1,9 @@
 package com.cloud.admin.config;
 
 import com.cloud.admin.jwt.CorsInterceptor;
+import com.cloud.admin.jwt.JWTConfig;
 import com.cloud.admin.jwt.JwtTokenInterceptor;
+import com.cloud.admin.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,9 +21,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private JWTConfig jwtConfig;
 
+    @Autowired private SysUserService userService;
+
     @Bean
     public JwtTokenInterceptor jwtTokenInterceptor() {
-        return new JwtTokenInterceptor();
+        return new JwtTokenInterceptor(userService);
     }
 
     @Override
