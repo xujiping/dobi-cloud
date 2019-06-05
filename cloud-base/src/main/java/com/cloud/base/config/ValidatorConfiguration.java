@@ -1,4 +1,4 @@
-package com.cloud.pets.common.config;
+package com.cloud.base.config;
 
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.context.annotation.Bean;
