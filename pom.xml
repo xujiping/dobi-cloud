@@ -16,6 +16,7 @@
         <module>cloud-base</module>
         <module>cloud-db</module>
         <module>cloud-pets</module>
+        <module>cloud-admin</module>
     </modules>
 
     <!-- spring boot 2.0 -->
