@@ -36,6 +36,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("拦截器开始，预处理");
         String token = request.getHeader("token");
+        String accountId = request.getHeader("accountId");
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -62,6 +63,9 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
+                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
+                }
+                if (!accountId.equals(userId)) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 SysUser user = userService.selectById(userId);
