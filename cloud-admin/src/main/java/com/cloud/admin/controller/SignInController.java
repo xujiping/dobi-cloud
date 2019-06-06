@@ -2,9 +2,9 @@ package com.cloud.admin.controller;
 
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
-import com.cloud.admin.jwt.JwtUtil;
-import com.cloud.admin.jwt.PassToken;
 import com.cloud.admin.service.SysUserService;
+import com.cloud.auth.jwt.JwtUtil;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
@@ -55,7 +55,7 @@ public class SignInController {
             throw new BusinessException(ReturnCode.FAIL);
         }
         // 生成token
-        String token = JwtUtil.getToken(user);
+        String token = JwtUtil.getToken(user.getId(), password);
         UserVo userVo = new UserVo(user.getId(), token);
         return new ReturnBean(userVo).toJson();
     }

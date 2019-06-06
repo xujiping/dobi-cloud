@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @Version 1.0
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.cloud.base", "com.cloud.db.config", "com.cloud.admin"})
+@ComponentScan(basePackages = {"com.cloud.base", "com.cloud.db.config", "com.cloud.auth.jwt", "com.cloud.admin"})
 @EnableSwagger2
 @MapperScan(basePackages = {"com.cloud.admin.mapper"})
 public class CloudAdminApplication {

@@ -38,7 +38,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param roleId 角色ID
      * @return
      */
-    List<SysRolePermission> listByRole(int roleId, int level);
+    List<SysRolePermission> listByRole(int roleId, Integer level);
 
     PermissionVo wrapper(SysRolePermission rolePermission);
 

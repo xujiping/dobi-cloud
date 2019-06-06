@@ -59,22 +59,24 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public List<SysRolePermission> listByRole(int roleId, int level) {
+    public List<SysRolePermission> listByRole(int roleId, Integer level) {
         Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
         wrapper.eq("role_id", roleId);
-        wrapper.eq("level", level);
+        if (level != null) {
+            wrapper.eq("level", level);
+        }
         return rolePermissionService.selectList(wrapper);
     }
 
     @Override
     public PermissionVo wrapper(SysRolePermission rolePermission) {
         PermissionVo permissionVo = new PermissionVo();
-        if (rolePermission == null){
+        if (rolePermission == null) {
             return permissionVo;
         }
         Integer permissionId = rolePermission.getPermissionId();
         SysPermission permission = selectById(permissionId);
-        if (permission == null){
+        if (permission == null) {
             return permissionVo;
         }
         BeanUtils.copyProperties(permission, permissionVo);

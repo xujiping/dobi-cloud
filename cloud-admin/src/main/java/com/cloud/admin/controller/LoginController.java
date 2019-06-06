@@ -1,8 +1,8 @@
 package com.cloud.admin.controller;
 
 import com.cloud.admin.entity.vo.UserVo;
-import com.cloud.admin.jwt.PassToken;
 import com.cloud.admin.service.SysUserService;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

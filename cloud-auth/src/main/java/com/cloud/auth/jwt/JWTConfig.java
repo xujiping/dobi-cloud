@@ -1,4 +1,4 @@
-package com.cloud.admin.jwt;
+package com.cloud.auth.jwt;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
 package com.cloud.admin.controller;
 
+import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
+    @UserLoginToken
     @GetMapping("")
     public String index() {
         return new ReturnBean().toJson();

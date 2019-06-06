@@ -46,3 +46,8 @@ wx:
 jwt:
     include-path-patterns: /**
     exclude-path-patterns:
+uc:
+    domain: http://localhost:8100/
+    request:
+        user-info: /sysUser/info
+        check-permission: /sysPermission/check

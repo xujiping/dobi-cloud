@@ -1,10 +1,9 @@
-package com.cloud.admin.jwt;
+package com.cloud.auth.jwt;
 
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.cloud.admin.entity.SysUser;
 
 /**
  * @Author: xujiping
@@ -15,16 +14,16 @@ public class JwtUtil {
 
     /**
      * 获取token
-     * @param user
+     *
      * @return
      */
-    public static String getToken(SysUser user) {
+    public static String getToken(String userId, String password) {
         String token = JWT.create()
                 // 存入token中的信息
-                .withAudience(user.getId())
+                .withAudience(userId)
                 // token超时时间，1天之后过期
                 .withExpiresAt(DateUtil.offsetDay(new DateTime(), 1))
-                .sign(Algorithm.HMAC256(user.getPassword()));
+                .sign(Algorithm.HMAC256(password));
         return token;
     }
 }

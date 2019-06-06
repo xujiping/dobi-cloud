@@ -1,13 +1,15 @@
-package com.cloud.admin.jwt;
+package com.cloud.auth.jwt;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.cloud.admin.entity.SysUser;
-import com.cloud.admin.service.SysUserService;
+import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.AllArgsConstructor;
@@ -31,7 +33,7 @@ import java.lang.reflect.Method;
 @AllArgsConstructor
 public class JwtTokenInterceptor implements HandlerInterceptor {
 
-    SysUserService userService;
+    UserCenterConfig userCenterConfig;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -69,12 +71,15 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 if (StrUtil.isBlank(accountId) || !accountId.equals(userId)) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                SysUser user = userService.selectById(userId);
-                if (user == null) {
-                    throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+                // 查询用户信息
+                ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser() + "/" + userId);
+                if (!returnBean.isSuccess()) {
+                    throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
                 }
+                JSONObject userObject = JSON.parseObject((String) returnBean.getData());
+                String password = userObject.getString("password");
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
@@ -86,10 +91,10 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 if (StrUtil.isBlank(platformId)) {
                     throw new BusinessException(ReturnCode.PARAMS_ERROR);
                 }
-                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
-                if (!checkPermission) {
-                    throw new BusinessException(ReturnCode.NO_PERMISSION);
-                }
+//                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
+//                if (!checkPermission) {
+//                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+//                }
                 return true;
             }
         }

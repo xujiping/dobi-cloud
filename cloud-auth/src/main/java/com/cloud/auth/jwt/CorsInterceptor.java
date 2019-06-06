@@ -1,4 +1,4 @@
-package com.cloud.admin.jwt;
+package com.cloud.auth.jwt;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;

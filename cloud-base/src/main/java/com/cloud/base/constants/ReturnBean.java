@@ -29,6 +29,10 @@ public class ReturnBean {
         this.data = data;
     }
 
+    public boolean isSuccess() {
+        return code == ReturnCode.SUCCESS.code();
+    }
+
     /**
      * 错误码
      *
