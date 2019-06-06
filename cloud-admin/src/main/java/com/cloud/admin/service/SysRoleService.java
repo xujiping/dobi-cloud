@@ -38,4 +38,13 @@ public interface SysRoleService extends IService<SysRole> {
      */
     boolean addUser(String userId, int roleId);
 
+    /**
+     * 给角色分配权限
+     * @param userId 授权者
+     * @param roleId 角色ID
+     * @param permissionId 权限ID
+     * @return boolean
+     */
+    boolean addPermission(String userId, int roleId, int permissionId);
+
 }

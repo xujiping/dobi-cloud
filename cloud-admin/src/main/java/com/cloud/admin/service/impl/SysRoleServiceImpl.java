@@ -3,8 +3,10 @@ package com.cloud.admin.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.entity.SysRole;
+import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.mapper.SysRoleMapper;
+import com.cloud.admin.service.SysRolePermissionService;
 import com.cloud.admin.service.SysRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.admin.service.SysRoleUserService;
@@ -27,6 +29,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysRoleUserService roleUserService;
+
+    @Autowired
+    private SysRolePermissionService rolePermissionService;
 
     @Override
     public boolean add(int platform, String name, String intro) {
@@ -60,5 +65,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         roleUser.setPlatformId(role.getPlatformId());
         roleUser.setUserId(userId);
         return roleUserService.insert(roleUser);
+    }
+
+    @Override
+    public boolean addPermission(String userId, int roleId, int permissionId) {
+        SysRolePermission rolePermission = new SysRolePermission();
+        rolePermission.setCreateUserId(userId);
+        rolePermission.setRoleId(roleId);
+        rolePermission.setPermissionId(permissionId);
+        return rolePermissionService.insert(rolePermission);
     }
 }
