@@ -94,7 +94,7 @@ public class MyBatisPlusGeneratorUtil {
         String packageName = "com.cloud.admin";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "sys_user");
+                "sys_role", "sys_role_user", "sys_permission", "sys_role_permission");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }

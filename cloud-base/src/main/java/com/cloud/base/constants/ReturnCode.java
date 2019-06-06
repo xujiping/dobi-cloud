@@ -24,6 +24,7 @@ public enum ReturnCode {
     USER_NOT_EXISTS(1005, "用户不存在"),
     USER_BLOCK(1007, "用户已冻结，请联系我们"),
     NEED_LOGIN(1009, "访问的服务需要身份认证，请引导用户到登录页"),
+    USER_EXIST(1010, "用户已存在"),
 
 
     /**
