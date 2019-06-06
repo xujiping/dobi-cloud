@@ -1,5 +1,6 @@
 package com.cloud.admin.jwt;
 
+import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -33,7 +34,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     SysUserService userService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("拦截器开始，预处理");
         String token = request.getHeader("token");
         String accountId = request.getHeader("accountId");
@@ -55,7 +56,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
                 // 执行认证
-                if (token == null) {
+                if (StrUtil.isBlank(token)) {
                     throw new BusinessException(ReturnCode.NO_TOKEN);
                 }
                 // 获取 token 中的 user id
@@ -65,7 +66,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTDecodeException j) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                if (!accountId.equals(userId)) {
+                if (StrUtil.isBlank(accountId) || !accountId.equals(userId)) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 SysUser user = userService.selectById(userId);
@@ -79,19 +80,29 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
+                // 校验用户权限
+                String platformId = request.getHeader("platform");
+                String requestURI = request.getRequestURI();
+                if (StrUtil.isBlank(platformId)) {
+                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
+                }
+                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
+                if (!checkPermission) {
+                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+                }
                 return true;
             }
         }
-        return false;
+        throw new BusinessException(ReturnCode.INVALID_REQUEST);
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
         log.info("拦截器开始，后处理");
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         log.info("拦截器开始，处理完毕回调");
 
     }

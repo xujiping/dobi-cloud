@@ -14,6 +14,7 @@ public enum ReturnCode {
     PARAMS_ERROR(100, "参数异常，请检查"),
     NOT_EXISTS(101, "目标不存在"),
     NO_TOKEN(102, "无token，请重新登录"),
+    INVALID_REQUEST(111, "无效请求"),
     TOKEN_FAIL(401, "token认证失败，请重新登录"),
 
     /**
@@ -25,6 +26,7 @@ public enum ReturnCode {
     USER_BLOCK(1007, "用户已冻结，请联系我们"),
     NEED_LOGIN(1009, "访问的服务需要身份认证，请引导用户到登录页"),
     USER_EXIST(1010, "用户已存在"),
+    NO_PERMISSION(1012, "权限不足"),
 
 
     /**

@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface SysPermissionService extends IService<SysPermission> {
 
+    /**
+     * 获取URI
+     * @param id 主键ID
+     * @return String
+     */
+    String getUri(int id);
+
 }

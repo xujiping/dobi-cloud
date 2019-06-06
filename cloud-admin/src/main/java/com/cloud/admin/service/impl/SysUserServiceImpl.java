@@ -5,16 +5,25 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.cloud.admin.entity.SysPermission;
+import com.cloud.admin.entity.SysRolePermission;
+import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.jwt.JwtUtil;
 import com.cloud.admin.mapper.SysUserMapper;
+import com.cloud.admin.service.SysPermissionService;
+import com.cloud.admin.service.SysRolePermissionService;
+import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.admin.service.SysUserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +35,15 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+
+    @Autowired
+    private SysRoleUserService roleUserService;
+
+    @Autowired
+    private SysRolePermissionService rolePermissionService;
+
+    @Autowired
+    private SysPermissionService permissionService;
 
     @Override
     public SysUser getByUsername(String username) {
@@ -54,5 +72,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return new UserVo(user.getId(), token);
         }
         return null;
+    }
+
+    @Override
+    public Integer getRoleId(int platformId, String userId) {
+        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
+        wrapper.eq("platform_id", platformId);
+        wrapper.eq("user_id", userId);
+        SysRoleUser roleUser = roleUserService.selectOne(wrapper);
+        if (roleUser == null) {
+            return null;
+        }
+        return roleUser.getRoleId();
+    }
+
+    @Override
+    public boolean checkPermission(int platformId, String userId, String uri) {
+        if (platformId == 0 || StrUtil.isBlank(userId) || StrUtil.isBlank(uri)) {
+            return false;
+        }
+        Integer roleId = getRoleId(platformId, userId);
+        Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_id", roleId);
+        List<SysRolePermission> rolePermissions = rolePermissionService.selectList(wrapper);
+        if (rolePermissions != null && rolePermissions.size() > 0) {
+            String checkUri;
+            for (SysRolePermission rolePermission : rolePermissions) {
+                checkUri = permissionService.getUri(rolePermission.getPermissionId());
+                if (StrUtil.isNotBlank(checkUri) && checkUri.equals(uri)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

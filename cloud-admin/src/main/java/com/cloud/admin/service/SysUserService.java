@@ -37,4 +37,21 @@ public interface SysUserService extends IService<SysUser> {
      */
     UserVo login(String username, String password);
 
+    /**
+     * 获取用户角色
+     * @param platformId 平台ID
+     * @param userId 用户ID
+     * @return int
+     */
+    Integer getRoleId(int platformId, String userId);
+
+    /**
+     * 判断用户是否拥有权限
+     * @param platformId 平台ID
+     * @param userId 用户ID
+     * @param uri URI
+     * @return boolean
+     */
+    boolean checkPermission(int platformId, String userId, String uri);
+
 }
