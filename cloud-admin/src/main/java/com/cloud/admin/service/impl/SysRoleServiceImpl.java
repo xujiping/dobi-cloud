@@ -17,4 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
+    @Override
+    public boolean add(int platform, String name, String intro) {
+        SysRole role = new SysRole();
+        role.setPlatformId(platform);
+        role.setRoleName(name);
+        role.setRoleIntro(intro);
+        return insert(role);
+    }
 }

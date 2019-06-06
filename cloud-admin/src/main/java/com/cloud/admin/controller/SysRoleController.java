@@ -1,9 +1,22 @@
 package com.cloud.admin.controller;
 
-
+import com.cloud.admin.service.SysRoleService;
+import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.constants.ReturnCode;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -15,7 +28,32 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/sysRole")
+@Api(tags = "平台角色")
+@Validated
 public class SysRoleController {
+
+    @Autowired
+    private SysRoleService roleService;
+
+    @ApiOperation(value = "创建角色", httpMethod = "POST")
+    @PostMapping("new")
+    public String add(
+            @NotNull
+            @ApiParam(required = true, name = "platform", value = "平台ID")
+            @RequestHeader Integer platform,
+            @NotEmpty
+            @ApiParam(required = true, name = "roleName", value = "角色名")
+            @RequestParam String roleName,
+            @NotEmpty
+            @ApiParam(required = true, name = "roleIntro", value = "简介")
+            @RequestParam String roleIntro) {
+        ReturnBean rb = new ReturnBean(true);
+        boolean add = roleService.add(platform, roleName, roleIntro);
+        if (!add) {
+            rb.setReturnCode(ReturnCode.FAIL, false);
+        }
+        return rb.toJson();
+    }
 
 }
 
