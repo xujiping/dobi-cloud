@@ -83,6 +83,13 @@ public class Constants {
     public static final String STAT_BLOCK = "block";
 
     /**
+     * 状态：0不可用 1正常
+     */
+    public static final int STATUS_UNENABLE = 0;
+    public static final int STATUS_NORMAL = 1;
+
+
+    /**
      * redis专辑信息
      */
     public static final String REDIS_CLIENT_RELEASE = "client_release";

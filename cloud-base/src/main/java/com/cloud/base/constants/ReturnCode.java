@@ -27,6 +27,8 @@ public enum ReturnCode {
     NEED_LOGIN(1009, "访问的服务需要身份认证，请引导用户到登录页"),
     USER_EXIST(1010, "用户已存在"),
     NO_PERMISSION(1012, "权限不足"),
+    ROLE_EXIST(1014, "角色已存在"),
+    ROLE_NULL_OR_UNENABLE(1016, "角色不存在或者不可用"),
 
 
     /**

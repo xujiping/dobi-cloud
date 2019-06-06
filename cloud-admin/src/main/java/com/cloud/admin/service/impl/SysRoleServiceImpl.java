@@ -1,9 +1,17 @@
 package com.cloud.admin.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.entity.SysRole;
+import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.mapper.SysRoleMapper;
 import com.cloud.admin.service.SysRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cloud.admin.service.SysRoleUserService;
+import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,12 +25,40 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
+    @Autowired
+    private SysRoleUserService roleUserService;
+
     @Override
     public boolean add(int platform, String name, String intro) {
-        SysRole role = new SysRole();
+        SysRole role = get(platform, name);
+        if (role != null) {
+            throw new BusinessException(ReturnCode.ROLE_EXIST);
+        }
+        role = new SysRole();
         role.setPlatformId(platform);
         role.setRoleName(name);
         role.setRoleIntro(intro);
         return insert(role);
+    }
+
+    @Override
+    public SysRole get(int platform, String name) {
+        Wrapper<SysRole> wrapper = new EntityWrapper<>();
+        wrapper.eq("platform_id", platform);
+        wrapper.eq("role_name", name);
+        return selectOne(wrapper);
+    }
+
+    @Override
+    public boolean addUser(String userId, int roleId) {
+        SysRole role = selectById(roleId);
+        if (role == null || role.getStatus() == Constants.STATUS_UNENABLE) {
+            throw new BusinessException(ReturnCode.ROLE_NULL_OR_UNENABLE);
+        }
+        SysRoleUser roleUser = new SysRoleUser();
+        roleUser.setRoleId(roleId);
+        roleUser.setPlatformId(role.getPlatformId());
+        roleUser.setUserId(userId);
+        return roleUserService.insert(roleUser);
     }
 }

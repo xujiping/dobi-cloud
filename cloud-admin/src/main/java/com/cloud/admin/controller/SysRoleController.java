@@ -55,5 +55,19 @@ public class SysRoleController {
         return rb.toJson();
     }
 
+    @ApiOperation(value = "给用户分配角色", httpMethod = "POST")
+    @PostMapping("user")
+    public String addUser(@ApiParam(required = true, name = "accountId", value = "用户ID")
+                          @RequestHeader String accountId,
+                          @ApiParam(required = true, name = "roleId", value = "角色ID")
+                          @RequestParam Integer roleId) {
+        ReturnBean rb = new ReturnBean(true);
+        boolean addUser = roleService.addUser(accountId, roleId);
+        if (!addUser) {
+            rb.setReturnCode(ReturnCode.FAIL, false);
+        }
+        return rb.toJson();
+    }
+
 }
 

@@ -22,4 +22,20 @@ public interface SysRoleService extends IService<SysRole> {
      */
     boolean add(int platform, String name, String intro);
 
+    /**
+     * 查询
+     * @param platform 平台ID
+     * @param name 角色名
+     * @return SysRole
+     */
+    SysRole get(int platform, String name);
+
+    /**
+     * 给用户分配角色
+     * @param userId 用户ID
+     * @param roleId 角色ID
+     * @return boolean
+     */
+    boolean addUser(String userId, int roleId);
+
 }
