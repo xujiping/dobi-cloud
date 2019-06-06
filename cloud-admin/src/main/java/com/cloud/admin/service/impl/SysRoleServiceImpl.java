@@ -55,6 +55,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    public Integer getRoleId(int platform, String userId) {
+        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
+        wrapper.eq("platform_id", platform);
+        wrapper.eq("user_id", userId);
+        SysRoleUser roleUser = roleUserService.selectOne(wrapper);
+        if (roleUser != null) {
+            return roleUser.getRoleId();
+        }
+        return null;
+    }
+
+    @Override
     public boolean addUser(String userId, int roleId) {
         SysRole role = selectById(roleId);
         if (role == null || role.getStatus() == Constants.STATUS_UNENABLE) {

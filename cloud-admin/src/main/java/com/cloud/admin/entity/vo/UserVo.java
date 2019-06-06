@@ -15,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserVo implements Serializable {
 
+    private static final long serialVersionUID = -6244014622146041114L;
     @ApiModelProperty("用户ID")
     private String userId;
 

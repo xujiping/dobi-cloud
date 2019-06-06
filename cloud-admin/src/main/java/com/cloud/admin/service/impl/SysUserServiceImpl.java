@@ -92,9 +92,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return false;
         }
         Integer roleId = getRoleId(platformId, userId);
-        Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
-        wrapper.eq("role_id", roleId);
-        List<SysRolePermission> rolePermissions = rolePermissionService.selectList(wrapper);
+        List<SysRolePermission> rolePermissions = permissionService.listByRole(roleId);
         if (rolePermissions != null && rolePermissions.size() > 0) {
             String checkUri;
             for (SysRolePermission rolePermission : rolePermissions) {

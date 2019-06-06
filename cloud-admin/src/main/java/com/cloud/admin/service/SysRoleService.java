@@ -31,6 +31,14 @@ public interface SysRoleService extends IService<SysRole> {
     SysRole get(int platform, String name);
 
     /**
+     * 获取用户角色ID
+     * @param platform 平台ID
+     * @param userId 用户ID
+     * @return
+     */
+    Integer getRoleId(int platform, String userId);
+
+    /**
      * 给用户分配角色
      * @param userId 用户ID
      * @param roleId 角色ID
