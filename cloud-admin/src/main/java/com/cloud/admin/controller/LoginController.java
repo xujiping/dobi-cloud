@@ -4,6 +4,7 @@ import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import javax.validation.constraints.NotEmpty;
 @RestController
 @RequestMapping("login")
 @Validated
+@Api(tags = "登录")
 public class LoginController {
 
     @Autowired

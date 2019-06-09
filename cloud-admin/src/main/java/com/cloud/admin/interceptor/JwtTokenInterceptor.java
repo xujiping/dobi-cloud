@@ -1,8 +1,6 @@
 package com.cloud.admin.interceptor;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -11,10 +9,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
-import com.cloud.auth.jwt.UcHttpUtil;
-import com.cloud.auth.jwt.UserCenterConfig;
 import com.cloud.auth.jwt.UserLoginToken;
-import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,12 @@
 package com.cloud.admin.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.vo.UserVo;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -53,5 +57,14 @@ public interface SysUserService extends IService<SysUser> {
      * @return boolean
      */
     boolean checkPermission(int platformId, String userId, String uri);
+
+    /**
+     * 分页
+     *
+     * @param page
+     * @param params
+     * @return
+     */
+    Page<SysUser> listByPage(Page<SysUser> page, Map<String, Object> params);
 
 }

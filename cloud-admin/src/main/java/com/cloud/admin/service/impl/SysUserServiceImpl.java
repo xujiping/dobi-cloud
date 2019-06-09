@@ -4,6 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
@@ -15,6 +17,7 @@ import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.admin.service.SysUserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.auth.jwt.JwtUtil;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
@@ -22,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -104,5 +108,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         return false;
+    }
+
+    @Override
+    public Page<SysUser> listByPage(Page<SysUser> page, Map<String, Object> params) {
+        Wrapper<SysUser> wrapper = new EntityWrapper<>();
+        if (params.containsKey("status")) {
+            wrapper.eq("status", params.get("status"));
+        }
+        page = selectPage(page, wrapper);
+        List<SysUser> records = page.getRecords();
+        if (records != null && records.size() > 0) {
+            page.setTotal(selectCount(wrapper));
+        }
+        return page;
     }
 }

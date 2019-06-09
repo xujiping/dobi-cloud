@@ -45,7 +45,7 @@ wx:
     secret:
 jwt:
     include-path-patterns: /**
-    exclude-path-patterns:
+    exclude-path-patterns: /swagger-resources, /**
 uc:
     domain: http://localhost:8100/
     request:

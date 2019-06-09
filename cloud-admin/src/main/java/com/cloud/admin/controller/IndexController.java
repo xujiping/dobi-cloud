@@ -2,6 +2,7 @@ package com.cloud.admin.controller;
 
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Version 1.0
  */
 @RestController
+@Api(tags = "默认")
 public class IndexController {
 
     @UserLoginToken

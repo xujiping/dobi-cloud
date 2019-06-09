@@ -1,6 +1,10 @@
 package com.cloud.admin.controller;
 
+import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.service.SysRoleService;
+import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import io.swagger.annotations.Api;
@@ -8,15 +12,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +28,7 @@ import javax.validation.constraints.NotNull;
  * @author xujiping
  * @since 2019-06-06
  */
-@Controller
+@RestController
 @RequestMapping("/sysRole")
 @Api(tags = "平台角色")
 @Validated
@@ -34,6 +36,23 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService roleService;
+
+    @UserLoginToken
+    @ApiOperation(value = "分页列表", httpMethod = "GET")
+    @GetMapping("page")
+    public String listByPage(@NotNull
+                             @ApiParam(required = true, name = "platform", value = "平台ID")
+                             @RequestHeader Integer platform,
+                             @ApiParam(name = "page", value = "页码", defaultValue = "1")
+                             @RequestParam(required = false) Integer page,
+                             @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
+                             @RequestParam(required = false) Integer size) {
+        Map<String, Object> params = MapUtil.newHashMap(1);
+        params.put("platform_id", platform);
+        Page<SysRole> rolePage = new Page<>(page, size);
+        rolePage = roleService.listByPage(rolePage, params);
+        return new ReturnBean(rolePage).toJson();
+    }
 
     @ApiOperation(value = "创建角色", httpMethod = "POST")
     @PostMapping("new")

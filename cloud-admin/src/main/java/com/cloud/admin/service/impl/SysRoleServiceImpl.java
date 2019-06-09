@@ -2,6 +2,7 @@ package com.cloud.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
@@ -15,6 +16,9 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -86,5 +90,19 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         rolePermission.setRoleId(roleId);
         rolePermission.setPermissionId(permissionId);
         return rolePermissionService.insert(rolePermission);
+    }
+
+    @Override
+    public Page<SysRole> listByPage(Page<SysRole> page, Map<String, Object> params) {
+        Wrapper<SysRole> wrapper = new EntityWrapper<>();
+        if (params.containsKey("platform_id")) {
+            wrapper.eq("platform_id", params.get("platform_id"));
+        }
+        page = selectPage(page, wrapper);
+        List<SysRole> records = page.getRecords();
+        if (records != null && records.size() > 0) {
+            page.setTotal(selectCount(wrapper));
+        }
+        return page;
     }
 }
