@@ -5,19 +5,16 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.mapper.SysUserMapper;
 import com.cloud.admin.service.SysPermissionService;
-import com.cloud.admin.service.SysRolePermissionService;
 import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.admin.service.SysUserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.auth.jwt.JwtUtil;
-import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
@@ -40,9 +37,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Autowired
     private SysRoleUserService roleUserService;
-
-    @Autowired
-    private SysRolePermissionService rolePermissionService;
 
     @Autowired
     private SysPermissionService permissionService;
