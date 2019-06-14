@@ -71,7 +71,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         if (MD5Util.MD5(password).equals(user.getPassword())) {
             String token = JwtUtil.getToken(user.getId(), password);
-            return new UserVo(user.getId(), token);
+            return new UserVo(user.getId(), user.getNickname(), token);
         }
         return null;
     }

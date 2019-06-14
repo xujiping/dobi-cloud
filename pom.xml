@@ -17,7 +17,6 @@
         <module>cloud-db</module>
         <module>cloud-pets</module>
         <module>cloud-admin</module>
-        <module>cloud_auth</module>
         <module>cloud-auth</module>
     </modules>
 

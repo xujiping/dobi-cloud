@@ -37,3 +37,16 @@ swagger:
     url:
     email: xjpdyx@hotmail.com
     description: 后台管理系统接口文档
+file:
+    server: /root/java/admin/
+wx:
+    appid:
+    secret:
+jwt:
+    include-path-patterns: /**
+    exclude-path-patterns: /swagger-resources, /**
+uc:
+    domain: http://localhost:8100/
+    request:
+        user-info: /sysUser/info
+        check-permission: /sysPermission/check

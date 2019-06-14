@@ -6,5 +6,11 @@ services:
             - "8081:8081"
         networks:
             - webnet
+    dobi-admin:
+        image: xjp1070860185/dobi-admin
+        ports:
+            - "8100:8100"
+        networks:
+            - webnet
 networks:
     webnet:
