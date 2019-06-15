@@ -2,7 +2,7 @@ package com.cloud.pets.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.pets.entity.Carousel;
-import com.cloud.pets.entity.dto.CarouselDto;
+import com.cloud.pets.entity.vo.CarouselVo;
 
 import java.util.List;
 
@@ -28,5 +28,5 @@ public interface CarouselService extends IService<Carousel> {
      * @param carousel carousel
      * @return
      */
-    CarouselDto wrapper(Carousel carousel);
+    CarouselVo wrapper(Carousel carousel);
 }

@@ -5,7 +5,7 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
-import com.cloud.pets.entity.dto.DemandDto;
+import com.cloud.pets.entity.vo.DemandVo;
 import com.cloud.pets.service.DemandService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/demand")
 @Validated
 public class DemandController {
-    
+
     @Autowired private DemandService demandService;
 
     @ApiOperation(value = "刷新需求列表", httpMethod = "GET", response = Demand.class, notes =
@@ -109,10 +109,10 @@ public class DemandController {
         SpageUtil<Demand> spageUtil = new SpageUtil<>(page, size);
         spageUtil = demandService.listByPage(params, spageUtil);
         List<Demand> rows = spageUtil.getRows();
-        List<DemandDto> demandDtos;
+        List<DemandVo> demandVos;
         if (rows != null && rows.size() > 0) {
-            demandDtos = rows.stream().map(demand -> demandService.wrapper(demand)).collect(Collectors.toList());
-            rb.setData(demandDtos);
+            demandVos = rows.stream().map(demand -> demandService.wrapper(demand)).collect(Collectors.toList());
+            rb.setData(demandVos);
         }
         rb.setCount(spageUtil.getTotal());
         return rb.toJson();
@@ -143,17 +143,17 @@ public class DemandController {
         return rb.toJson();
     }
 
-    @ApiOperation(value = "通过Id获取详情", httpMethod = "GET", response = DemandDto.class, notes = "获取详情")
+    @ApiOperation(value = "通过Id获取详情", httpMethod = "GET", response = DemandVo.class, notes = "获取详情")
     @GetMapping("/info/{id}")
     public String queryCircleById(
             @ApiParam(name = "id", value = "圈子ID", required = true)
             @PathVariable(value = "id") Long id) {
         ReturnBean rb = new ReturnBean();
-        DemandDto demandDto = demandService.getOne(id);
-        if (demandDto == null) {
+        DemandVo demandVo = demandService.getOne(id);
+        if (demandVo == null) {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }
-        rb.setData(demandDto);
+        rb.setData(demandVo);
         return rb.toJson();
     }
 

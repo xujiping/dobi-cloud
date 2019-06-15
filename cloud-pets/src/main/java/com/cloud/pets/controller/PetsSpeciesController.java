@@ -5,7 +5,7 @@ import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsSpecies;
-import com.cloud.pets.entity.dto.PetsSpeciesDto;
+import com.cloud.pets.entity.vo.PetsSpeciesVo;
 import com.cloud.pets.service.PetsSpeciesService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -37,12 +37,12 @@ public class PetsSpeciesController {
     public String list() {
         ReturnBean rb = new ReturnBean();
         List<PetsSpecies> all = petsSpeciesService.getAll();
-        List<PetsSpeciesDto> petsSpeciesDtos = new ArrayList<>();
+        List<PetsSpeciesVo> petsSpeciesVos = new ArrayList<>();
         if (all != null && all.size() > 0) {
-            petsSpeciesDtos = all.stream().map(petsSpecies -> petsSpeciesService.wrapper(petsSpecies)).collect(Collectors.toList());
+            petsSpeciesVos = all.stream().map(petsSpecies -> petsSpeciesService.wrapper(petsSpecies)).collect(Collectors.toList());
         }
         long total = all.size();
-        rb.setData(petsSpeciesDtos);
+        rb.setData(petsSpeciesVos);
         rb.setCount(total);
         return rb.toJson();
     }

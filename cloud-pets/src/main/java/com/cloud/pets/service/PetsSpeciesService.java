@@ -2,7 +2,7 @@ package com.cloud.pets.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.pets.entity.PetsSpecies;
-import com.cloud.pets.entity.dto.PetsSpeciesDto;
+import com.cloud.pets.entity.vo.PetsSpeciesVo;
 
 import java.util.List;
 
@@ -47,5 +47,5 @@ public interface PetsSpeciesService extends IService<PetsSpecies> {
      * @param petsSpecies
      * @return
      */
-    PetsSpeciesDto wrapper(PetsSpecies petsSpecies);
+    PetsSpeciesVo wrapper(PetsSpecies petsSpecies);
 }

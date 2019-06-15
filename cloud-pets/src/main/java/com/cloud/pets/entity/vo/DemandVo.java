@@ -1,4 +1,4 @@
-package com.cloud.pets.entity.dto;
+package com.cloud.pets.entity.vo;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * @author xujiping
  * @date 2019-01-25 18:19
  */
-public class DemandDto {
+public class DemandVo {
 
     private Integer id;
     /**
@@ -173,7 +173,7 @@ public class DemandDto {
 
     @Override
     public String toString() {
-        return "DemandDto{" +
+        return "DemandVo{" +
                 "id=" + id +
                 ", typeId=" + typeId +
                 ", typeName='" + typeName + '\'' +

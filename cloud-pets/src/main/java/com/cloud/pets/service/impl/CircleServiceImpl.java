@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Circle;
-import com.cloud.pets.entity.dto.CircleDto;
+import com.cloud.pets.entity.vo.CircleVo;
 import com.cloud.pets.mapper.CircleMapper;
 import com.cloud.pets.service.CircleService;
 import com.cloud.pets.service.UserService;
@@ -68,22 +68,22 @@ public class CircleServiceImpl extends ServiceImpl<CircleMapper, Circle> impleme
     }
 
     @Override
-    public CircleDto wrapper(Circle circle) {
-        CircleDto circleDto = new CircleDto();
+    public CircleVo wrapper(Circle circle) {
+        CircleVo circleVo = new CircleVo();
         if (circle == null) {
-            return circleDto;
+            return circleVo;
         }
-        BeanUtils.copyProperties(circle, circleDto);
+        BeanUtils.copyProperties(circle, circleVo);
         // todo 发布人
-        return circleDto;
+        return circleVo;
     }
 
     @Override
-    public CircleDto getOne(Long id) {
+    public CircleVo getOne(Long id) {
         if (id == null) {
             return null;
         }
-        CircleDto circleDto = new CircleDto();
+        CircleVo circleVo = new CircleVo();
         Circle circle = selectById(id);
         if (circle == null) {
             return null;
@@ -92,8 +92,8 @@ public class CircleServiceImpl extends ServiceImpl<CircleMapper, Circle> impleme
         if (status.equals(Constants.STAT_BLOCK)) {
             return null;
         }
-        BeanUtils.copyProperties(circle, circleDto);
+        BeanUtils.copyProperties(circle, circleVo);
         // todo 发布人
-        return circleDto;
+        return circleVo;
     }
 }

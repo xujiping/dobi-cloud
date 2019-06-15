@@ -11,7 +11,7 @@ import com.cloud.base.util.DateTimeUtil;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
 import com.cloud.pets.entity.PetsSpecies;
-import com.cloud.pets.entity.dto.DemandDto;
+import com.cloud.pets.entity.vo.DemandVo;
 import com.cloud.pets.mapper.DemandMapper;
 import com.cloud.pets.service.DemandService;
 import com.cloud.pets.service.PetsSpeciesService;
@@ -86,12 +86,12 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     }
 
     @Override
-    public DemandDto wrapper(Demand demand) {
-        DemandDto demandDto = new DemandDto();
+    public DemandVo wrapper(Demand demand) {
+        DemandVo demandVo = new DemandVo();
         if (demand == null) {
-            return demandDto;
+            return demandVo;
         }
-        BeanUtils.copyProperties(demand, demandDto);
+        BeanUtils.copyProperties(demand, demandVo);
         Integer typeId = demand.getTypeId();
         Date pubTime = demand.getPubTime();
         // 宠物图片
@@ -102,7 +102,7 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
                 if (speciesId != null) {
                     PetsSpecies species = speciesService.selectById(speciesId);
                     JSONObject json = JSON.parseObject(species.getImage());
-                    demandDto.setImage(json.getString("url"));
+                    demandVo.setImage(json.getString("url"));
                 }
                 break;
             case 2:
@@ -111,12 +111,12 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             default:
                 break;
         }
-        demandDto.setPubTime(DateTimeUtil.leftTime(pubTime));
-        return demandDto;
+        demandVo.setPubTime(DateTimeUtil.leftTime(pubTime));
+        return demandVo;
     }
 
     @Override
-    public DemandDto getOne(Long id) {
+    public DemandVo getOne(Long id) {
         Demand demand = selectById(id);
         if (demand == null){
             return null;
@@ -125,8 +125,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
         if (status.equals(Constants.STAT_BLOCK)){
             return null;
         }
-        DemandDto demandDto;
-        demandDto = wrapper(demand);
-        return demandDto;
+        DemandVo demandVo;
+        demandVo = wrapper(demand);
+        return demandVo;
     }
 }

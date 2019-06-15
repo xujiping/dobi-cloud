@@ -1,4 +1,4 @@
-package com.cloud.pets.entity.dto;
+package com.cloud.pets.entity.vo;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import java.util.Date;
  * @author xujiping
  * @date 2019-01-22 13:53
  */
-public class CircleDto {
+public class CircleVo {
 
     private Integer id;
     /**
@@ -92,7 +92,7 @@ public class CircleDto {
 
     @Override
     public String toString() {
-        return "CircleDto{" +
+        return "CircleVo{" +
                 "id=" + id +
                 ", pubUserName='" + pubUserName + '\'' +
                 ", subject='" + subject + '\'' +

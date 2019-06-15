@@ -7,7 +7,7 @@ import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsSpecies;
-import com.cloud.pets.entity.dto.PetsSpeciesDto;
+import com.cloud.pets.entity.vo.PetsSpeciesVo;
 import com.cloud.pets.mapper.PetsSpeciesMapper;
 import com.cloud.pets.service.PetsSpeciesService;
 import org.apache.commons.lang.StringUtils;
@@ -67,14 +67,14 @@ public class PetsSpeciesServiceImpl extends ServiceImpl<PetsSpeciesMapper, PetsS
     }
 
     @Override
-    public PetsSpeciesDto wrapper(PetsSpecies petsSpecies) {
-        PetsSpeciesDto petsSpeciesDto = new PetsSpeciesDto();
+    public PetsSpeciesVo wrapper(PetsSpecies petsSpecies) {
+        PetsSpeciesVo petsSpeciesVo = new PetsSpeciesVo();
         if (petsSpecies == null) {
-            return petsSpeciesDto;
+            return petsSpeciesVo;
         }
-        petsSpeciesDto.setName(petsSpecies.getName());
-        petsSpeciesDto.setImage("https://www.baidu.com/link?url=Zjy4j2h7h_uzt5kSPZn9a1RXEEVqJYbd0EGjbEx8bDu&wd=&eqid=eec6e20c0000adf3000000065c4580db");
-        petsSpeciesDto.setValue(String.valueOf(petsSpecies.getId()));
-        return petsSpeciesDto;
+        petsSpeciesVo.setName(petsSpecies.getName());
+        petsSpeciesVo.setImage("https://www.baidu.com/link?url=Zjy4j2h7h_uzt5kSPZn9a1RXEEVqJYbd0EGjbEx8bDu&wd=&eqid=eec6e20c0000adf3000000065c4580db");
+        petsSpeciesVo.setValue(String.valueOf(petsSpecies.getId()));
+        return petsSpeciesVo;
     }
 }

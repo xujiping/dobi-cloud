@@ -5,7 +5,7 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Circle;
-import com.cloud.pets.entity.dto.CircleDto;
+import com.cloud.pets.entity.vo.CircleVo;
 import com.cloud.pets.service.CircleService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiOperation;
@@ -97,27 +97,27 @@ public class CircleController {
         SpageUtil<Circle> spageUtil = new SpageUtil<>(page, size);
         spageUtil = circleService.listByPage(params, spageUtil);
         List<Circle> rows = spageUtil.getRows();
-        List<CircleDto> circleDtos;
+        List<CircleVo> circleVos;
         if (rows != null && rows.size() > 0) {
-            circleDtos = rows.stream().map(circle -> circleService.wrapper(circle)).collect(Collectors.toList());
+            circleVos = rows.stream().map(circle -> circleService.wrapper(circle)).collect(Collectors.toList());
             // 按时间排序
-            circleDtos.sort(Comparator.comparing(CircleDto::getCreateTime));
-            rb.setData(circleDtos);
-            rb.setMinTime(circleDtos.get(0).getCreateTime().getTime());
-            rb.setMaxTime(circleDtos.get(rows.size() - 1).getCreateTime().getTime());
+            circleVos.sort(Comparator.comparing(CircleVo::getCreateTime));
+            rb.setData(circleVos);
+            rb.setMinTime(circleVos.get(0).getCreateTime().getTime());
+            rb.setMaxTime(circleVos.get(rows.size() - 1).getCreateTime().getTime());
         }
         rb.setCount(spageUtil.getTotal());
         return rb.toJson();
     }
 
     @PassToken
-    @ApiOperation(value = "通过Id获取圈子详情", httpMethod = "GET", response = CircleDto.class, notes = "获取圈子详情")
+    @ApiOperation(value = "通过Id获取圈子详情", httpMethod = "GET", response = CircleVo.class, notes = "获取圈子详情")
     @GetMapping("/info/{id}")
     public String queryCircleById(
             @ApiParam(name = "id", value = "圈子ID", required = true)
             @PathVariable(value = "id") Long id) {
         com.cloud.base.constants.ReturnBean rb = new com.cloud.base.constants.ReturnBean();
-        CircleDto circle = circleService.getOne(id);
+        CircleVo circle = circleService.getOne(id);
         if (circle == null) {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }

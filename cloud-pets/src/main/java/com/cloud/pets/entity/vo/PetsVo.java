@@ -1,10 +1,10 @@
-package com.cloud.pets.entity.dto;
+package com.cloud.pets.entity.vo;
 
 /**
  * @author xujiping
  * @date 2019-01-29 15:32
  */
-public class PetsDto {
+public class PetsVo {
 
     private Integer id;
     /**
@@ -136,7 +136,7 @@ public class PetsDto {
 
     @Override
     public String toString() {
-        return "PetsDto{" +
+        return "PetsVo{" +
                 "id=" + id +
                 ", userId=" + userId +
                 ", categoryId=" + categoryId +

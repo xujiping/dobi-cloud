@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Pets;
-import com.cloud.pets.entity.dto.PetsDto;
+import com.cloud.pets.entity.vo.PetsVo;
 import com.cloud.pets.mapper.PetsMapper;
 import com.cloud.pets.service.PetsImageService;
 import com.cloud.pets.service.PetsService;
@@ -106,16 +106,16 @@ public class PetsServiceImpl extends ServiceImpl<PetsMapper, Pets> implements Pe
     }
 
     @Override
-    public PetsDto wrapper(Pets pets) {
-        PetsDto petsDto = new PetsDto();
+    public PetsVo wrapper(Pets pets) {
+        PetsVo petsVo = new PetsVo();
         if (pets == null){
-            return petsDto;
+            return petsVo;
         }
-        BeanUtils.copyProperties(pets, petsDto);
+        BeanUtils.copyProperties(pets, petsVo);
         Integer id = pets.getId();
         // 封面图
         String defaultImage = petsImageService.getDefaultImage(id);
-        petsDto.setImage(defaultImage);
-        return petsDto;
+        petsVo.setImage(defaultImage);
+        return petsVo;
     }
 }

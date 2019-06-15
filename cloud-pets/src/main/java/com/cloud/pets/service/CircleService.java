@@ -3,7 +3,7 @@ package com.cloud.pets.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Circle;
-import com.cloud.pets.entity.dto.CircleDto;
+import com.cloud.pets.entity.vo.CircleVo;
 
 import java.util.Map;
 
@@ -30,12 +30,12 @@ public interface CircleService extends IService<Circle> {
      * @param circle
      * @return
      */
-    CircleDto wrapper(Circle circle);
+    CircleVo wrapper(Circle circle);
 
     /**
      * 查询
      * @param id ID
      * @return
      */
-    CircleDto getOne(Long id);
+    CircleVo getOne(Long id);
 }

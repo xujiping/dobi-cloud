@@ -1,10 +1,10 @@
-package com.cloud.pets.entity.dto;
+package com.cloud.pets.entity.vo;
 
 /**
  * @author xujiping
  * @date 2019-01-25 14:04
  */
-public class CarouselDto {
+public class CarouselVo {
 
     /**
      * 图片完整链接
@@ -34,7 +34,7 @@ public class CarouselDto {
 
     @Override
     public String toString() {
-        return "CarouselDto{" +
+        return "CarouselVo{" +
                 "url='" + url + '\'' +
                 ", skip='" + skip + '\'' +
                 '}';

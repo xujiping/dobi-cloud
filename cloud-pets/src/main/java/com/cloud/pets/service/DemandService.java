@@ -3,7 +3,7 @@ package com.cloud.pets.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
-import com.cloud.pets.entity.dto.DemandDto;
+import com.cloud.pets.entity.vo.DemandVo;
 
 import java.util.Map;
 
@@ -42,14 +42,14 @@ public interface DemandService extends IService<Demand> {
     /**
      * 封装
      * @param demand demand
-     * @return DemandDto
+     * @return DemandVo
      */
-    DemandDto wrapper(Demand demand);
+    DemandVo wrapper(Demand demand);
 
     /**
      * 查询
      * @param id ID
      * @return
      */
-    DemandDto getOne(Long id);
+    DemandVo getOne(Long id);
 }

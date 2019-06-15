@@ -1,11 +1,11 @@
-package com.cloud.pets.entity.dto;
+package com.cloud.pets.entity.vo;
 
 /**
  * 返回app的对象
  * @author xujiping
  * @date 2019-01-21 16:39
  */
-public class PetsSpeciesDto {
+public class PetsSpeciesVo {
 
     private Integer id;
 
@@ -58,7 +58,7 @@ public class PetsSpeciesDto {
 
     @Override
     public String toString() {
-        return "PetsSpeciesDto{" +
+        return "PetsSpeciesVo{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +

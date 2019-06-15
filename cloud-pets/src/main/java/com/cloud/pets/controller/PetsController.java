@@ -5,7 +5,7 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Pets;
-import com.cloud.pets.entity.dto.PetsDto;
+import com.cloud.pets.entity.vo.PetsVo;
 import com.cloud.pets.service.PetsService;
 import com.cloud.pets.service.UserService;
 import com.google.common.collect.Maps;
@@ -65,11 +65,11 @@ public class PetsController {
         SpageUtil<Pets> spageUtil = new SpageUtil<>(page, size);
         spageUtil = petsService.listByPage(params, spageUtil);
         List<Pets> rows = spageUtil.getRows();
-        List<PetsDto> petsDtos = new ArrayList<>();
+        List<PetsVo> petsVos = new ArrayList<>();
         if (rows != null && rows.size() > 0) {
-            petsDtos = rows.stream().map(pets -> petsService.wrapper(pets)).collect(Collectors.toList());
+            petsVos = rows.stream().map(pets -> petsService.wrapper(pets)).collect(Collectors.toList());
         }
-        rb.setData(petsDtos);
+        rb.setData(petsVos);
         rb.setCount(spageUtil.getTotal());
         return rb.toJson();
     }

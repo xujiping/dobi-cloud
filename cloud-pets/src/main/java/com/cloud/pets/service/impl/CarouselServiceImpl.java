@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.pets.entity.Carousel;
-import com.cloud.pets.entity.dto.CarouselDto;
+import com.cloud.pets.entity.vo.CarouselVo;
 import com.cloud.pets.mapper.CarouselMapper;
 import com.cloud.pets.service.CarouselService;
 import org.apache.commons.lang.StringUtils;
@@ -37,18 +37,18 @@ public class CarouselServiceImpl extends ServiceImpl<CarouselMapper, Carousel> i
     }
 
     @Override
-    public CarouselDto wrapper(Carousel carousel) {
-        CarouselDto carouselDto = new CarouselDto();
+    public CarouselVo wrapper(Carousel carousel) {
+        CarouselVo carouselVo = new CarouselVo();
         if (carousel == null){
-            return carouselDto;
+            return carouselVo;
         }
         String url = carousel.getUrl();
         String skip = carousel.getSkip();
         if (StringUtils.isNotEmpty(url)){
             JSONObject json = JSON.parseObject(url);
-            carouselDto.setUrl(json.getString("url"));
+            carouselVo.setUrl(json.getString("url"));
         }
-        carouselDto.setSkip(skip);
-        return carouselDto;
+        carouselVo.setSkip(skip);
+        return carouselVo;
     }
 }

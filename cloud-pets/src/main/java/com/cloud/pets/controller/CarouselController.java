@@ -1,10 +1,9 @@
 package com.cloud.pets.controller;
 
 import com.cloud.auth.jwt.PassToken;
-import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.pets.entity.Carousel;
-import com.cloud.pets.entity.dto.CarouselDto;
+import com.cloud.pets.entity.vo.CarouselVo;
 import com.cloud.pets.service.CarouselService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,7 +39,7 @@ public class CarouselController {
                                   @RequestParam String subject) {
         ReturnBean rb = new ReturnBean();
         List<Carousel> carousels = carouselService.listBySubject(subject);
-        List<CarouselDto> list = new ArrayList<>();
+        List<CarouselVo> list = new ArrayList<>();
         if (carousels != null && carousels.size() > 0) {
             list = carousels.stream().map(carousel -> carouselService.wrapper(carousel)).collect(Collectors.toList());
         }
