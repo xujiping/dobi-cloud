@@ -15,6 +15,7 @@ import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.admin.service.SysUserService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.auth.jwt.JwtUtil;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
@@ -42,6 +43,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysPermissionService permissionService;
 
     @Override
+    public SysUser get(String userId) {
+        SysUser sysUser = selectById(userId);
+        if (sysUser == null) {
+            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+        }
+        if (sysUser.getStatus() == Constants.STATUS_UNENABLE) {
+            throw new BusinessException(ReturnCode.USER_LOCKED);
+        }
+        return sysUser;
+    }
+
+    @Override
     public SysUser getByUsername(String username) {
         Wrapper<SysUser> wrapper = new EntityWrapper<>();
         wrapper.eq("username", username);
@@ -66,7 +79,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (MD5Util.MD5(password).equals(user.getPassword())) {
             String token = JwtUtil.getToken(user.getId(), password);
             String name = user.getNickname();
-            if (StrUtil.isBlank(name)){
+            if (StrUtil.isBlank(name)) {
                 name = user.getUsername();
             }
             return new UserVo(user.getId(), name, token);

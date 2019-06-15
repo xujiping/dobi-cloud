@@ -41,7 +41,9 @@ public class UserController {
     @UserLoginToken
     @ApiOperation(value = "获取用户信息", httpMethod = "GET", response = User.class, notes = "获取用户信息，冻结用户除外")
     @GetMapping("info")
-    public String info(@ApiParam(required = true, name = "token", value = "用户token")
+    public String info(@ApiParam(required = true, name = "platform", value = "平台ID")
+                       @RequestHeader Integer platform,
+                       @ApiParam(required = true, name = "token", value = "用户token")
                        @RequestHeader String token,
                        @ApiParam(required = true, name = "accountId", value = "用户ID")
                        @RequestHeader String accountId) {

@@ -1,8 +1,6 @@
 package com.cloud.admin.service;
 
-import cn.hutool.system.UserInfo;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.vo.UserVo;
@@ -18,6 +16,14 @@ import java.util.Map;
  * @since 2019-06-05
  */
 public interface SysUserService extends IService<SysUser> {
+
+    /**
+     * 查询
+     * @param userId 主键
+     * @return
+     */
+    SysUser get(String userId);
+
 
     /**
      * 查询

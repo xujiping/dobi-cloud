@@ -157,4 +157,11 @@ public class Constants {
      * 资源服务器ID
      */
     public static final String RESOURCE_ID = "res-server";
+
+    /**
+     * 头部字段
+     */
+    public static final String HEADER_TOKEN = "token";
+    public static final String HEADER_ACCOUNT_ID = "accountId";
+    public static final String HEADER_PLATFORM = "platform";
 }

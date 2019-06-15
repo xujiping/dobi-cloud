@@ -12,6 +12,7 @@ import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
+import com.cloud.base.util.MD5Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -37,7 +38,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("拦截器开始，预处理");
+        String requestURI = request.getRequestURI();
+        log.info("拦截器开始，预处理：" + requestURI);
         String token = request.getHeader("token");
         String accountId = request.getHeader("accountId");
         // 如果不是映射到方法直接通过
@@ -83,15 +85,16 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                // 校验用户权限
-                String platformId = request.getHeader("platform");
-                String requestURI = request.getRequestURI();
-                if (StrUtil.isBlank(platformId)) {
-                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
-                }
-                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
-                if (!checkPermission) {
-                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+                if (!requestURI.contains("/sysUser")){
+                    // 校验用户权限
+                    String platformId = request.getHeader("platform");
+                    if (StrUtil.isBlank(platformId)) {
+                        throw new BusinessException(ReturnCode.PARAMS_ERROR);
+                    }
+                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
+                    if (!checkPermission) {
+                        throw new BusinessException(ReturnCode.NO_PERMISSION);
+                    }
                 }
                 return true;
             }

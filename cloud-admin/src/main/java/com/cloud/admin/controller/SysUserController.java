@@ -41,6 +41,18 @@ public class SysUserController {
     private SysPermissionService permissionService;
 
     @UserLoginToken
+    @ApiOperation(value = "用户信息", httpMethod = "GET")
+    @GetMapping("info")
+    public String menuList(@NotNull
+                           @ApiParam(required = true, name = "token", value = "用户token")
+                           @RequestHeader String token,
+                           @NotBlank
+                           @ApiParam(required = true, name = "accountId", value = "用户ID")
+                           @RequestHeader String accountId) {
+        return new ReturnBean(userService.get(accountId)).toJson();
+    }
+
+    @UserLoginToken
     @ApiOperation(value = "菜单列表", httpMethod = "GET")
     @GetMapping("menu")
     public String menuList(@NotNull

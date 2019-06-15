@@ -9,9 +9,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
+import com.cloud.base.util.MD5Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -39,8 +41,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String requestURI = request.getRequestURI();
         log.info("拦截器开始，预处理：" + requestURI);
-        String token = request.getHeader("token");
-        String accountId = request.getHeader("accountId");
+        String token = request.getHeader(Constants.HEADER_TOKEN);
+        String accountId = request.getHeader(Constants.HEADER_ACCOUNT_ID);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -73,11 +75,12 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 // 查询用户信息
-                ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser() + "/" + userId);
+                String userInfoUrl = userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser();
+                ReturnBean returnBean = UcHttpUtil.get(userInfoUrl, token, accountId, null);
                 if (!returnBean.isSuccess()) {
                     throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
                 }
-                JSONObject userObject = JSON.parseObject((String) returnBean.getData());
+                JSONObject userObject = (JSONObject) returnBean.getData();
                 String password = userObject.getString("password");
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
@@ -86,15 +89,15 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                // 校验用户权限
-                String platformId = request.getHeader("platform");
-                if (StrUtil.isBlank(platformId)) {
-                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
-                }
-//                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
-//                if (!checkPermission) {
-//                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+//                // 校验用户权限
+//                String platformId = request.getHeader(Constants.HEADER_PLATFORM);
+//                if (StrUtil.isBlank(platformId)) {
+//                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
 //                }
+////                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
+////                if (!checkPermission) {
+////                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+////                }
                 return true;
             }
         }
