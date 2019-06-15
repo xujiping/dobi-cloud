@@ -7,13 +7,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
-import com.cloud.base.util.MD5Util;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
@@ -42,7 +40,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         String requestURI = request.getRequestURI();
         log.info("拦截器开始，预处理：" + requestURI);
         String token = request.getHeader(Constants.HEADER_TOKEN);
-        String accountId = request.getHeader(Constants.HEADER_ACCOUNT_ID);
+        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -63,16 +61,6 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 // 执行认证
                 if (StrUtil.isBlank(token)) {
                     throw new BusinessException(ReturnCode.NO_TOKEN);
-                }
-                // 获取 token 中的 user id
-                String userId;
-                try {
-                    userId = JWT.decode(token).getAudience().get(0);
-                } catch (JWTDecodeException j) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
-                }
-                if (StrUtil.isBlank(accountId) || !accountId.equals(userId)) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 // 查询用户信息
                 String userInfoUrl = userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser();
@@ -114,4 +102,5 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         log.info("拦截器开始，处理完毕回调");
 
     }
+
 }
