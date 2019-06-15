@@ -1,13 +1,6 @@
 package com.cloud.auth.jwt;
 
-import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.AllArgsConstructor;
@@ -55,34 +48,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
-                // 执行认证
-                if (StrUtil.isBlank(token)) {
-                    throw new BusinessException(ReturnCode.NO_TOKEN);
-                }
-                // 查询用户信息
-                String userInfoUrl = userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser();
-                ReturnBean returnBean = UcHttpUtil.get(userInfoUrl, token, null);
-                if (!returnBean.isSuccess()) {
-                    throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
-                }
-                JSONObject userObject = (JSONObject) returnBean.getData();
-                String password = userObject.getString("password");
-                // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
-                try {
-                    jwtVerifier.verify(token);
-                } catch (JWTVerificationException e) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
-                }
-//                // 校验用户权限
-//                String platformId = request.getHeader(Constants.HEADER_PLATFORM);
-//                if (StrUtil.isBlank(platformId)) {
-//                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
-//                }
-////                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
-////                if (!checkPermission) {
-////                    throw new BusinessException(ReturnCode.NO_PERMISSION);
-////                }
+                JwtUtil.validate(userCenterConfig, token);
                 return true;
             }
         }

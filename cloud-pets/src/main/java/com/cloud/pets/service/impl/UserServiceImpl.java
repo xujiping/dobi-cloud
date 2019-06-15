@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UcUserVo getFromUc(String token, UserCenterConfig userCenterConfig) {
-        ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser(), token, null);
+        ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUser(), token, null);
         if (returnBean.isSuccess()){
             JSONObject userJson = (JSONObject) returnBean.getData();
             return JSON.toJavaObject(userJson, UcUserVo.class);

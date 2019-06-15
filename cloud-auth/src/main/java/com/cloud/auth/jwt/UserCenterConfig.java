@@ -17,9 +17,11 @@ public class UserCenterConfig {
     @Value("${uc.domain}")
     private String ucDomain;
 
-    @Value("${uc.request.user-info}")
+    @Value("${uc.domain}${uc.request.user-info}")
     private String requestUser;
 
-    @Value("${uc.request.check-permission}")
+    @Value("${uc.domain}${uc.request.check-permission}")
     private String requestCheckPermission;
+
+
 }
