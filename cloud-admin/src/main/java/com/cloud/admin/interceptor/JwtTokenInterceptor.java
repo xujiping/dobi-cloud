@@ -95,12 +95,12 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        log.info("拦截器开始，后处理");
+        log.info("拦截器后处理");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        log.info("拦截器开始，处理完毕回调");
+        log.info("拦截器处理完毕回调");
 
     }
 }

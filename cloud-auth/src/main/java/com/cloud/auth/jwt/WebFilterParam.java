@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @Component
 @ServletComponentScan
-@WebFilter(urlPatterns = "/*", filterName = "tokenFilter")
+@WebFilter(urlPatterns = "/*", filterName = "webFilterParam")
 @Slf4j
 public class WebFilterParam extends OncePerRequestFilter {
 

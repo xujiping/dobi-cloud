@@ -5,6 +5,7 @@ import com.cloud.base.constants.ReturnBean;
 import com.cloud.pets.entity.Carousel;
 import com.cloud.pets.entity.vo.CarouselVo;
 import com.cloud.pets.service.CarouselService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/carousel")
+@Api(tags = "轮播图")
 public class CarouselController {
 
     @Autowired
