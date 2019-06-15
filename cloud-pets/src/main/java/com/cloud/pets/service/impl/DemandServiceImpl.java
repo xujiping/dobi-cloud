@@ -11,7 +11,6 @@ import com.cloud.base.util.DateTimeUtil;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
 import com.cloud.pets.entity.PetsSpecies;
-import com.cloud.pets.entity.User;
 import com.cloud.pets.entity.dto.DemandDto;
 import com.cloud.pets.mapper.DemandMapper;
 import com.cloud.pets.service.DemandService;
@@ -74,7 +73,6 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
     public boolean add(Integer userId, Integer typeId, Integer age, Double price, Integer sex, Integer categoryId,
                        Integer speciesId, String content) {
         Demand demand = new Demand();
-        demand.setUserId(userId);
         demand.setTypeId(typeId);
         demand.setAge(age);
         demand.setPrice(new BigDecimal(price));
@@ -94,11 +92,8 @@ public class DemandServiceImpl extends ServiceImpl<DemandMapper, Demand> impleme
             return demandDto;
         }
         BeanUtils.copyProperties(demand, demandDto);
-        Integer userId = demand.getUserId();
         Integer typeId = demand.getTypeId();
         Date pubTime = demand.getPubTime();
-        User user = userService.selectById(userId);
-        demandDto.setUsername(user.getNickname());
         // 宠物图片
         switch (typeId) {
             case 1:

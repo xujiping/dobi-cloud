@@ -38,9 +38,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String requestURI = request.getRequestURI();
-        log.info("拦截器开始，预处理：" + requestURI);
         String token = request.getHeader(Constants.HEADER_TOKEN);
-        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        log.info("拦截器开始，预处理：URL=[" + requestURI + "], token=[" + token);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -64,7 +63,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 }
                 // 查询用户信息
                 String userInfoUrl = userCenterConfig.getUcDomain() + userCenterConfig.getRequestUser();
-                ReturnBean returnBean = UcHttpUtil.get(userInfoUrl, token, accountId, null);
+                ReturnBean returnBean = UcHttpUtil.get(userInfoUrl, token, null);
                 if (!returnBean.isSuccess()) {
                     throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
                 }
@@ -94,12 +93,12 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        log.info("拦截器开始，后处理");
+//        log.info("拦截器开始，后处理");
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        log.info("拦截器开始，处理完毕回调");
+//        log.info("拦截器开始，处理完毕回调");
 
     }
 

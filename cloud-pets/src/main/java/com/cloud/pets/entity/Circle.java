@@ -3,6 +3,7 @@ package com.cloud.pets.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author xujiping
  * @since 2018-12-29
  */
+@Data
 public class Circle extends Model<Circle> {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +26,7 @@ public class Circle extends Model<Circle> {
     /**
      * 发布人ID
      */
-    private Integer userId;
+    private String userId;
     /**
      * 主题：视频、图文
      */
@@ -54,96 +56,9 @@ public class Circle extends Model<Circle> {
      */
     private String status;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public Integer getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Integer typeId) {
-        this.typeId = typeId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Circle{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", subject='" + subject + '\'' +
-                ", typeId=" + typeId +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", cover='" + cover + '\'' +
-                ", createTime=" + createTime +
-                ", status='" + status + '\'' +
-                '}';
-    }
 }

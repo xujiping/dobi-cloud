@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Circle;
-import com.cloud.pets.entity.User;
 import com.cloud.pets.entity.dto.CircleDto;
 import com.cloud.pets.mapper.CircleMapper;
 import com.cloud.pets.service.CircleService;
@@ -75,10 +74,7 @@ public class CircleServiceImpl extends ServiceImpl<CircleMapper, Circle> impleme
             return circleDto;
         }
         BeanUtils.copyProperties(circle, circleDto);
-        // 发布人
-        Integer userId = circle.getUserId();
-        User user = userService.selectById(userId);
-        circleDto.setPubUserName(user.getNickname());
+        // todo 发布人
         return circleDto;
     }
 
@@ -97,10 +93,7 @@ public class CircleServiceImpl extends ServiceImpl<CircleMapper, Circle> impleme
             return null;
         }
         BeanUtils.copyProperties(circle, circleDto);
-        // 发布人
-        Integer userId = circle.getUserId();
-        User user = userService.selectById(userId);
-        circleDto.setPubUserName(user.getNickname());
+        // todo 发布人
         return circleDto;
     }
 }

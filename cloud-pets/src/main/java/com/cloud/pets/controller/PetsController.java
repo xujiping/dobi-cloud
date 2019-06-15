@@ -1,12 +1,10 @@
 package com.cloud.pets.controller;
 
-
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Pets;
-import com.cloud.pets.entity.User;
 import com.cloud.pets.entity.dto.PetsDto;
 import com.cloud.pets.service.PetsService;
 import com.cloud.pets.service.UserService;
@@ -37,7 +35,8 @@ public class PetsController {
     @Autowired
     private PetsService petsService;
 
-    @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
     @ApiOperation(value = "获取宠物列表", httpMethod = "GET", response = Pets.class, notes =
             "获取宠物列表")
@@ -91,13 +90,8 @@ public class PetsController {
             @ApiParam(required = true, name = "sex", value = "性别")
             @RequestParam Integer sex) {
         ReturnBean rb = new ReturnBean();
-        // 检查用户是否存在
-        User user = userService.selectById(key);
-        if (user == null){
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
-        }
-        boolean add = petsService.add(Integer.valueOf(key), categoryId, speciesId, nickname, age, sex);
-        if (!add){
+        boolean add = petsService.add(key, categoryId, speciesId, nickname, age, sex);
+        if (!add) {
             rb.setReturnCode(ReturnCode.FAIL, null);
         }
         return rb.toJson();
@@ -121,18 +115,13 @@ public class PetsController {
             @ApiParam(name = "sex", value = "性别")
             @RequestParam(required = false) Integer sex) {
         ReturnBean rb = new ReturnBean();
-        // 检查用户是否存在
-        User user = userService.selectById(key);
-        if (user == null){
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
-        }
         // 检查宠物是否存在
         Pets pets = petsService.get(key, id);
-        if (pets == null){
+        if (pets == null) {
             throw new BusinessException(ReturnCode.PETS_NOT_EXISTS);
         }
         boolean add = petsService.updateInfo(id, categoryId, speciesId, nickname, age, sex);
-        if (!add){
+        if (!add) {
             rb.setReturnCode(ReturnCode.FAIL, null);
         }
         return rb.toJson();

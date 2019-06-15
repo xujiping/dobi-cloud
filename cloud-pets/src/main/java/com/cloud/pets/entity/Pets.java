@@ -24,7 +24,7 @@ public class Pets extends Model<Pets> {
     /**
      * 用户ID
      */
-    private Integer userId;
+    private String userId;
     /**
      * 类别ID
      */
@@ -67,11 +67,11 @@ public class Pets extends Model<Pets> {
         this.id = id;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

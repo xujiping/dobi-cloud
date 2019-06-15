@@ -35,7 +35,7 @@ public interface PetsService extends IService<Pets> {
      * @param sex 性别
      * @return
      */
-    boolean add(Integer key, Integer categoryId, Integer speciesId, String nickname, Integer age, Integer sex);
+    boolean add(String key, Integer categoryId, Integer speciesId, String nickname, Integer age, Integer sex);
 
     /**
      * 更新

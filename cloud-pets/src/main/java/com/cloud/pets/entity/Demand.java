@@ -37,7 +37,7 @@ public class Demand extends Model<Demand> {
     /**
      * 发布人ID
      */
-    private Integer userId;
+    private String userId;
     /**
      * 宠物ID
      */
@@ -104,11 +104,11 @@ public class Demand extends Model<Demand> {
         this.pubTime = pubTime;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

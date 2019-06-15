@@ -56,7 +56,7 @@ public class PetsServiceImpl extends ServiceImpl<PetsMapper, Pets> implements Pe
     }
 
     @Override
-    public boolean add(Integer key, Integer categoryId, Integer speciesId, String nickname, Integer age, Integer sex) {
+    public boolean add(String key, Integer categoryId, Integer speciesId, String nickname, Integer age, Integer sex) {
         Date date = new Date();
         Pets pets = new Pets();
         pets.setUserId(key);
