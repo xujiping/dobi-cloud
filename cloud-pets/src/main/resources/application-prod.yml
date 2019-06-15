@@ -37,3 +37,21 @@ swagger:
     url:
     email: xjpdyx@hotmail.com
     description: 宠物微服务接口文档
+file:
+    server: /root/java/pets/
+wx:
+    appid:
+    secret:
+jwt:
+    include-path-patterns:
+        - /**
+    exclude-path-patterns:
+        - /error
+        - /swagger-resources
+        - /doc.html
+        - /webjars/bycdao-ui/**
+uc:
+    domain: http://localhost:8100/
+    request:
+        user-info: /sysUser/info
+        check-permission: /sysPermission/check

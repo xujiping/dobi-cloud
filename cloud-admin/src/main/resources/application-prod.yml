@@ -43,8 +43,13 @@ wx:
     appid:
     secret:
 jwt:
-    include-path-patterns: /**
-    exclude-path-patterns: /swagger-resources, /**
+    include-path-patterns:
+        - /**
+    exclude-path-patterns:
+        - /error
+        - /swagger-resources
+        - /doc.html
+        - /webjars/bycdao-ui/**
 uc:
     domain: http://localhost:8100/
     request:

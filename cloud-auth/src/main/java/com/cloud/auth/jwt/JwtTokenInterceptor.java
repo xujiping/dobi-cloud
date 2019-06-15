@@ -37,7 +37,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        log.info("拦截器开始，预处理");
+        String requestURI = request.getRequestURI();
+        log.info("拦截器开始，预处理：" + requestURI);
         String token = request.getHeader("token");
         String accountId = request.getHeader("accountId");
         // 如果不是映射到方法直接通过
@@ -87,7 +88,6 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 }
                 // 校验用户权限
                 String platformId = request.getHeader("platform");
-                String requestURI = request.getRequestURI();
                 if (StrUtil.isBlank(platformId)) {
                     throw new BusinessException(ReturnCode.PARAMS_ERROR);
                 }

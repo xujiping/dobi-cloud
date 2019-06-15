@@ -1,30 +1,18 @@
 package com.cloud.auth.jwt;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@Configuration
+import java.util.List;
+
+@Component
+@ConfigurationProperties(prefix="jwt")
+@Data
 public class JWTConfig {
 
-    @Value("${jwt.include-path-patterns}")
-    private String[] includePathPatterns;
+    private List<String> includePathPatterns;
 
-    @Value("${jwt.exclude-path-patterns}")
-    private String[] excludePathPatterns;
+    private List<String> excludePathPatterns;
 
-    public String[] getIncludePathPatterns() {
-        return includePathPatterns;
-    }
-
-    public void setIncludePathPatterns(String[] includePathPatterns) {
-        this.includePathPatterns = includePathPatterns;
-    }
-
-    public String[] getExcludePathPatterns() {
-        return excludePathPatterns;
-    }
-
-    public void setExcludePathPatterns(String[] excludePathPatterns) {
-        this.excludePathPatterns = excludePathPatterns;
-    }
 }
