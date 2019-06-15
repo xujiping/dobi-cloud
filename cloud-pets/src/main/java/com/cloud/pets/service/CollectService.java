@@ -26,9 +26,18 @@ public interface CollectService extends IService<Collect> {
      * 收藏
      * @param userId 用户ID
      * @param subject 主题
-     * @param resouceId 资源ID
+     * @param resourceId 资源ID
      * @return boolean
      */
-    boolean add(String userId, String subject, long resouceId);
+    boolean add(String userId, String subject, long resourceId);
+
+    /**
+     * 取消收藏
+     * @param userId 用户ID
+     *      * @param subject 主题
+     *      * @param resourceId 资源ID
+     * @return
+     */
+    boolean cancel(String userId, String subject, Long resourceId);
 
 }

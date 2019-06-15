@@ -34,19 +34,31 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     }
 
     @Override
-    public boolean add(String userId, String subject, long resouceId) {
-        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(subject) || resouceId <= 0) {
+    public boolean add(String userId, String subject, long resourceId) {
+        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(subject) || resourceId <= 0) {
             return false;
         }
-        Collect collect = get(userId, subject, resouceId);
+        Collect collect = get(userId, subject, resourceId);
         if (collect != null) {
             throw new BusinessException(ReturnCode.COLLECTED);
         }
         collect = new Collect();
         collect.setUserId(userId);
         collect.setSubject(subject);
-        collect.setResourceId(resouceId);
+        collect.setResourceId(resourceId);
         collect.setCreateTime(new Date());
         return insert(collect);
+    }
+
+    @Override
+    public boolean cancel(String userId, String subject, Long resourceId) {
+        if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(subject) || resourceId == null) {
+            return false;
+        }
+        Wrapper<Collect> wrapper = new EntityWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("subject", subject);
+        wrapper.eq("resource_id", resourceId);
+        return delete(wrapper);
     }
 }

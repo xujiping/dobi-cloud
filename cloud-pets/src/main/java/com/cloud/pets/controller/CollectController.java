@@ -48,5 +48,19 @@ public class CollectController {
         return rb.toJson();
     }
 
+    @UserLoginToken
+    @ApiOperation(value = "取消收藏资源", httpMethod = "POST", response = ReturnBean.class, notes = "取消收藏资源")
+    @PostMapping("cancel")
+    public String cancle(HttpServletRequest request,
+                         @ApiParam(required = true, name = "token", value = "用户Token")
+                         @RequestHeader String token,
+                         @ApiParam(required = true, name = "subject", value = "主题：circle圈子，demand需求")
+                         @RequestParam String subject,
+                         @ApiParam(required = true, name = "id", value = "资源ID")
+                         @RequestParam Long id) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        return new ReturnBean(collectService.cancel(key, subject, id)).toJson();
+    }
+
 }
 
