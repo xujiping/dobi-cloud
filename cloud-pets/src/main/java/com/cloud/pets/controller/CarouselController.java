@@ -1,5 +1,6 @@
 package com.cloud.pets.controller;
 
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.pets.entity.Carousel;
 import com.cloud.pets.entity.dto.CarouselDto;
 import com.cloud.pets.service.CarouselService;
@@ -29,6 +30,7 @@ public class CarouselController {
 
     @Autowired private CarouselService carouselService;
 
+    @PassToken
     @ApiOperation(value = "获取轮播图列表", httpMethod = "GET", response = Carousel.class, notes = "返回轮播图列表")
     @GetMapping("list")
     public String getCarouselList(

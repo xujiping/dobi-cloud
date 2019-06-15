@@ -1,5 +1,6 @@
 package com.cloud.pets.controller;
 
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
@@ -37,6 +38,7 @@ public class CircleController {
     @Autowired
     private CircleService circleService;
 
+    @PassToken
     @ApiOperation(value = "刷新圈子列表", httpMethod = "GET", response = Circle.class, notes =
             "上拉刷新历史数据，传当前数据最小时间戳之前的数据；下拉加载新数据，传当前数据最大时间戳之后的数据。")
     @GetMapping("list")
@@ -72,6 +74,7 @@ public class CircleController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "刷新圈子列表", httpMethod = "GET", response = Circle.class, notes =
             "分页查询列表，按时间倒序")
     @GetMapping("list/page")
@@ -107,6 +110,7 @@ public class CircleController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "通过Id获取圈子详情", httpMethod = "GET", response = CircleDto.class, notes = "获取圈子详情")
     @GetMapping("/info/{id}")
     public String queryCircleById(

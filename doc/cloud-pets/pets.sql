@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50725
 File Encoding         : 65001
 
-Date: 2019-06-05 18:14:23
+Date: 2019-06-15 15:55:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,7 +39,7 @@ CREATE TABLE `carousel` (
 DROP TABLE IF EXISTS `circle`;
 CREATE TABLE `circle` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(20) NOT NULL COMMENT '发布人ID',
+  `user_id` varchar(32) NOT NULL COMMENT '发布人ID',
   `subject` varchar(500) DEFAULT NULL COMMENT '主题：视频、图文',
   `type_id` int(20) NOT NULL COMMENT '类别ID',
   `title` varchar(200) DEFAULT NULL COMMENT '标题',
@@ -96,7 +96,7 @@ CREATE TABLE `demand` (
   `type_id` int(20) NOT NULL COMMENT '需求类别ID',
   `type_name` varchar(200) NOT NULL COMMENT '类别名称',
   `pub_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '发布时间',
-  `user_id` int(20) NOT NULL COMMENT '发布人ID',
+  `user_id` varchar(32) NOT NULL COMMENT '发布人ID',
   `pets_id` int(11) DEFAULT NULL COMMENT '宠物ID',
   `age` int(5) DEFAULT '1' COMMENT '年龄：单位月',
   `price` decimal(20,2) DEFAULT NULL COMMENT '价格',
@@ -193,7 +193,7 @@ CREATE TABLE `logging_event_property` (
 DROP TABLE IF EXISTS `pets`;
 CREATE TABLE `pets` (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `user_id` int(20) NOT NULL COMMENT '用户ID',
+  `user_id` varchar(32) NOT NULL COMMENT '用户ID',
   `category_id` int(20) NOT NULL COMMENT '类别ID',
   `species_id` int(20) NOT NULL COMMENT '品种ID',
   `nickname` varchar(100) NOT NULL COMMENT '昵称',
@@ -275,28 +275,4 @@ CREATE TABLE `remind_type` (
 
 -- ----------------------------
 -- Records of remind_type
--- ----------------------------
-
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `utype` int(1) DEFAULT '1' COMMENT '账户类型：1普通 2微信 3qq',
-  `username` varchar(20) NOT NULL COMMENT '用户名',
-  `password` varchar(50) NOT NULL COMMENT '密码',
-  `nickname` varchar(50) NOT NULL COMMENT '昵称',
-  `head_url` varchar(500) DEFAULT NULL COMMENT '头像',
-  `age` int(4) DEFAULT NULL COMMENT '年龄',
-  `sex` int(11) NOT NULL DEFAULT '3' COMMENT '性别   1： 男     2： 女     3：保密',
-  `phone` char(11) DEFAULT NULL COMMENT '手机号',
-  `address` varchar(200) DEFAULT NULL COMMENT '地址',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` varchar(20) NOT NULL DEFAULT 'normal' COMMENT '状态',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
-
--- ----------------------------
--- Records of user
 -- ----------------------------
