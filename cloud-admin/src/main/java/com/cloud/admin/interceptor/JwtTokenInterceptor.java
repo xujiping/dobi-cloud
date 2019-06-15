@@ -10,6 +10,7 @@ import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
@@ -40,8 +41,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String requestURI = request.getRequestURI();
         log.info("拦截器开始，预处理：" + requestURI);
-        String token = request.getHeader("token");
-        String accountId = request.getHeader("accountId");
+        String token = request.getHeader(Constants.HEADER_TOKEN);
+        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -63,18 +64,8 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 if (StrUtil.isBlank(token)) {
                     throw new BusinessException(ReturnCode.NO_TOKEN);
                 }
-                // 获取 token 中的 user id
-                String userId;
-                try {
-                    userId = JWT.decode(token).getAudience().get(0);
-                } catch (JWTDecodeException j) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
-                }
-                if (StrUtil.isBlank(accountId) || !accountId.equals(userId)) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
-                }
                 // 查询用户信息
-                SysUser user = userService.selectById(userId);
+                SysUser user = userService.selectById(accountId);
                 if (user == null) {
                     throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
                 }
@@ -85,13 +76,13 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                if (!requestURI.contains("/sysUser")){
+                if (!requestURI.contains("/sysUser")) {
                     // 校验用户权限
                     String platformId = request.getHeader("platform");
                     if (StrUtil.isBlank(platformId)) {
                         throw new BusinessException(ReturnCode.PARAMS_ERROR);
                     }
-                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
+                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
                     if (!checkPermission) {
                         throw new BusinessException(ReturnCode.NO_PERMISSION);
                     }

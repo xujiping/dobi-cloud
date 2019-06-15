@@ -7,6 +7,7 @@ import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -43,12 +45,11 @@ public class SysUserController {
     @UserLoginToken
     @ApiOperation(value = "用户信息", httpMethod = "GET")
     @GetMapping("info")
-    public String menuList(@NotNull
+    public String menuList(HttpServletRequest request,
+                           @NotNull
                            @ApiParam(required = true, name = "token", value = "用户token")
-                           @RequestHeader String token,
-                           @NotBlank
-                           @ApiParam(required = true, name = "accountId", value = "用户ID")
-                           @RequestHeader String accountId) {
+                           @RequestHeader String token) {
+        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         return new ReturnBean(userService.get(accountId)).toJson();
     }
 
