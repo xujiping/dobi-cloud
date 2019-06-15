@@ -1,6 +1,7 @@
 package com.cloud.pets.controller;
 
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.Constants;
 import com.cloud.pets.entity.Carousel;
 import com.cloud.pets.entity.dto.CarouselDto;
 import com.cloud.pets.service.CarouselService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,8 +36,10 @@ public class CarouselController {
     @ApiOperation(value = "获取轮播图列表", httpMethod = "GET", response = Carousel.class, notes = "返回轮播图列表")
     @GetMapping("list")
     public String getCarouselList(
+            HttpServletRequest request,
             @ApiParam(required = true, name = "subject", value = "主题：home首页")
             @RequestParam String subject){
+        String parameter = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         com.cloud.base.constants.ReturnBean rb = new com.cloud.base.constants.ReturnBean();
         List<Carousel> carousels = carouselService.listBySubject(subject);
         List<CarouselDto> list = new ArrayList<>();

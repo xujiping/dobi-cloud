@@ -22,6 +22,6 @@ public class UserVo implements Serializable {
     @ApiModelProperty("昵称")
     private String nickName;
 
-    @ApiModelProperty("token")
+    @ApiModelProperty("用户中心TOKEN")
     private String token;
 }

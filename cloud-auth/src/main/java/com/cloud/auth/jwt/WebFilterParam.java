@@ -36,12 +36,15 @@ public class WebFilterParam extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         String token = request.getHeader(Constants.HEADER_TOKEN);
+        String userId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         log.info("开始过滤URL=[" + requestURI + "]");
-        if (StrUtil.isBlank(token)) {
+        if (StrUtil.isBlank(token) && StrUtil.isBlank(userId)) {
             filterChain.doFilter(request, response);
         } else {
-            // 获取 token 中的 user id
-            String userId;
+            // 获取token中的 userId
+            if (StrUtil.isBlank(token)){
+                throw new BusinessException(ReturnCode.NO_TOKEN);
+            }
             try {
                 userId = JWT.decode(token).getAudience().get(0);
             } catch (JWTDecodeException j) {

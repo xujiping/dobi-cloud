@@ -37,7 +37,7 @@ public class UserController {
     @UserLoginToken
     @ApiOperation(value = "获取用户信息", httpMethod = "GET", response = UcUserVo.class, notes = "获取用户信息，冻结用户除外")
     @GetMapping("info")
-    public String info(@ApiParam(required = true, name = "token", value = "用户token")
+    public String info(@ApiParam(required = true, name = "UcToken", value = "用户token")
                        @RequestHeader String token) {
         ReturnBean rb = new ReturnBean();
         UcUserVo user = userService.getFromUc(token, userCenterConfig);
