@@ -1,12 +1,15 @@
 package com.cloud.pets.controller;
 
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
+import com.cloud.pets.entity.DemandType;
 import com.cloud.pets.entity.vo.DemandVo;
 import com.cloud.pets.service.DemandService;
+import com.cloud.pets.service.DemandTypeService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
@@ -34,7 +38,11 @@ import java.util.stream.Collectors;
 @Validated
 public class DemandController {
 
-    @Autowired private DemandService demandService;
+    @Autowired
+    private DemandService demandService;
+
+    @Autowired
+    private DemandTypeService demandTypeService;
 
     @ApiOperation(value = "刷新需求列表", httpMethod = "GET", response = Demand.class, notes =
             "上拉刷新历史数据，传当前数据最小时间戳之前的数据；下拉加载新数据，传当前数据最大时间戳之后的数据。")
@@ -57,13 +65,13 @@ public class DemandController {
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
         params.put("time", time);
         params.put("before", before);
-        if (typeId != null){
+        if (typeId != null) {
             params.put("typeId", typeId);
         }
-        if (categoryId != null){
+        if (categoryId != null) {
             params.put("categoryId", categoryId);
         }
-        if (speciesId != null){
+        if (speciesId != null) {
             params.put("speciesId", speciesId);
         }
         SpageUtil<Demand> spageUtil = new SpageUtil<>();
@@ -97,13 +105,13 @@ public class DemandController {
         // todo 需要完善卖宠、领养、配种等实现
         ReturnBean rb = new ReturnBean();
         Map<String, Object> params = Maps.newHashMapWithExpectedSize(3);
-        if (typeId != null){
+        if (typeId != null) {
             params.put("typeId", typeId);
         }
-        if (categoryId != null){
+        if (categoryId != null) {
             params.put("categoryId", categoryId);
         }
-        if (speciesId != null){
+        if (speciesId != null) {
             params.put("speciesId", speciesId);
         }
         SpageUtil<Demand> spageUtil = new SpageUtil<>(page, size);
@@ -120,10 +128,10 @@ public class DemandController {
 
     @ApiOperation(value = "发布需求", httpMethod = "POST", response = ReturnBean.class, notes = "发布需求")
     @PostMapping("info")
-    public String add(@RequestHeader String key,
+    public String add(HttpServletRequest request,
                       @ApiParam(required = true, name = "typeId", value = "发布类型ID")
                       @RequestParam Integer typeId,
-                      @ApiParam(name="age", value = "年龄，单位：月")
+                      @ApiParam(name = "age", value = "年龄，单位：月")
                       @RequestParam(required = false) Integer age,
                       @ApiParam(required = true, name = "price", value = "价格，多少以内，前端给出区间")
                       @RequestParam Double price,
@@ -134,10 +142,11 @@ public class DemandController {
                       @ApiParam(required = true, name = "speciesId", value = "品种")
                       @RequestParam Integer speciesId,
                       @ApiParam(required = true, name = "content", value = "备注")
-                      @RequestParam String content){
+                      @RequestParam String content) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         ReturnBean rb = new ReturnBean();
         boolean add = demandService.add(Integer.valueOf(key), typeId, age, price, sex, categoryId, speciesId, content);
-        if (!add){
+        if (!add) {
             throw new BusinessException(ReturnCode.FAIL);
         }
         return rb.toJson();
@@ -154,6 +163,16 @@ public class DemandController {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }
         rb.setData(demandVo);
+        return rb.toJson();
+    }
+
+    @ApiOperation(value = "查询所有需求的类型列表", httpMethod = "GET", response = DemandType.class, notes = "查询所有需求的类型列表")
+    @GetMapping("types")
+    public String list() {
+        ReturnBean rb = new ReturnBean();
+        List<DemandType> all = demandTypeService.getAll();
+        rb.setData(all);
+        rb.setCount((long) all.size());
         return rb.toJson();
     }
 

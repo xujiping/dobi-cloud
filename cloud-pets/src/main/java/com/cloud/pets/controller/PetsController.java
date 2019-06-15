@@ -7,7 +7,6 @@ import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Pets;
 import com.cloud.pets.entity.vo.PetsVo;
 import com.cloud.pets.service.PetsService;
-import com.cloud.pets.service.UserService;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -34,9 +33,6 @@ public class PetsController {
 
     @Autowired
     private PetsService petsService;
-
-    @Autowired
-    private UserService userService;
 
     @ApiOperation(value = "获取宠物列表", httpMethod = "GET", response = Pets.class, notes =
             "获取宠物列表")

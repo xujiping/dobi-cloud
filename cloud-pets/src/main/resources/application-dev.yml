@@ -47,6 +47,7 @@ jwt:
     include-path-patterns:
         - /user/**
         - /collect/**
+        - /demand/info
     exclude-path-patterns:
         - /**
 uc:
