@@ -14,6 +14,15 @@ import com.cloud.pets.entity.Collect;
 public interface CollectService extends IService<Collect> {
 
     /**
+     * 查询
+     * @param userId 用户ID
+     * @param subject 主题
+     * @param resourceId 资源ID
+     * @return
+     */
+    Collect get(String userId, String subject, Long resourceId);
+
+    /**
      * 收藏
      * @param userId 用户ID
      * @param subject 主题

@@ -1,7 +1,5 @@
 package com.cloud.pets.controller;
 
-
-import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
@@ -11,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,9 +29,9 @@ public class CollectController {
     @Autowired
     private CollectService collectService;
 
-    @PassToken
-    @ApiOperation(value = "收藏", httpMethod = "POST", response = ReturnBean.class, notes = "收藏资源")
-    @PostMapping("add")
+    @UserLoginToken
+    @ApiOperation(value = "收藏资源", httpMethod = "POST", response = ReturnBean.class, notes = "收藏资源")
+    @PostMapping("resource")
     public String collect(HttpServletRequest request,
                           @ApiParam(required = true, name = "token", value = "用户Token")
                           @RequestHeader String token,

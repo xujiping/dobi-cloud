@@ -40,6 +40,7 @@ public enum ReturnCode {
      * 宠物项目
      */
     PETS_NOT_EXISTS(2001, "不存在该宠物"),
+    COLLECTED(2003, "已经收藏该资源")
     ;
 
     private int code;

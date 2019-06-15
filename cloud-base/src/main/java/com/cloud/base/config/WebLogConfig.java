@@ -26,10 +26,6 @@ public class WebLogConfig {
     public void webLog() {
     }
 
-//    @Before("webLog()")
-//    public void doBefore(JoinPoint joinPoint) throws Throwable {
-//    }
-
     /**
      * 同一个IP2秒访问了2000次，加入黑名单表记录，暂时不做拦截
      * @param joinPoint

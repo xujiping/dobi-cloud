@@ -1,6 +1,10 @@
 package com.cloud.pets.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.Collect;
 import com.cloud.pets.mapper.CollectMapper;
 import com.cloud.pets.service.CollectService;
@@ -21,11 +25,24 @@ import java.util.Date;
 public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> implements CollectService {
 
     @Override
+    public Collect get(String userId, String subject, Long resourceId) {
+        Wrapper<Collect> wrapper = new EntityWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("subject", subject);
+        wrapper.eq("resource_id", resourceId);
+        return selectOne(wrapper);
+    }
+
+    @Override
     public boolean add(String userId, String subject, long resouceId) {
         if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(subject) || resouceId <= 0) {
             return false;
         }
-        Collect collect = new Collect();
+        Collect collect = get(userId, subject, resouceId);
+        if (collect != null) {
+            throw new BusinessException(ReturnCode.COLLECTED);
+        }
+        collect = new Collect();
         collect.setUserId(userId);
         collect.setSubject(subject);
         collect.setResourceId(resouceId);
