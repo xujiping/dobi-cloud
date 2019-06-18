@@ -1,5 +1,6 @@
 package com.cloud.base.config;
 
+import cn.hutool.json.JSONUtil;
 import com.cloud.base.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -15,6 +16,7 @@ import java.util.Arrays;
 
 /**
  * HTTP日志
+ *
  * @author xujiping
  */
 @Aspect
@@ -28,12 +30,13 @@ public class WebLogConfig {
 
     /**
      * 同一个IP2秒访问了2000次，加入黑名单表记录，暂时不做拦截
+     *
      * @param joinPoint
      * @param result
      * @throws Throwable
      */
     @AfterReturning(returning = "result", pointcut = "webLog()")
-    public void doAfterReturning(JoinPoint joinPoint, Object result) throws Throwable {
+    public void doAfterReturning(JoinPoint joinPoint, Object result) {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -48,6 +51,6 @@ public class WebLogConfig {
         log.info("****** ARGS : " + Arrays.toString(joinPoint.getArgs()));
         // 处理完请求，返回内容
         log.info("****** RESPONSE : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
-                .getSignature().getName() + ": " + result);
+                .getSignature().getName() + ": \n" + JSONUtil.toJsonPrettyStr(result));
     }
 }

@@ -23,14 +23,11 @@ public class IpUtils {
      */
     public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = request.getHeader("x-forwarded-for");
-        System.out.println("x-forwarded-for  " + ipAddress);
         if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
-            System.out.println("Proxy-Client-IP  " + ipAddress);
         }
         if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("WL-Proxy-Client-IP");
-            System.out.println("WL-Proxy-Client-IP  " + ipAddress);
         }
         if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
@@ -45,7 +42,6 @@ public class IpUtils {
                 ipAddress= inet.getHostAddress();
             }
         }
-        System.out.println("RemoteAddr " + ipAddress);
         //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
         if(ipAddress!=null && ipAddress.length()>15){ //"***.***.***.***".length() = 15
             if(ipAddress.indexOf(",")>0){

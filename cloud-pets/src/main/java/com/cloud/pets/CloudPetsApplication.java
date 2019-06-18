@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 //@EnableDiscoveryClient
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.cloud.base.config", "com.cloud.db.config", "com.cloud.auth.jwt", "com.cloud.pets"})
+@ComponentScan(basePackages = {"com.cloud.base", "com.cloud.db.config", "com.cloud.auth.jwt", "com.cloud.pets"})
 @EnableSwagger2
 @MapperScan(basePackages = {"com.cloud.pets.mapper"})
 @EnableConfigurationProperties

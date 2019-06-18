@@ -35,7 +35,7 @@ public class CarouselController {
     private CarouselService carouselService;
 
     @PassToken
-    @ApiOperation(value = "获取轮播图列表", httpMethod = "GET", response = Carousel.class, notes = "返回轮播图列表")
+    @ApiOperation(value = "获取轮播图列表", httpMethod = "GET", response = CarouselVo.class, notes = "返回轮播图列表")
     @GetMapping("list")
     public String getCarouselList(@ApiParam(required = true, name = "subject", value = "主题：home首页")
                                   @RequestParam String subject) {

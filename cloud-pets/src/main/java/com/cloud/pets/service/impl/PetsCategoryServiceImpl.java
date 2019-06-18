@@ -33,11 +33,22 @@ public class PetsCategoryServiceImpl extends ServiceImpl<PetsCategoryMapper, Pet
     }
 
     @Override
+    public PetsCategory get(String name) {
+        Wrapper<PetsCategory> wrapper = new EntityWrapper<>();
+        wrapper.eq("name", name);
+        return selectOne(wrapper);
+    }
+
+    @Override
     public boolean add(String name) {
-        if (StringUtils.isEmpty(name)){
+        if (StringUtils.isEmpty(name)) {
             return false;
         }
-        PetsCategory petsCategory = new PetsCategory();
+        PetsCategory petsCategory = get(name);
+        if (petsCategory != null) {
+            throw new BusinessException(ReturnCode.PET_CATEGORY_EXIST);
+        }
+        petsCategory = new PetsCategory();
         petsCategory.setName(name);
         return insert(petsCategory);
     }
@@ -45,13 +56,13 @@ public class PetsCategoryServiceImpl extends ServiceImpl<PetsCategoryMapper, Pet
     @Override
     public boolean update(Integer id, String name, String status) {
         PetsCategory petsCategory = selectById(id);
-        if (petsCategory == null){
+        if (petsCategory == null) {
             throw new BusinessException(ReturnCode.NOT_EXISTS);
         }
-        if (StringUtils.isNotEmpty(name)){
+        if (StringUtils.isNotEmpty(name)) {
             petsCategory.setName(name);
         }
-        if (StringUtils.isNotEmpty(status)){
+        if (StringUtils.isNotEmpty(status)) {
             petsCategory.setStatus(status);
         }
         return updateById(petsCategory);

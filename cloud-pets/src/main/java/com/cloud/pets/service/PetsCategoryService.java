@@ -22,6 +22,13 @@ public interface PetsCategoryService extends IService<PetsCategory> {
     List<PetsCategory> getAll();
 
     /**
+     * 查询
+     * @param name 类别名称
+     * @return PetsCategory
+     */
+    PetsCategory get(String name);
+
+    /**
      * 新增类别
      * @param name 类别名称
      * @return boolean
@@ -36,4 +43,5 @@ public interface PetsCategoryService extends IService<PetsCategory> {
      * @return boolean
      */
     boolean update(Integer id, String name, String status);
+
 }

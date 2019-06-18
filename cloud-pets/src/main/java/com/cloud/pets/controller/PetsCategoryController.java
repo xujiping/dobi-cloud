@@ -1,15 +1,18 @@
 package com.cloud.pets.controller;
 
-
+import com.cloud.auth.jwt.PassToken;
+import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsCategory;
 import com.cloud.pets.service.PetsCategoryService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +27,13 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/petsCategory")
+@Validated
+@Api(tags = "宠物")
 public class PetsCategoryController {
 
     @Autowired private PetsCategoryService petsCategoryService;
 
+    @PassToken
     @ApiOperation(value = "查询所有的宠物类型列表", httpMethod = "GET", response = PetsCategory.class, notes = "返回所有的宠物类型列表")
     @GetMapping("list")
     public String list(){
@@ -39,7 +45,8 @@ public class PetsCategoryController {
         return rb.toJson();
     }
 
-    @ApiOperation(value = "新增", httpMethod = "POST", response = ReturnBean.class, notes = "新增宠物类别")
+    @UserLoginToken
+    @ApiOperation(value = "新增宠物类别", httpMethod = "POST", response = ReturnBean.class, notes = "新增宠物类别")
     @PostMapping("info")
     public String add(
             @ApiParam(required = true, name = "name", value = "类别名称")
@@ -53,7 +60,8 @@ public class PetsCategoryController {
         return rb.toJson();
     }
 
-    @ApiOperation(value = "更新", httpMethod = "PUT", response = ReturnBean.class, notes = "更新名称、状态")
+    @UserLoginToken
+    @ApiOperation(value = "更新宠物类别", httpMethod = "PUT", response = ReturnBean.class, notes = "更新名称、状态")
     @PutMapping("info/{id}")
     public String update(
             @ApiParam(required = true, name = "id", value = "ID")
