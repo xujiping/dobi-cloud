@@ -1,9 +1,9 @@
 spring:
-#    # nacos服务配置
-#    cloud:
-#        nacos:
-#            discovery:
-#                server-addr: 47.110.251.3:8848
+    #    # nacos服务配置
+    #    cloud:
+    #        nacos:
+    #            discovery:
+    #                server-addr: 47.110.251.3:8848
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver
@@ -47,7 +47,10 @@ jwt:
     include-path-patterns:
         - /**
     exclude-path-patterns:
-        -
+        - /error
+        - /swagger-resources
+        - /doc.html
+        - /webjars/bycdao-ui/**
 uc:
     domain: http://localhost:8100/
     request:

@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
@@ -76,5 +77,26 @@ public class JwtUtil {
 ////                if (!checkPermission) {
 ////                    throw new BusinessException(ReturnCode.NO_PERMISSION);
 ////                }
+    }
+
+    /**
+     * 从token中获取用户ID
+     *
+     * @param userCenterConfig
+     * @param token
+     * @return
+     */
+    public static String getUserId(UserCenterConfig userCenterConfig, String token) {
+        // 执行认证
+        if (StrUtil.isBlank(token)) {
+            return null;
+        }
+        // 查询用户信息
+        ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUser(), token, null);
+        if (!returnBean.isSuccess()) {
+            return null;
+        }
+        JSONObject userObject = (JSONObject) returnBean.getData();
+        return userObject.getString("id");
     }
 }

@@ -6,7 +6,7 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Circle;
-import com.cloud.pets.entity.CircleType;
+import com.cloud.pets.entity.vo.CircleTypeVo;
 import com.cloud.pets.entity.vo.CircleVo;
 import com.cloud.pets.service.CircleService;
 import com.cloud.pets.service.CircleTypeService;
@@ -46,6 +46,7 @@ public class CircleController {
     @Autowired
     private CircleTypeService circleTypeService;
 
+    @PassToken
     @ApiOperation(value = "刷新圈子列表", httpMethod = "GET", response = Circle.class, notes =
             "上拉刷新历史数据，传当前数据最小时间戳之前的数据；下拉加载新数据，传当前数据最大时间戳之后的数据。")
     @GetMapping("list")
@@ -80,6 +81,7 @@ public class CircleController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "刷新圈子列表", httpMethod = "GET", response = Circle.class, notes =
             "分页查询列表，按时间倒序")
     @GetMapping("list/page")
@@ -114,6 +116,7 @@ public class CircleController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "通过Id获取圈子详情", httpMethod = "GET", response = CircleVo.class, notes = "获取圈子详情")
     @GetMapping("/info/{id}")
     public String queryCircleById(@ApiParam(name = "id", value = "圈子ID", required = true)
@@ -127,11 +130,12 @@ public class CircleController {
         return rb.toJson();
     }
 
-    @ApiOperation(value = "查询所有的圈子类型列表", httpMethod = "GET", response = CircleType.class, notes = "返回所有的圈子类型列表")
+    @PassToken
+    @ApiOperation(value = "查询所有的圈子类型列表", httpMethod = "GET", response = CircleTypeVo.class, notes = "返回所有的圈子类型列表")
     @GetMapping("types")
     public String list() {
         ReturnBean rb = new ReturnBean();
-        List<CircleType> all = circleTypeService.getAll();
+        List<CircleTypeVo> all = circleTypeService.getAll();
         rb.setData(all);
         rb.setCount((long) all.size());
         return rb.toJson();

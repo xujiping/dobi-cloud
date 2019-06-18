@@ -2,6 +2,7 @@ package com.cloud.pets.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.pets.entity.CircleType;
+import com.cloud.pets.entity.vo.CircleTypeVo;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface CircleTypeService extends IService<CircleType> {
      * 所有的圈子类型列表
      * @return list
      */
-    List<CircleType> getAll();
+    List<CircleTypeVo> getAll();
+
+    CircleTypeVo wrapper(CircleType circleType);
 
 }
