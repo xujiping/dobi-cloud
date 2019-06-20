@@ -54,7 +54,7 @@ public class JwtUtil {
         if (StrUtil.isBlank(token)) {
             throw new BusinessException(ReturnCode.NO_TOKEN);
         }
-        // 查询用户信息
+        // 查询用户信息，此时已经在用户中心校验了一次token
         ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUser(), token, null);
         if (!returnBean.isSuccess()) {
             throw new BusinessException(returnBean.getCode(), returnBean.getMsg());

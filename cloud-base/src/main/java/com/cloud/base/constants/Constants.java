@@ -161,7 +161,7 @@ public class Constants {
     /**
      * 头部字段
      */
-    public static final String HEADER_TOKEN = "token";
-    public static final String HEADER_ACCOUNT_ID = "UcAccountId";
+    public static final String HEADER_TOKEN = "ucToken";
+    public static final String HEADER_ACCOUNT_ID = "ucAccountId";
     public static final String HEADER_PLATFORM = "platform";
 }

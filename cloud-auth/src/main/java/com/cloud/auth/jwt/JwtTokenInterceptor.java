@@ -28,9 +28,6 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String requestURI = request.getRequestURI();
-        String token = request.getHeader(Constants.HEADER_TOKEN);
-        log.info("拦截器开始，预处理：URL=[" + requestURI + "], token=[" + token);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -48,6 +45,9 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
+                String requestURI = request.getRequestURI();
+                String token = request.getHeader(Constants.HEADER_TOKEN);
+                log.info("拦截器开始，预处理：URL=[" + requestURI + "], token=[" + token);
                 JwtUtil.validate(userCenterConfig, token);
                 return true;
             }
