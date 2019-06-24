@@ -156,9 +156,8 @@ public class DemandController {
 
     @ApiOperation(value = "通过Id获取详情", httpMethod = "GET", response = DemandVo.class, notes = "获取详情")
     @GetMapping("/info/{id}")
-    public String queryCircleById(
-            @ApiParam(name = "id", value = "圈子ID", required = true)
-            @PathVariable(value = "id") Long id) {
+    public String queryCircleById(@ApiParam(name = "id", value = "圈子ID", required = true)
+                                  @PathVariable(value = "id") Long id) {
         ReturnBean rb = new ReturnBean();
         DemandVo demandVo = demandService.getOne(id);
         if (demandVo == null) {
