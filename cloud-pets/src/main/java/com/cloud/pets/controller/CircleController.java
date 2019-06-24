@@ -123,9 +123,6 @@ public class CircleController {
                                   @PathVariable(value = "id") Long id) {
         com.cloud.base.constants.ReturnBean rb = new com.cloud.base.constants.ReturnBean();
         CircleVo circle = circleService.getOne(id);
-        if (circle == null) {
-            throw new BusinessException(ReturnCode.NOT_EXISTS);
-        }
         rb.setData(circle);
         return rb.toJson();
     }
