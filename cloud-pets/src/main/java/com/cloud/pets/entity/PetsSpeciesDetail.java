@@ -1,5 +1,6 @@
 package com.cloud.pets.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;

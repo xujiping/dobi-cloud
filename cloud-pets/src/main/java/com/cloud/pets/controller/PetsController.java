@@ -8,6 +8,7 @@ import com.cloud.pets.entity.Pets;
 import com.cloud.pets.entity.vo.PetsVo;
 import com.cloud.pets.service.PetsService;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/pets")
+@Api(tags = "宠物")
 public class PetsController {
 
     @Autowired

@@ -11,6 +11,7 @@ import com.cloud.pets.entity.vo.DemandVo;
 import com.cloud.pets.service.DemandService;
 import com.cloud.pets.service.DemandTypeService;
 import com.google.common.collect.Maps;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/demand")
 @Validated
+@Api(tags = "需求")
 public class DemandController {
 
     @Autowired

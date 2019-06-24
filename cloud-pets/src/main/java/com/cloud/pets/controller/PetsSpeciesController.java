@@ -1,12 +1,12 @@
 package com.cloud.pets.controller;
 
-
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsSpecies;
 import com.cloud.pets.entity.vo.PetsSpeciesVo;
 import com.cloud.pets.service.PetsSpeciesService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.hibernate.validator.constraints.NotBlank;
@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/petsSpecies")
+@Api(tags = "宠物品种")
 public class PetsSpeciesController {
 
     @Autowired
