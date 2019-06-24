@@ -1,6 +1,7 @@
 package com.cloud.pets.controller;
 
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
@@ -17,6 +18,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -135,6 +137,19 @@ public class CircleController {
         List<CircleTypeVo> all = circleTypeService.getAll();
         rb.setData(all);
         rb.setCount((long) all.size());
+        return rb.toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "发布（待实现）", httpMethod = "GET", response = CircleTypeVo.class, notes = "发布")
+    @GetMapping("publish")
+    public String publish(@RequestParam String subject,
+                          @RequestParam Integer typeId,
+                          @RequestParam String title,
+                          @RequestParam String content,
+                          MultipartFile multipartFile) {
+        ReturnBean rb = new ReturnBean();
+        // todo 发布圈子
         return rb.toJson();
     }
 

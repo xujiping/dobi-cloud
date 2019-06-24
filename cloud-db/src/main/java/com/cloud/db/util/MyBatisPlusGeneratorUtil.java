@@ -94,7 +94,7 @@ public class MyBatisPlusGeneratorUtil {
         String packageName = "com.cloud.pets";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "circle_comment");
+                "pets_species_detail");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }

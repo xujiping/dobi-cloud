@@ -86,5 +86,13 @@ public class PetsSpeciesController {
         return rb.toJson();
     }
 
+    @ApiOperation(value = "详情", httpMethod = "GET", response = ReturnBean.class)
+    @GetMapping("detail/{id}")
+    public String detail(@RequestHeader Integer id){
+        ReturnBean rb = new ReturnBean();
+        // todo 品种详情
+        return rb.toJson();
+    }
+
 }
 
