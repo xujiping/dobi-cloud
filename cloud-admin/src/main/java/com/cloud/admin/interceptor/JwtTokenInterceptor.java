@@ -76,17 +76,17 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-                if (!requestURI.contains("/sysUser")) {
-                    // 校验用户权限
-                    String platformId = request.getHeader("platform");
-                    if (StrUtil.isBlank(platformId)) {
-                        throw new BusinessException(ReturnCode.PARAMS_ERROR);
-                    }
-                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
-                    if (!checkPermission) {
-                        throw new BusinessException(ReturnCode.NO_PERMISSION);
-                    }
-                }
+//                if (!requestURI.contains("/sysUser")) {
+//                    // 校验用户权限
+//                    String platformId = request.getHeader("platform");
+//                    if (StrUtil.isBlank(platformId)) {
+//                        throw new BusinessException(ReturnCode.PARAMS_ERROR);
+//                    }
+//                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
+//                    if (!checkPermission) {
+//                        throw new BusinessException(ReturnCode.NO_PERMISSION);
+//                    }
+//                }
                 return true;
             }
         }

@@ -16,6 +16,7 @@ public enum ReturnCode {
     NO_TOKEN(102, "无token，请重新登录"),
     INVALID_REQUEST(111, "无效请求"),
     TOKEN_FAIL(401, "token认证失败，请重新登录"),
+    PLATFORM_NOT_EXIST(402, "平台不存在"),
 
     /**
      * 用户

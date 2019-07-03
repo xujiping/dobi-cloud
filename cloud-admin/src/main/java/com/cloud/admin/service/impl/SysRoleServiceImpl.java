@@ -6,19 +6,24 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
+import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.mapper.SysRoleMapper;
 import com.cloud.admin.service.SysRolePermissionService;
 import com.cloud.admin.service.SysRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -39,6 +44,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public boolean add(int platform, String name, String intro) {
+        if (PlatformEnum.getpName(platform) == null){
+            throw new BusinessException(ReturnCode.PLATFORM_NOT_EXIST);
+        }
         SysRole role = get(platform, name);
         if (role != null) {
             throw new BusinessException(ReturnCode.ROLE_EXIST);
@@ -93,7 +101,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public Page<SysRole> listByPage(Page<SysRole> page, Map<String, Object> params) {
+    public Page<RoleVo> listByPage(Page<SysRole> page, Map<String, Object> params) {
+        Page<RoleVo> voPage = new Page<>();
+        List<RoleVo> roleVoList = new ArrayList<>();
         Wrapper<SysRole> wrapper = new EntityWrapper<>();
         if (params.containsKey("platform_id")) {
             wrapper.eq("platform_id", params.get("platform_id"));
@@ -101,8 +111,21 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         page = selectPage(page, wrapper);
         List<SysRole> records = page.getRecords();
         if (records != null && records.size() > 0) {
-            page.setTotal(selectCount(wrapper));
+            roleVoList = records.stream().map(this::wrapper).collect(Collectors.toList());
+            voPage.setRecords(roleVoList);
+            voPage.setTotal(selectCount(wrapper));
         }
-        return page;
+        return voPage;
+    }
+
+    @Override
+    public RoleVo wrapper(SysRole sysRole) {
+        RoleVo roleVo = new RoleVo();
+        if (sysRole == null){
+            return roleVo;
+        }
+        BeanUtils.copyProperties(sysRole, roleVo);
+        roleVo.setPlatform(PlatformEnum.getpName(roleVo.getPlatformId()));
+        return roleVo;
     }
 }

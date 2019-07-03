@@ -3,8 +3,10 @@ package com.cloud.admin.controller;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
+import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.service.SysRoleService;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import io.swagger.annotations.Api;
@@ -40,26 +42,27 @@ public class SysRoleController {
     @UserLoginToken
     @ApiOperation(value = "分页列表", httpMethod = "GET")
     @GetMapping("page")
-    public String listByPage(@NotNull
-                             @ApiParam(required = true, name = "platform", value = "平台ID")
-                             @RequestHeader Integer platform,
+    public String listByPage(@ApiParam(name = "platform", value = "平台ID")
+                             @RequestHeader(required = false) Integer platform,
                              @ApiParam(name = "page", value = "页码", defaultValue = "1")
                              @RequestParam(required = false) Integer page,
                              @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
                              @RequestParam(required = false) Integer size) {
         Map<String, Object> params = MapUtil.newHashMap(1);
-        params.put("platform_id", platform);
+        if (platform != null && platform != PlatformEnum.USER_CENTER.pId()) {
+            params.put("platform_id", platform);
+        }
         Page<SysRole> rolePage = new Page<>(page, size);
-        rolePage = roleService.listByPage(rolePage, params);
-        return new ReturnBean(rolePage).toJson();
+        return new ReturnBean(roleService.listByPage(rolePage, params)).toJson();
     }
 
+    @UserLoginToken
     @ApiOperation(value = "创建角色", httpMethod = "POST")
     @PostMapping("new")
     public String add(
             @NotNull
             @ApiParam(required = true, name = "platform", value = "平台ID")
-            @RequestHeader Integer platform,
+            @RequestParam Integer platform,
             @NotEmpty
             @ApiParam(required = true, name = "roleName", value = "角色名")
             @RequestParam String roleName,

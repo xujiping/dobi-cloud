@@ -17,7 +17,7 @@ public class CorsInterceptor implements HandlerInterceptor {
         String origin = httpServletRequest.getHeader("Origin");
         httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
         httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "X-URL-PATH, Origin, X-Requested-With, X_Requested_With, Content-Type, Accept, lmt-token, user-id, openid, x-access-token, Access-Control-Allow-Origin,Set-Cookie,Cookie,userFlag,ucToken");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "X-URL-PATH, Origin, X-Requested-With, X_Requested_With, Content-Type, Accept, lmt-token, user-id, openid, x-access-token, Access-Control-Allow-Origin,Set-Cookie,Cookie,userFlag,ucToken,platform");
         httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
         httpServletResponse.setHeader("XDomainRequestAllowed", "1");
         httpServletResponse.setHeader("Access-Control-Expose-Headers", "Set-Cookie, userFlag, Content-Length, Cookie");

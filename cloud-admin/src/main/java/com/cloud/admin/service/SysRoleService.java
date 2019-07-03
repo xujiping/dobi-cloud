@@ -4,6 +4,7 @@ import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.entity.vo.RoleVo;
 
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @param params
      * @return
      */
-    Page<SysRole> listByPage(Page<SysRole> page, Map<String, Object> params);
+    Page<RoleVo> listByPage(Page<SysRole> page, Map<String, Object> params);
+
+    /**
+     * 包装vo
+     * @param sysRole
+     * @return
+     */
+    RoleVo wrapper(SysRole sysRole);
 
 }
