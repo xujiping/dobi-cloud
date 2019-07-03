@@ -44,7 +44,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public boolean add(int platform, String name, String intro) {
-        if (PlatformEnum.getpName(platform) == null){
+        if (PlatformEnum.getpName(platform) == null) {
             throw new BusinessException(ReturnCode.PLATFORM_NOT_EXIST);
         }
         SysRole role = get(platform, name);
@@ -79,10 +79,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    public boolean existUserRole(String userId, int roleId) {
+        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_id", roleId);
+        wrapper.eq("user_id", userId);
+        return roleUserService.selectOne(wrapper) != null;
+    }
+
+    @Override
     public boolean addUser(String userId, int roleId) {
         SysRole role = selectById(roleId);
         if (role == null || role.getStatus() == Constants.STATUS_UNENABLE) {
             throw new BusinessException(ReturnCode.ROLE_NULL_OR_UNENABLE);
+        }
+        boolean existUserRole = existUserRole(userId, roleId);
+        if (existUserRole){
+            return true;
         }
         SysRoleUser roleUser = new SysRoleUser();
         roleUser.setRoleId(roleId);
@@ -121,7 +133,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public RoleVo wrapper(SysRole sysRole) {
         RoleVo roleVo = new RoleVo();
-        if (sysRole == null){
+        if (sysRole == null) {
             return roleVo;
         }
         BeanUtils.copyProperties(sysRole, roleVo);

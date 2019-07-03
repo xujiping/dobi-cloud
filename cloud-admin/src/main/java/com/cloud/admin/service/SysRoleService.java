@@ -1,12 +1,10 @@
 package com.cloud.admin.service;
 
-import cn.hutool.core.util.PageUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.vo.RoleVo;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,6 +44,14 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     Integer getRoleId(int platform, String userId);
+
+    /**
+     * 检查是否已经存在用户角色
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    boolean existUserRole(String userId, int roleId);
 
     /**
      * 给用户分配角色

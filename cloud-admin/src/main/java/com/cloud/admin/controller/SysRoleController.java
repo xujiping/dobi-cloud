@@ -45,9 +45,9 @@ public class SysRoleController {
     public String listByPage(@ApiParam(name = "platform", value = "平台ID")
                              @RequestHeader(required = false) Integer platform,
                              @ApiParam(name = "page", value = "页码", defaultValue = "1")
-                             @RequestParam(required = false) Integer page,
+                             @RequestParam(required = false, defaultValue = "1") Integer page,
                              @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
-                             @RequestParam(required = false) Integer size,
+                             @RequestParam(required = false, defaultValue = "10") Integer size,
                              @ApiParam(name = "platform", value = "平台ID")
                              @RequestParam(required = false) Integer queryPlatform) {
         Map<String, Object> params = MapUtil.newHashMap(1);
@@ -56,6 +56,7 @@ public class SysRoleController {
         }
         if (queryPlatform != null) {
             params.put("platform_id", queryPlatform);
+
         }
         Page<SysRole> rolePage = new Page<>(page, size);
         return new ReturnBean(roleService.listByPage(rolePage, params)).toJson();
@@ -82,14 +83,15 @@ public class SysRoleController {
         return rb.toJson();
     }
 
+    @UserLoginToken
     @ApiOperation(value = "给用户分配角色", httpMethod = "POST")
     @PostMapping("user")
-    public String addUser(@ApiParam(required = true, name = "accountId", value = "用户ID")
-                          @RequestHeader String accountId,
-                          @ApiParam(required = true, name = "roleId", value = "角色ID")
-                          @RequestParam Integer roleId) {
+    public String addUser(@ApiParam(required = true, name = "roleId", value = "角色ID")
+                          @RequestParam Integer roleId,
+                          @ApiParam(required = true, name = "userId", value = "用户ID")
+                          @RequestParam String userId) {
         ReturnBean rb = new ReturnBean(true);
-        boolean addUser = roleService.addUser(accountId, roleId);
+        boolean addUser = roleService.addUser(userId, roleId);
         if (!addUser) {
             rb.setReturnCode(ReturnCode.FAIL, false);
         }
