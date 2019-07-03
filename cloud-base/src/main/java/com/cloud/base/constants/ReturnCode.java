@@ -31,7 +31,6 @@ public enum ReturnCode {
     ROLE_EXIST(1014, "角色已存在"),
     ROLE_NULL_OR_UNENABLE(1016, "角色不存在或者不可用"),
 
-
     /**
      * 第三方
      */

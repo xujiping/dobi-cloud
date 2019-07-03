@@ -68,14 +68,19 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public Integer getRoleId(int platform, String userId) {
-        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
-        wrapper.eq("platform_id", platform);
-        wrapper.eq("user_id", userId);
-        SysRoleUser roleUser = roleUserService.selectOne(wrapper);
+        SysRoleUser roleUser = getUserRole(platform, userId);
         if (roleUser != null) {
             return roleUser.getRoleId();
         }
         return null;
+    }
+
+    @Override
+    public SysRoleUser getUserRole(int platform, String userId) {
+        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
+        wrapper.eq("platform_id", platform);
+        wrapper.eq("user_id", userId);
+        return roleUserService.selectOne(wrapper);
     }
 
     @Override
@@ -92,13 +97,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (role == null || role.getStatus() == Constants.STATUS_UNENABLE) {
             throw new BusinessException(ReturnCode.ROLE_NULL_OR_UNENABLE);
         }
-        boolean existUserRole = existUserRole(userId, roleId);
-        if (existUserRole){
-            return true;
+        Integer platformId = role.getPlatformId();
+        SysRoleUser userRole = getUserRole(platformId, userId);
+        if (userRole != null) {
+            // 一个用户在一个平台只能存在一个角色，否则更新
+            userRole.setRoleId(roleId);
+            return roleUserService.updateById(userRole);
         }
         SysRoleUser roleUser = new SysRoleUser();
         roleUser.setRoleId(roleId);
-        roleUser.setPlatformId(role.getPlatformId());
+        roleUser.setPlatformId(platformId);
         roleUser.setUserId(userId);
         return roleUserService.insert(roleUser);
     }
