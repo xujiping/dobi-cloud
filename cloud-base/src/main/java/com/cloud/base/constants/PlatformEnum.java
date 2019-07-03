@@ -8,7 +8,9 @@ package com.cloud.base.constants;
  */
 public enum PlatformEnum {
 
-    USER_CENTER(10000, "用户中心");
+    USER_CENTER(10000, "用户中心"),
+    DOBI_PET(10001, "宠物萌主"),
+    ;
 
     private int pId;
     private String pName;

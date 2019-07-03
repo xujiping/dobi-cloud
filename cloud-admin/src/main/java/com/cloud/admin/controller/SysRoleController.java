@@ -47,10 +47,15 @@ public class SysRoleController {
                              @ApiParam(name = "page", value = "页码", defaultValue = "1")
                              @RequestParam(required = false) Integer page,
                              @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
-                             @RequestParam(required = false) Integer size) {
+                             @RequestParam(required = false) Integer size,
+                             @ApiParam(name = "platform", value = "平台ID")
+                             @RequestParam(required = false) Integer queryPlatform) {
         Map<String, Object> params = MapUtil.newHashMap(1);
         if (platform != null && platform != PlatformEnum.USER_CENTER.pId()) {
             params.put("platform_id", platform);
+        }
+        if (queryPlatform != null) {
+            params.put("platform_id", queryPlatform);
         }
         Page<SysRole> rolePage = new Page<>(page, size);
         return new ReturnBean(roleService.listByPage(rolePage, params)).toJson();
