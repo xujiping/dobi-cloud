@@ -6,6 +6,7 @@ import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.vo.PermissionVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,6 +35,13 @@ public interface SysPermissionService extends IService<SysPermission> {
     List<PermissionVo> list(int platform, String userId, Integer level);
 
     /**
+     * 查询下一级菜单列表
+     * @param
+     * @return
+     */
+    List<PermissionVo> listChild(Integer upId);
+
+    /**
      * 角色权限列表
      * @param roleId 角色ID
      * @return
@@ -41,5 +49,7 @@ public interface SysPermissionService extends IService<SysPermission> {
     List<SysRolePermission> listByRole(int roleId, Integer level);
 
     PermissionVo wrapper(SysRolePermission rolePermission);
+
+    PermissionVo wrapper(SysPermission permission);
 
 }
