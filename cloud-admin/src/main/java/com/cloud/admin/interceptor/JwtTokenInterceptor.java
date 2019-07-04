@@ -69,6 +69,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 if (user == null) {
                     throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
                 }
+                String username = user.getUsername();
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
                 try {
@@ -76,17 +77,20 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
-//                if (!requestURI.contains("/sysUser")) {
-//                    // 校验用户权限
-//                    String platformId = request.getHeader("platform");
-//                    if (StrUtil.isBlank(platformId)) {
-//                        throw new BusinessException(ReturnCode.PARAMS_ERROR);
-//                    }
-//                    boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
-//                    if (!checkPermission) {
-//                        throw new BusinessException(ReturnCode.NO_PERMISSION);
-//                    }
-//                }
+                // admin用户不校验权限
+                if (!username.equals("admin")){
+                    if (!requestURI.contains("/sysUser")) {
+                        // 校验用户权限
+                        String platformId = request.getHeader("platform");
+                        if (StrUtil.isBlank(platformId)) {
+                            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+                        }
+                        boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
+                        if (!checkPermission) {
+                            throw new BusinessException(ReturnCode.NO_PERMISSION);
+                        }
+                    }
+                }
                 return true;
             }
         }
