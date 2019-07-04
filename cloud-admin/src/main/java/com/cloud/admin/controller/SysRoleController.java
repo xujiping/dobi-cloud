@@ -104,13 +104,10 @@ public class SysRoleController {
                                 @RequestHeader String accountId,
                                 @ApiParam(required = true, name = "roleId", value = "角色ID")
                                 @RequestParam Integer roleId,
-                                @ApiParam(required = true, name = "permissionId", value = "权限ID")
-                                @RequestParam Integer permissionId) {
+                                @ApiParam(required = true, name = "permissionIdList", value = "权限ID列表，用英文半角逗号分隔")
+                                @RequestParam String permissionIdList) {
         ReturnBean rb = new ReturnBean(true);
-        boolean addUser = roleService.addPermission(accountId, roleId, permissionId);
-        if (!addUser) {
-            rb.setReturnCode(ReturnCode.FAIL, false);
-        }
+        roleService.addPermission(accountId, roleId, permissionIdList);
         return rb.toJson();
     }
 

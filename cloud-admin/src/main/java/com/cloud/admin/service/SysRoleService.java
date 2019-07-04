@@ -76,10 +76,10 @@ public interface SysRoleService extends IService<SysRole> {
      *
      * @param userId       授权者
      * @param roleId       角色ID
-     * @param permissionId 权限ID
+     * @param permissionIdList 权限ID列表
      * @return boolean
      */
-    boolean addPermission(String userId, int roleId, int permissionId);
+    void addPermission(String userId, int roleId, String permissionIdList);
 
     /**
      * 分页

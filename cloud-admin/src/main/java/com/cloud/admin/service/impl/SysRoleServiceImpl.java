@@ -1,5 +1,6 @@
 package com.cloud.admin.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -112,12 +113,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public boolean addPermission(String userId, int roleId, int permissionId) {
-        SysRolePermission rolePermission = new SysRolePermission();
-        rolePermission.setCreateUserId(userId);
-        rolePermission.setRoleId(roleId);
-        rolePermission.setPermissionId(permissionId);
-        return rolePermissionService.insert(rolePermission);
+    public void addPermission(String userId, int roleId, String permissionIdList) {
+        SysRolePermission rolePermission;
+        List<String> split = StrUtil.split(permissionIdList, ',');
+        for (String permissionId : split){
+             rolePermission = new SysRolePermission();
+            rolePermission.setCreateUserId(userId);
+            rolePermission.setRoleId(roleId);
+            rolePermission.setPermissionId(Integer.valueOf(permissionId));
+            rolePermissionService.insert(rolePermission);
+        }
     }
 
     @Override
