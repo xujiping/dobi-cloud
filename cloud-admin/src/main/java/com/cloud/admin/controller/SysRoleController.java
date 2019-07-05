@@ -4,6 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.vo.RoleVo;
+import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysRoleService;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
@@ -40,6 +41,9 @@ public class SysRoleController {
 
     @Autowired
     private SysRoleService roleService;
+
+    @Autowired
+    private SysPermissionService permissionService;
 
     @UserLoginToken
     @ApiOperation(value = "分页列表", httpMethod = "GET")
@@ -126,6 +130,14 @@ public class SysRoleController {
         ReturnBean rb = new ReturnBean(true);
         roleService.removePermission(accountId, roleId, permissionIdList);
         return rb.toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "角色权限ID列表", httpMethod = "GET", notes = "返回用户勾选的权限ID列表")
+    @GetMapping("permissions")
+    public String listRole(@ApiParam(required = true, name = "roleId", value = "角色ID")
+                           @RequestParam Integer roleId) {
+        return new ReturnBean(permissionService.listRole(roleId)).toJson();
     }
 
 }

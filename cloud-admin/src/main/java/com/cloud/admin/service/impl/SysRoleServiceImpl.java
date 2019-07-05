@@ -125,11 +125,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             if (sysPermission == null){
                 continue;
             }
+            Integer permissionId2 = Integer.valueOf(permissionId);
+            SysRolePermission permission = getRolePermission(roleId, permissionId2);
+            if (permission != null){
+                // 已存在则跳过
+                continue;
+            }
             rolePermission = new SysRolePermission();
             rolePermission.setLevel(sysPermission.getLevel());
             rolePermission.setCreateUserId(userId);
             rolePermission.setRoleId(roleId);
-            rolePermission.setPermissionId(Integer.valueOf(permissionId));
+            rolePermission.setPermissionId(permissionId2);
             rolePermissionService.insert(rolePermission);
         }
     }
@@ -172,5 +178,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         BeanUtils.copyProperties(sysRole, roleVo);
         roleVo.setPlatform(PlatformEnum.getpName(roleVo.getPlatformId()));
         return roleVo;
+    }
+
+    @Override
+    public SysRolePermission getRolePermission(Integer roleId, Integer permissionId) {
+        if (roleId == null || permissionId == null){
+            return null;
+        }
+        Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
+        wrapper.eq("permission_id", permissionId);
+        wrapper.eq("role_id", roleId);
+        return rolePermissionService.selectOne(wrapper);
     }
 }

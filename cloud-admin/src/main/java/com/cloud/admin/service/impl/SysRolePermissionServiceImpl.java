@@ -1,10 +1,14 @@
 package com.cloud.admin.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.mapper.SysRolePermissionMapper;
 import com.cloud.admin.service.SysRolePermissionService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +21,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionMapper, SysRolePermission> implements SysRolePermissionService {
 
+    @Override
+    public List<SysRolePermission> listByRole(Integer roleId) {
+        if (roleId == null){
+            return null;
+        }
+        Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_id", roleId);
+        return selectList(wrapper);
+    }
 }

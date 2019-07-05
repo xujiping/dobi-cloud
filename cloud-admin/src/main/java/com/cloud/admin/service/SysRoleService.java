@@ -3,6 +3,7 @@ package com.cloud.admin.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.vo.RoleVo;
 
@@ -106,5 +107,13 @@ public interface SysRoleService extends IService<SysRole> {
      * @return
      */
     RoleVo wrapper(SysRole sysRole);
+
+    /**
+     * 查询角色权限
+     * @param roleId
+     * @param permissionId
+     * @return
+     */
+    SysRolePermission getRolePermission(Integer roleId, Integer permissionId);
 
 }

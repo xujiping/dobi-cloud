@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.entity.SysPermission;
 import com.cloud.admin.entity.SysRolePermission;
+import com.cloud.admin.entity.vo.PermissionAllTree;
 import com.cloud.admin.entity.vo.PermissionTree;
 import com.cloud.admin.entity.vo.PermissionVo;
 import com.cloud.admin.mapper.SysPermissionMapper;
@@ -67,10 +68,11 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             SysPermission up = selectById(upId);
             if (up == null) {
                 upId = null;
+            } else {
+                Integer upLevel = up.getLevel();
+                wrapper.eq("up_id", upId);
+                wrapper.eq("level", upLevel + 1);
             }
-            Integer upLevel = up.getLevel();
-            wrapper.eq("up_id", upId);
-            wrapper.eq("level", upLevel + 1);
         }
         if (upId == null) {
             wrapper.eq("level", 1);
@@ -80,6 +82,39 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
             permissionVoList = list.stream().map(this::wrapper).collect(Collectors.toList());
         }
         return permissionVoList;
+    }
+
+    private List<PermissionTree> setTree(List<PermissionTree> trees, int count) {
+        if (count > 1) {
+            for (PermissionTree tree : trees) {
+                List<PermissionTree> childTrees = listChild(tree.getId());
+                setTree(childTrees, count - 1);
+                tree.setChildren(childTrees);
+            }
+        }
+        return trees;
+    }
+
+    @Override
+    public List<PermissionTree> listAll() {
+        int maxLevel = getMaxLevel();
+        List<PermissionTree> trees = listChild(null);
+        List<PermissionTree> permissionTrees = setTree(trees, maxLevel);
+        return permissionTrees;
+    }
+
+    @Override
+    public int[] listRole(Integer roleId) {
+        List<SysRolePermission> permissions = rolePermissionService.listByRole(roleId);
+        if (permissions != null && permissions.size() > 0){
+            int size = permissions.size();
+            int[] ids = new int[size];
+            for (int i = 0; i < size; i++) {
+                ids[i] = permissions.get(i).getPermissionId();
+            }
+            return ids;
+        }
+        return new int[]{};
     }
 
     @Override
@@ -118,5 +153,16 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         permissionTree.setValue(permission.getMenuValue());
         permissionTree.setLeaf(false);
         return permissionTree;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        Wrapper<SysPermission> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("level", false);
+        SysPermission permission = selectOne(wrapper);
+        if (permission == null) {
+            return 0;
+        }
+        return permission.getLevel();
     }
 }

@@ -3,6 +3,7 @@ package com.cloud.admin.entity.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: xujiping
@@ -36,4 +37,6 @@ public class PermissionTree implements Serializable {
      * 是否叶子节点
      */
     private boolean leaf;
+
+    private List<PermissionTree> children;
 }

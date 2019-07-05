@@ -3,6 +3,7 @@ package com.cloud.admin.service;
 import com.cloud.admin.entity.SysPermission;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.SysRolePermission;
+import com.cloud.admin.entity.vo.PermissionAllTree;
 import com.cloud.admin.entity.vo.PermissionTree;
 import com.cloud.admin.entity.vo.PermissionVo;
 
@@ -43,6 +44,14 @@ public interface SysPermissionService extends IService<SysPermission> {
     List<PermissionTree> listChild(Integer upId);
 
     /**
+     * 全部权限列表
+     * @return
+     */
+    List<PermissionTree> listAll();
+
+    int[] listRole(Integer roleId);
+
+    /**
      * 角色权限列表
      * @param roleId 角色ID
      * @return
@@ -52,5 +61,11 @@ public interface SysPermissionService extends IService<SysPermission> {
     PermissionVo wrapper(SysRolePermission rolePermission);
 
     PermissionTree wrapper(SysPermission permission);
+
+    /**
+     * 查询最小的级别数
+     * @return
+     */
+    int getMaxLevel();
 
 }
