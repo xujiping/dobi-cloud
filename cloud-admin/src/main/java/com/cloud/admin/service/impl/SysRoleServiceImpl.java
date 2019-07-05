@@ -4,11 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.SysPermission;
 import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.mapper.SysRoleMapper;
+import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysRolePermissionService;
 import com.cloud.admin.service.SysRoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -42,6 +44,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Autowired
     private SysRolePermissionService rolePermissionService;
+
+    @Autowired private SysPermissionService permissionService;
 
     @Override
     public boolean add(int platform, String name, String intro) {
@@ -117,11 +121,27 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         SysRolePermission rolePermission;
         List<String> split = StrUtil.split(permissionIdList, ',');
         for (String permissionId : split){
-             rolePermission = new SysRolePermission();
+            SysPermission sysPermission = permissionService.selectById(permissionId);
+            if (sysPermission == null){
+                continue;
+            }
+            rolePermission = new SysRolePermission();
+            rolePermission.setLevel(sysPermission.getLevel());
             rolePermission.setCreateUserId(userId);
             rolePermission.setRoleId(roleId);
             rolePermission.setPermissionId(Integer.valueOf(permissionId));
             rolePermissionService.insert(rolePermission);
+        }
+    }
+
+    @Override
+    public void removePermission(String userId, int roleId, String permissionIdList) {
+        List<String> split = StrUtil.split(permissionIdList, ',');
+        for (String permissionId : split){
+            Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
+            wrapper.eq("role_id", roleId);
+            wrapper.eq("permission_id", permissionId);
+            rolePermissionService.delete(wrapper);
         }
     }
 

@@ -82,6 +82,16 @@ public interface SysRoleService extends IService<SysRole> {
     void addPermission(String userId, int roleId, String permissionIdList);
 
     /**
+     * 取消权限
+     *
+     * @param userId       授权者
+     * @param roleId       角色ID
+     * @param permissionIdList 权限ID列表
+     * @return boolean
+     */
+    void removePermission(String userId, int roleId, String permissionIdList);
+
+    /**
      * 分页
      *
      * @param page

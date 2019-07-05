@@ -3,6 +3,7 @@ package com.cloud.admin.service;
 import com.cloud.admin.entity.SysPermission;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.SysRolePermission;
+import com.cloud.admin.entity.vo.PermissionTree;
 import com.cloud.admin.entity.vo.PermissionVo;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public interface SysPermissionService extends IService<SysPermission> {
      * @param
      * @return
      */
-    List<PermissionVo> listChild(Integer upId);
+    List<PermissionTree> listChild(Integer upId);
 
     /**
      * 角色权限列表
@@ -50,6 +51,6 @@ public interface SysPermissionService extends IService<SysPermission> {
 
     PermissionVo wrapper(SysRolePermission rolePermission);
 
-    PermissionVo wrapper(SysPermission permission);
+    PermissionTree wrapper(SysPermission permission);
 
 }

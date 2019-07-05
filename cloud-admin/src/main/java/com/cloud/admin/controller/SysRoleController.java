@@ -6,6 +6,7 @@ import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.service.SysRoleService;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -98,16 +100,31 @@ public class SysRoleController {
         return rb.toJson();
     }
 
+    @UserLoginToken
     @ApiOperation(value = "给角色分配权限", httpMethod = "POST")
-    @PostMapping("permission")
-    public String addPermission(@ApiParam(required = true, name = "accountId", value = "用户ID")
-                                @RequestHeader String accountId,
+    @PostMapping("permission/add")
+    public String addPermission(HttpServletRequest request,
                                 @ApiParam(required = true, name = "roleId", value = "角色ID")
                                 @RequestParam Integer roleId,
                                 @ApiParam(required = true, name = "permissionIdList", value = "权限ID列表，用英文半角逗号分隔")
                                 @RequestParam String permissionIdList) {
+        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         ReturnBean rb = new ReturnBean(true);
         roleService.addPermission(accountId, roleId, permissionIdList);
+        return rb.toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "取消角色权限", httpMethod = "POST")
+    @PostMapping("permission/remove")
+    public String removePermission(HttpServletRequest request,
+                                   @ApiParam(required = true, name = "roleId", value = "角色ID")
+                                   @RequestParam Integer roleId,
+                                   @ApiParam(required = true, name = "permissionIdList", value = "权限ID列表，用英文半角逗号分隔")
+                                   @RequestParam String permissionIdList) {
+        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        ReturnBean rb = new ReturnBean(true);
+        roleService.removePermission(accountId, roleId, permissionIdList);
         return rb.toJson();
     }
 

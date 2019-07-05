@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.entity.SysPermission;
 import com.cloud.admin.entity.SysRolePermission;
+import com.cloud.admin.entity.vo.PermissionTree;
 import com.cloud.admin.entity.vo.PermissionVo;
 import com.cloud.admin.mapper.SysPermissionMapper;
 import com.cloud.admin.service.SysPermissionService;
@@ -59,8 +60,8 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public List<PermissionVo> listChild(Integer upId) {
-        List<PermissionVo> permissionVoList = new ArrayList<>();
+    public List<PermissionTree> listChild(Integer upId) {
+        List<PermissionTree> permissionVoList = new ArrayList<>();
         Wrapper<SysPermission> wrapper = new EntityWrapper<>();
         if (upId != null) {
             SysPermission up = selectById(upId);
@@ -107,12 +108,15 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    public PermissionVo wrapper(SysPermission permission) {
-        PermissionVo permissionVo = new PermissionVo();
+    public PermissionTree wrapper(SysPermission permission) {
+        PermissionTree permissionTree = new PermissionTree();
         if (permission == null) {
-            return permissionVo;
+            return permissionTree;
         }
-        BeanUtils.copyProperties(permission, permissionVo);
-        return permissionVo;
+        BeanUtils.copyProperties(permission, permissionTree);
+        permissionTree.setName(permission.getMenuName());
+        permissionTree.setValue(permission.getMenuValue());
+        permissionTree.setLeaf(false);
+        return permissionTree;
     }
 }
