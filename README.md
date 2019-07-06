@@ -13,6 +13,8 @@
 > root Dobi123456  
 > 公网：rm-m5e8r75zz97048wqp3o.mysql.rds.aliyuncs.com  
 > 内网：rm-m5e8r75zz97048wqp.mysql.rds.aliyuncs.com  
+> 后台管理系统：dobi dobi123  
+
 
 ## 部署流程  
 1. docker build -t dobi-pets .  
