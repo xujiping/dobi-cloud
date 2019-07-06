@@ -78,7 +78,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 // admin用户不校验权限
-                if (!username.equals("admin")){
+                if (!username.equals("dobi")){
                     if (!requestURI.contains("/sysUser")) {
                         // 校验用户权限
                         String platformId = request.getHeader("platform");
