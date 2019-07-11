@@ -9,6 +9,7 @@
     <resultMap id="BaseResultMap" type="com.cloud.pets.entity.PetsCategory">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="cover" property="cover" />
         <result column="create_time" property="createTime" />
         <result column="status" property="status" />
     </resultMap>

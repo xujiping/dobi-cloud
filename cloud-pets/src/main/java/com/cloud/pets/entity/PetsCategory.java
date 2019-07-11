@@ -25,6 +25,12 @@ public class PetsCategory extends Model<PetsCategory> {
      * 名称
      */
     private String name;
+
+    /**
+     * 封面
+     */
+    private String cover;
+
     /**
      * 创建时间
      */
@@ -46,6 +52,14 @@ public class PetsCategory extends Model<PetsCategory> {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public Date getCreateTime() {
