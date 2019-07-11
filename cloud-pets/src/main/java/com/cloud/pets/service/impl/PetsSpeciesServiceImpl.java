@@ -1,5 +1,6 @@
 package com.cloud.pets.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -35,8 +36,22 @@ public class PetsSpeciesServiceImpl extends ServiceImpl<PetsSpeciesMapper, PetsS
     }
 
     @Override
+    public PetsSpecies get(String name) {
+        if (StrUtil.isBlank(name)) {
+            return null;
+        }
+        Wrapper<PetsSpecies> wrapper = new EntityWrapper<>();
+        wrapper.eq("name", name);
+        return selectOne(wrapper);
+    }
+
+    @Override
     public boolean add(String name, Integer categoryId, Integer heat) {
-        PetsSpecies petsSpecies = new PetsSpecies();
+        PetsSpecies petsSpecies = get(name);
+        if (petsSpecies != null) {
+            throw new BusinessException(ReturnCode.PET_SPECIES_EXIST);
+        }
+        petsSpecies = new PetsSpecies();
         petsSpecies.setName(name);
         petsSpecies.setCategoryId(categoryId);
         petsSpecies.setHeat(heat);

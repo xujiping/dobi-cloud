@@ -1,5 +1,6 @@
 package com.cloud.pets.controller;
 
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
@@ -33,6 +34,7 @@ public class PetsSpeciesController {
     @Autowired
     private PetsSpeciesService petsSpeciesService;
 
+    @PassToken
     @ApiOperation(value = "查询所有的品种类型列表", httpMethod = "GET", response = PetsSpecies.class, notes = "查询所有的品种类型列表")
     @GetMapping("list")
     public String list() {
@@ -48,6 +50,7 @@ public class PetsSpeciesController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "新增", httpMethod = "POST", response = ReturnBean.class, notes = "新增品种类别")
     @PostMapping("info")
     public String add(

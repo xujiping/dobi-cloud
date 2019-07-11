@@ -23,6 +23,13 @@ public interface PetsSpeciesService extends IService<PetsSpecies> {
     List<PetsSpecies> getAll();
 
     /**
+     * 根据名字查询
+     * @param name
+     * @return
+     */
+    PetsSpecies get(String name);
+
+    /**
      * 新增
      * @param name 名称
      * @param categoryId 类别ID

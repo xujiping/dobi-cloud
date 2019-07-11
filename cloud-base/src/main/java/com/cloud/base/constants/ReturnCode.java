@@ -42,6 +42,7 @@ public enum ReturnCode {
     PETS_NOT_EXISTS(2001, "不存在该宠物"),
     COLLECTED(2003, "已经收藏该资源"),
     PET_CATEGORY_EXIST(2005, "已经存在该类别"),
+    PET_SPECIES_EXIST(2007, "已经存在该品种"),
     ;
 
     private int code;
