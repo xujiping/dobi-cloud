@@ -1,10 +1,12 @@
 package com.cloud.pets.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.pets.entity.PetsSpecies;
 import com.cloud.pets.entity.vo.PetsSpeciesVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -21,6 +23,14 @@ public interface PetsSpeciesService extends IService<PetsSpecies> {
      * @return list
      */
     List<PetsSpecies> getAll();
+
+    /**
+     * 分页查询
+     * @param page
+     * @param params
+     * @return
+     */
+    Page<PetsSpecies> list(Page<PetsSpecies> page, Map<String, Object> params);
 
     /**
      * 根据名字查询

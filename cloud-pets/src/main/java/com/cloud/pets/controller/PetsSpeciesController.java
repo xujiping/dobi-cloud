@@ -1,11 +1,15 @@
 package com.cloud.pets.controller;
 
+import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsSpecies;
+import com.cloud.pets.entity.PetsSpeciesDetail;
 import com.cloud.pets.entity.vo.PetsSpeciesVo;
+import com.cloud.pets.service.PetsSpeciesDetailService;
 import com.cloud.pets.service.PetsSpeciesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,8 +18,10 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -34,19 +40,32 @@ public class PetsSpeciesController {
     @Autowired
     private PetsSpeciesService petsSpeciesService;
 
+    @Autowired
+    private PetsSpeciesDetailService speciesDetailService;
+
     @PassToken
-    @ApiOperation(value = "查询所有的品种类型列表", httpMethod = "GET", response = PetsSpecies.class, notes = "查询所有的品种类型列表")
+    @ApiOperation(value = "查询品种类型列表", httpMethod = "GET", response = PetsSpecies.class, notes = "查询品种类型列表")
     @GetMapping("list")
-    public String list() {
+    public String list(@ApiParam(name = "size", value = "目标数据量")
+                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       @ApiParam(name = "page", value = "页码")
+                       @RequestParam(required = false, defaultValue = "1") Integer page,
+                       @ApiParam(name = "categoryId", value = "类别ID")
+                       @RequestParam(required = false) Integer categoryId) {
         ReturnBean rb = new ReturnBean();
-        List<PetsSpecies> all = petsSpeciesService.getAll();
-        List<PetsSpeciesVo> petsSpeciesVos = new ArrayList<>();
-        if (all != null && all.size() > 0) {
-            petsSpeciesVos = all.stream().map(petsSpecies -> petsSpeciesService.wrapper(petsSpecies)).collect(Collectors.toList());
+        Page<PetsSpecies> pageObject = new Page<>(page, size);
+        Map<String, Object> params = MapUtil.newHashMap(1);
+        if (categoryId != null) {
+            params.put("categoryId", categoryId);
         }
-        long total = all.size();
-        rb.setData(petsSpeciesVos);
-        rb.setCount(total);
+        pageObject = petsSpeciesService.list(pageObject, params);
+        List<PetsSpecies> list = pageObject.getRecords();
+        List<PetsSpeciesVo> petsSpeciesVos;
+        if (list != null && list.size() > 0) {
+            petsSpeciesVos = list.stream().map(petsSpecies -> petsSpeciesService.wrapper(petsSpecies)).collect(Collectors.toList());
+            rb.setData(petsSpeciesVos);
+            rb.setCount((long) list.size());
+        }
         return rb.toJson();
     }
 
@@ -90,11 +109,13 @@ public class PetsSpeciesController {
         return rb.toJson();
     }
 
+    @PassToken
     @ApiOperation(value = "详情", httpMethod = "GET", response = ReturnBean.class)
     @GetMapping("detail/{id}")
-    public String detail(@RequestHeader Integer id){
+    public String detail(@PathVariable Integer id) {
         ReturnBean rb = new ReturnBean();
-        // todo 品种详情
+        PetsSpeciesDetail detail = speciesDetailService.selectById(id);
+        rb.setData(detail);
         return rb.toJson();
     }
 

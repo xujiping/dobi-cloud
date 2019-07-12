@@ -3,6 +3,7 @@ package com.cloud.pets.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
@@ -12,10 +13,12 @@ import com.cloud.pets.entity.vo.PetsSpeciesVo;
 import com.cloud.pets.mapper.PetsSpeciesMapper;
 import com.cloud.pets.service.PetsSpeciesService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -33,6 +36,20 @@ public class PetsSpeciesServiceImpl extends ServiceImpl<PetsSpeciesMapper, PetsS
         Wrapper<PetsSpecies> wrapper = new EntityWrapper<>();
         wrapper.eq("status", Constants.STAT_NORMAL);
         return selectList(wrapper);
+    }
+
+    @Override
+    public Page<PetsSpecies> list(Page<PetsSpecies> page, Map<String, Object> params) {
+        Wrapper<PetsSpecies> wrapper = new EntityWrapper<>();
+        if (params != null && params.containsKey("categoryId")) {
+            wrapper.eq("category_id", params.get("categoryId"));
+        }
+        wrapper.eq("status", Constants.STAT_NORMAL);
+        page = selectPage(page, wrapper);
+        if (page.getRecords().size() > 0) {
+            page.setTotal(selectCount(wrapper));
+        }
+        return page;
     }
 
     @Override
@@ -87,8 +104,7 @@ public class PetsSpeciesServiceImpl extends ServiceImpl<PetsSpeciesMapper, PetsS
         if (petsSpecies == null) {
             return petsSpeciesVo;
         }
-        petsSpeciesVo.setName(petsSpecies.getName());
-        petsSpeciesVo.setImage("https://www.baidu.com/link?url=Zjy4j2h7h_uzt5kSPZn9a1RXEEVqJYbd0EGjbEx8bDu&wd=&eqid=eec6e20c0000adf3000000065c4580db");
+        BeanUtils.copyProperties(petsSpecies, petsSpeciesVo);
         petsSpeciesVo.setValue(String.valueOf(petsSpecies.getId()));
         return petsSpeciesVo;
     }
