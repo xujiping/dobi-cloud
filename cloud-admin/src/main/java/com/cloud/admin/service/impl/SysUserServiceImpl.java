@@ -42,6 +42,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private SysPermissionService permissionService;
 
+    @Autowired
+    private SysRoleUserService sysRoleUserService;
+
     @Override
     public SysUser get(String userId) {
         SysUser sysUser = selectById(userId);
@@ -133,5 +136,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             page.setTotal(selectCount(wrapper));
         }
         return page;
+    }
+
+    @Override
+    public List<SysRoleUser> listByRole(Integer roleId) {
+        Wrapper<SysRoleUser> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_id", roleId);
+        return sysRoleUserService.selectList(wrapper);
+    }
+
+    @Override
+    public boolean updateStatus(String userId, Integer status) {
+        if (StrUtil.isBlank(userId) || status == null) {
+            return false;
+        }
+        SysUser sysUser = selectById(userId);
+        if (sysUser == null) {
+            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+        }
+        sysUser.setStatus(status);
+        return updateById(sysUser);
     }
 }

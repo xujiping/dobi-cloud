@@ -9,6 +9,8 @@ import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -86,6 +88,20 @@ public class SysUserController {
         Page<SysUser> userPage = new Page<>(page, size);
         userPage = userService.listByPage(userPage, params);
         return new ReturnBean(userPage).toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "更新用户状态", httpMethod = "POST")
+    @PostMapping("update/status")
+    public String updateStatus(@ApiParam(required = true, name = "userId", value = "用户ID")
+                               @RequestParam String userId,
+                               @ApiParam(required = true, name = "status", value = "状态")
+                               @RequestParam Integer status) {
+        boolean update = userService.updateStatus(userId, status);
+        if (!update) {
+            throw new BusinessException(ReturnCode.FAIL);
+        }
+        return new ReturnBean().toJson();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cloud.admin.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.vo.UserVo;
@@ -80,6 +81,14 @@ public interface SysUserService extends IService<SysUser> {
      * @param roleId
      * @return
      */
-    List<SysUser> listByRole(Integer roleId);
+    List<SysRoleUser> listByRole(Integer roleId);
+
+    /**
+     * 更新用户状态
+     * @param userId
+     * @param status
+     * @return
+     */
+    boolean updateStatus(String userId, Integer status);
 
 }
