@@ -9,6 +9,7 @@
     <resultMap id="BaseResultMap" type="com.cloud.pets.entity.PetsSpecies">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="intro" property="intro" />
         <result column="category_id" property="categoryId" />
         <result column="heat" property="heat" />
         <result column="image" property="image"/>

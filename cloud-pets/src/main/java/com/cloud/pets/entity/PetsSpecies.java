@@ -25,6 +25,11 @@ public class PetsSpecies extends Model<PetsSpecies> {
      * 名称
      */
     private String name;
+
+    /**
+     * 简介
+     */
+    private String intro;
     /**
      * 类别ID
      */
@@ -103,6 +108,14 @@ public class PetsSpecies extends Model<PetsSpecies> {
         this.image = image;
     }
 
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -113,6 +126,7 @@ public class PetsSpecies extends Model<PetsSpecies> {
         return "PetsSpecies{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", intro='" + intro + '\'' +
                 ", categoryId=" + categoryId +
                 ", heat=" + heat +
                 ", image='" + image + '\'' +

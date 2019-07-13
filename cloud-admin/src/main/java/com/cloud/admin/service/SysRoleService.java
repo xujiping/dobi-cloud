@@ -116,4 +116,11 @@ public interface SysRoleService extends IService<SysRole> {
      */
     SysRolePermission getRolePermission(Integer roleId, Integer permissionId);
 
+    /**
+     * 删除角色
+     * @param roleId
+     * @return
+     */
+    boolean remove(Integer roleId);
+
 }

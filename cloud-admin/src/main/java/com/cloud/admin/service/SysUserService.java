@@ -5,6 +5,7 @@ import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.vo.UserVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,5 +74,12 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     Page<SysUser> listByPage(Page<SysUser> page, Map<String, Object> params);
+
+    /**
+     * 查询所属角色的用户列表
+     * @param roleId
+     * @return
+     */
+    List<SysUser> listByRole(Integer roleId);
 
 }

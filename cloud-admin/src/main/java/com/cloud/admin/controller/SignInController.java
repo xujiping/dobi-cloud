@@ -56,7 +56,7 @@ public class SignInController {
         }
         // 生成token
         String token = JwtUtil.getToken(user.getId(), password);
-        UserVo userVo = new UserVo(user.getId(), user.getNickname(), token);
+        UserVo userVo = new UserVo(user.getId(), user.getNickname(), token, null);
         return new ReturnBean(userVo).toJson();
     }
 }

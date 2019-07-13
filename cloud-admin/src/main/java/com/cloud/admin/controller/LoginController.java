@@ -4,6 +4,8 @@ import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -41,6 +43,9 @@ public class LoginController {
                          @ApiParam(required = true, name = "password", value = "密码")
                          @RequestParam String password) {
         UserVo userVo = userService.login(username, password);
+        if (userVo == null){
+            throw new BusinessException(ReturnCode.LOGIN_FAIL);
+        }
         return new ReturnBean(userVo).toJson();
     }
 }

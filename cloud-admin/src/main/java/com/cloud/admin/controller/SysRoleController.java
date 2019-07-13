@@ -3,14 +3,17 @@ package com.cloud.admin.controller;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
+import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysRoleService;
+import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,6 +91,18 @@ public class SysRoleController {
             rb.setReturnCode(ReturnCode.FAIL, false);
         }
         return rb.toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "删除角色", httpMethod = "GET")
+    @GetMapping("remove/{id}")
+    public String remove(@ApiParam(required = true, name = "id", value = "角色ID")
+                         @PathVariable Integer id) {
+        boolean remove = roleService.remove(id);
+        if (!remove) {
+            throw new BusinessException(ReturnCode.FAIL);
+        }
+        return new ReturnBean().toJson();
     }
 
     @UserLoginToken

@@ -1,5 +1,6 @@
 package com.cloud.admin.entity.vo;
 
+import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,4 +25,11 @@ public class UserVo implements Serializable {
 
     @ApiModelProperty("用户中心TOKEN")
     private String token;
+
+    @ApiModelProperty("头像")
+    private String header;
+
+    public String getHeader() {
+        return StrUtil.isBlank(header) ? "http://pukfwh6z7.bkt.clouddn.com/cwmz-logo.png" : header;
+    }
 }

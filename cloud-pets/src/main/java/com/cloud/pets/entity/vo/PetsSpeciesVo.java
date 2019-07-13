@@ -1,11 +1,18 @@
 package com.cloud.pets.entity.vo;
 
+import lombok.Data;
+
+import java.io.Serializable;
+
 /**
  * 返回app的对象
  * @author xujiping
  * @date 2019-01-21 16:39
  */
-public class PetsSpeciesVo {
+@Data
+public class PetsSpeciesVo implements Serializable {
+
+    private static final long serialVersionUID = 9221354956497286696L;
 
     private Integer id;
 
@@ -13,6 +20,8 @@ public class PetsSpeciesVo {
      * 标题
      */
     private String name;
+
+    private String intro;
 
     /**
      * 图片
@@ -24,45 +33,4 @@ public class PetsSpeciesVo {
      */
     private String value;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "PetsSpeciesVo{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", image='" + image + '\'' +
-                ", value='" + value + '\'' +
-                '}';
-    }
 }

@@ -4,17 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.admin.entity.SysPermission;
-import com.cloud.admin.entity.SysRole;
-import com.cloud.admin.entity.SysRolePermission;
-import com.cloud.admin.entity.SysRoleUser;
+import com.cloud.admin.entity.*;
 import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.mapper.SysRoleMapper;
-import com.cloud.admin.service.SysPermissionService;
-import com.cloud.admin.service.SysRolePermissionService;
-import com.cloud.admin.service.SysRoleService;
+import com.cloud.admin.service.*;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.cloud.admin.service.SysRoleUserService;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnCode;
@@ -45,7 +39,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Autowired
     private SysRolePermissionService rolePermissionService;
 
-    @Autowired private SysPermissionService permissionService;
+    @Autowired
+    private SysPermissionService permissionService;
+
+    @Autowired
+    private SysUserService userService;
 
     @Override
     public boolean add(int platform, String name, String intro) {
@@ -120,14 +118,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public void addPermission(String userId, int roleId, String permissionIdList) {
         SysRolePermission rolePermission;
         List<String> split = StrUtil.split(permissionIdList, ',');
-        for (String permissionId : split){
+        for (String permissionId : split) {
             SysPermission sysPermission = permissionService.selectById(permissionId);
-            if (sysPermission == null){
+            if (sysPermission == null) {
                 continue;
             }
             Integer permissionId2 = Integer.valueOf(permissionId);
             SysRolePermission permission = getRolePermission(roleId, permissionId2);
-            if (permission != null){
+            if (permission != null) {
                 // 已存在则跳过
                 continue;
             }
@@ -143,7 +141,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public void removePermission(String userId, int roleId, String permissionIdList) {
         List<String> split = StrUtil.split(permissionIdList, ',');
-        for (String permissionId : split){
+        for (String permissionId : split) {
             Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
             wrapper.eq("role_id", roleId);
             wrapper.eq("permission_id", permissionId);
@@ -182,12 +180,24 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public SysRolePermission getRolePermission(Integer roleId, Integer permissionId) {
-        if (roleId == null || permissionId == null){
+        if (roleId == null || permissionId == null) {
             return null;
         }
         Wrapper<SysRolePermission> wrapper = new EntityWrapper<>();
         wrapper.eq("permission_id", permissionId);
         wrapper.eq("role_id", roleId);
         return rolePermissionService.selectOne(wrapper);
+    }
+
+    @Override
+    public boolean remove(Integer roleId) {
+        if (roleId == null) {
+            return false;
+        }
+        List<SysUser> userList = userService.listByRole(roleId);
+        if (userList != null) {
+            return false;
+        }
+        return deleteById(roleId);
     }
 }
