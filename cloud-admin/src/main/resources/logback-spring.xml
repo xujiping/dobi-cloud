@@ -6,7 +6,7 @@
 
     <!-- 定义变量值 -->
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
-    <property name="LOG_HOME" value="/Users/jipingxu/logs/admin"/>
+    <property name="LOG_HOME" value="/mnt/website/logs/admin"/>
 
     <!-- 控制台输出 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -62,7 +62,8 @@
 
     <!--现网环境-->
     <springProfile name="prod">
-        <root level="ERROR">
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILE"/>
             <!--<appender-ref ref="DB"/>-->
         </root>
