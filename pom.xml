@@ -18,6 +18,7 @@
         <module>cloud-pets</module>
         <module>cloud-admin</module>
         <module>cloud-auth</module>
+        <module>cloud-fast</module>
     </modules>
 
     <!-- spring boot 2.0 -->

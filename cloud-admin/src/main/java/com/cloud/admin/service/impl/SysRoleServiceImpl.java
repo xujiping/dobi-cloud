@@ -194,7 +194,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (roleId == null) {
             return false;
         }
-        List<SysUser> userList = userService.listByRole(roleId);
+        List<SysRoleUser> userList = userService.listByRole(roleId);
         if (userList != null) {
             return false;
         }
