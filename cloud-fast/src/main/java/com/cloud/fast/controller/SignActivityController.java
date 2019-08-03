@@ -1,0 +1,77 @@
+package com.cloud.fast.controller;
+
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.NumberUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.auth.jwt.PassToken;
+import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
+import com.cloud.fast.entity.SignActivity;
+import com.cloud.fast.entity.dto.SignActivityDto;
+import com.cloud.fast.service.SignActivityService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+/**
+ * <p>
+ * 活动报名表 前端控制器
+ * </p>
+ *
+ * @author xujiping
+ * @since 2019-08-02
+ */
+@RestController
+@RequestMapping("/signActivity")
+@Api(tags = "活动报名")
+public class SignActivityController {
+
+    @Autowired
+    private SignActivityService signActivityService;
+
+    @UserLoginToken
+    @ApiOperation(value = "新增活动", httpMethod = "POST")
+    @PostMapping("add")
+    public String add(HttpServletRequest request, @RequestBody SignActivityDto signActivityDto) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        SignActivity signActivity = signActivityService.add(key, signActivityDto);
+        if (signActivity == null) {
+            throw new BusinessException(ReturnCode.FAIL);
+        }
+        return new ReturnBean().toJson();
+    }
+
+    @PassToken
+    @ApiOperation(value = "列表", httpMethod = "GET")
+    @GetMapping("list")
+    public String list(@ApiParam(name = "page", value = "页码", defaultValue = "1")
+                       @RequestParam(required = false, defaultValue = "1") Integer page,
+                       @ApiParam(name = "size", value = "大小", defaultValue = "10")
+                       @RequestParam(required = false, defaultValue = "10") Integer size,
+                       @ApiParam(name = "latitude", value = "纬度")
+                       @RequestParam(required = false) String latitude,
+                       @ApiParam(name = "longitude", value = "经度")
+                       @RequestParam(required = false) String longitude) {
+        Page<SignActivity> pageObject = new Page<>(page, size);
+        Map<String, Object> params = MapUtil.newHashMap(2);
+        if (StrUtil.isNotBlank(latitude) && NumberUtil.isNumber(latitude)) {
+            params.put("latitude", latitude);
+        }
+        if (StrUtil.isNotBlank(longitude) && NumberUtil.isNumber(longitude)) {
+            params.put("latitude", longitude);
+        }
+        pageObject.setCondition(params);
+        return new ReturnBean(signActivityService.listByPage(pageObject)).toJson();
+    }
+
+}
+

@@ -43,6 +43,10 @@ public enum ReturnCode {
     COLLECTED(2003, "已经收藏该资源"),
     PET_CATEGORY_EXIST(2005, "已经存在该类别"),
     PET_SPECIES_EXIST(2007, "已经存在该品种"),
+
+    /**
+     * 单品综合项目
+     */
     ;
 
     private int code;
