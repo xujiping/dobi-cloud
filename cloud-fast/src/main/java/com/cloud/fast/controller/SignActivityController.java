@@ -12,7 +12,11 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.entity.dto.SignActivityDto;
+import com.cloud.fast.entity.dto.SignFormDto;
+import com.cloud.fast.entity.dto.SignUserFormDto;
 import com.cloud.fast.service.SignActivityService;
+import com.cloud.fast.service.SignFormService;
+import com.cloud.fast.service.SignUserFormService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -37,6 +41,12 @@ public class SignActivityController {
 
     @Autowired
     private SignActivityService signActivityService;
+
+    @Autowired
+    private SignFormService signFormService;
+
+    @Autowired
+    private SignUserFormService signUserFormService;
 
     @UserLoginToken
     @ApiOperation(value = "新增活动", httpMethod = "POST")
@@ -71,6 +81,23 @@ public class SignActivityController {
         }
         pageObject.setCondition(params);
         return new ReturnBean(signActivityService.listByPage(pageObject)).toJson();
+    }
+
+    @PassToken
+    @ApiOperation(value = "获取表单ID", httpMethod = "POST")
+    @PostMapping("获取表单ID")
+    public String getFormId(@RequestBody SignFormDto signFormDto) {
+        return new ReturnBean(signFormService.getFormId(signFormDto)).toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "参加", httpMethod = "POST")
+    @PostMapping("join")
+    public String join(HttpServletRequest request,
+                       @RequestBody SignUserFormDto signUserFormDto) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        signUserFormService.join(key, signUserFormDto);
+        return new ReturnBean().toJson();
     }
 
 }

@@ -47,6 +47,7 @@ public enum ReturnCode {
     /**
      * 单品综合项目
      */
+    USER_JOINED(3001, "已经参加，不可重复参加"),
     ;
 
     private int code;

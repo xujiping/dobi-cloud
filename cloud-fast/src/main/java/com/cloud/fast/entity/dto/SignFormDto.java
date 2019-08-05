@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Data
 public class SignFormDto implements Serializable {
 
+    private static final long serialVersionUID = 2082717400035458167L;
     /**
      * 真实姓名
      */
