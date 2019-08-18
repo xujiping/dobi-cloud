@@ -1,9 +1,11 @@
 package com.cloud.admin.controller;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysUser;
+import com.cloud.admin.entity.dto.UserInfoDto;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.UserLoginToken;
@@ -103,6 +105,21 @@ public class SysUserController {
         }
         return new ReturnBean().toJson();
     }
+
+    @UserLoginToken
+    @ApiOperation(value = "初始化用户基本信息", httpMethod = "POST")
+    @PostMapping("info/init")
+    public String initInfo(HttpServletRequest request,
+                           @ApiParam(required = true, name = "userInfoDto", value = "用户信息")
+                           @RequestBody UserInfoDto userInfoDto) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        if (StrUtil.isBlank(key)) {
+            throw new BusinessException(ReturnCode.TOKEN_FAIL);
+        }
+        userService.update(key, userInfoDto);
+        return new ReturnBean().toJson();
+    }
+
 
 }
 

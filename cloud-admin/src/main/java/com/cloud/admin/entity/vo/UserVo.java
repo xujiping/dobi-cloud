@@ -21,15 +21,18 @@ public class UserVo implements Serializable {
     private String userId;
 
     @ApiModelProperty("昵称")
-    private String nickName;
+    private String nickname;
 
     @ApiModelProperty("用户中心TOKEN")
     private String token;
 
     @ApiModelProperty("头像")
-    private String header;
+    private String avatar;
 
-    public String getHeader() {
-        return StrUtil.isBlank(header) ? "http://pukfwh6z7.bkt.clouddn.com/cwmz-logo.png" : header;
+    @ApiModelProperty("状态")
+    private Integer status;
+
+    public String getAvatar() {
+        return StrUtil.isBlank(avatar) ? "http://pukfwh6z7.bkt.clouddn.com/cwmz-logo.png" : avatar;
     }
 }

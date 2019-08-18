@@ -7,14 +7,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cloud.fast.entity.SignUserForm">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="activity_id" property="activityId" />
-        <result column="joined" property="joined" />
-        <result column="name" property="name" />
-        <result column="phone" property="phone" />
-        <result column="age" property="age" />
-        <result column="sex" property="sex" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="joined" property="joined"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="stauts"/>
     </resultMap>
 
 </mapper>

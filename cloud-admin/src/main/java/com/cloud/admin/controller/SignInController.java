@@ -54,9 +54,10 @@ public class SignInController {
         if (user == null) {
             throw new BusinessException(ReturnCode.FAIL);
         }
+        Integer status = user.getStatus();
         // 生成token
-        String token = JwtUtil.getToken(user.getId(), password);
-        UserVo userVo = new UserVo(user.getId(), user.getNickname(), token, null);
+        String token = userService.getToken(user.getId(), password);
+        UserVo userVo = new UserVo(user.getId(), user.getNickname(), token, null, status);
         return new ReturnBean(userVo).toJson();
     }
 }

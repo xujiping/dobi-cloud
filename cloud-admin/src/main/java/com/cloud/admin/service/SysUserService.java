@@ -1,9 +1,11 @@
 package com.cloud.admin.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.entity.LoginLog;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.entity.dto.UserInfoDto;
 import com.cloud.admin.entity.vo.UserVo;
 
 import java.util.List;
@@ -90,5 +92,35 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     boolean updateStatus(String userId, Integer status);
+
+    /**
+     * 根据微信open_id获取登陆信息
+     * @param openId
+     * @return
+     */
+    UserVo loginByWx(String openId);
+
+    /**
+     * 更新用户信息
+     * @param userId
+     * @param userInfoDto
+     * @return
+     */
+    void update(String userId, UserInfoDto userInfoDto);
+
+    /**
+     * 获取token
+     * @param userId
+     * @param secret
+     * @return
+     */
+    String getToken(String userId, String secret);
+
+    /**
+     * 查询登陆日志
+     * @param token
+     * @return
+     */
+    LoginLog getByToken(String token);
 
 }

@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.cloud.admin.entity.LoginLog;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
@@ -70,22 +71,27 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                     throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
                 }
                 String username = user.getUsername();
+                LoginLog loginLog = userService.getByToken(token);
+                if (loginLog == null) {
+                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
+                }
                 // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
+                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(loginLog.getSecret())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
                     throw new BusinessException(ReturnCode.TOKEN_FAIL);
                 }
                 // admin用户不校验权限
-                if (!username.equals("dobi")){
+                if (!username.equals("dobi")) {
                     if (!requestURI.contains("/sysUser")) {
                         // 校验用户权限
                         String platformId = request.getHeader("platform");
                         if (StrUtil.isBlank(platformId)) {
                             throw new BusinessException(ReturnCode.PARAMS_ERROR);
                         }
-                        boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId, requestURI);
+                        boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId
+                                , requestURI);
                         if (!checkPermission) {
                             throw new BusinessException(ReturnCode.NO_PERMISSION);
                         }
@@ -98,12 +104,14 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                           ModelAndView modelAndView) {
         log.info("拦截器后处理");
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+                                Exception ex) {
         log.info("拦截器处理完毕回调");
 
     }

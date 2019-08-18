@@ -1,12 +1,10 @@
 package com.cloud.fast.entity;
 
-import com.baomidou.mybatisplus.enums.IdType;
-
 import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 /**
  * <p>
@@ -16,6 +14,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
  * @author xujiping
  * @since 2019-08-02
  */
+@Data
 public class SignActivity extends Model<SignActivity> {
 
     private static final long serialVersionUID = 1L;
@@ -93,6 +92,8 @@ public class SignActivity extends Model<SignActivity> {
      * 更新时间
      */
     private Date updateTime;
+
+    private Byte status;
 
     public String getId() {
         return id;

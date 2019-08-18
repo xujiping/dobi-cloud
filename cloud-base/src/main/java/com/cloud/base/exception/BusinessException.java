@@ -20,6 +20,8 @@ public class BusinessException extends RuntimeException {
     private Object data;
 
     public BusinessException() {
+        super(ReturnCode.FAIL.msg());
+        this.code = ReturnCode.FAIL.code();
     }
 
     public BusinessException(ReturnCode returnCode) {

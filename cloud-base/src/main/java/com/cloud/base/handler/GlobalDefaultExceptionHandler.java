@@ -69,13 +69,9 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
             logger.debug("参数校验异常[code = " + returnBean.getCode() + ", message = " + returnBean.getMsg() + "]");
         } else {
             //未知错误
+            logger.error("未知异常", e);
             log("未知异常", e, request);
-            String message = e.getCause().getMessage();
-            if (StringUtils.isNotEmpty(message)){
-                returnBean.setCodeMsg(ReturnCode.FAIL.code(), message);
-            }else {
-                returnBean.setReturnCode(ReturnCode.FAIL, null);
-            }
+            returnBean.setReturnCode(ReturnCode.FAIL, null);
         }
         return returnBean.toJson();
     }

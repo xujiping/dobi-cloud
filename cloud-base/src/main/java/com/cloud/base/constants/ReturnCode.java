@@ -48,6 +48,9 @@ public enum ReturnCode {
      * 单品综合项目
      */
     USER_JOINED(3001, "已经参加，不可重复参加"),
+    ACTIVITY_NOT_ESIXT(3003, "活动不存在"),
+    ACTIVITY_END(3005, "活动已结束"),
+
     ;
 
     private int code;

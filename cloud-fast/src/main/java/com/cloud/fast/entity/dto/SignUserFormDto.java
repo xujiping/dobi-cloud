@@ -18,7 +18,7 @@ public class SignUserFormDto implements Serializable {
     /**
      * 活动ID
      */
-    private Long activityId;
+    private String activityId;
     /**
      * 用户姓名
      */

@@ -41,8 +41,8 @@ swagger:
 file:
     server: /root/java/admin/
 wx:
-    appid:
-    secret:
+    appid: wx12509072f8865649
+    secret: c9313a02e78e085a253a304b64369b24
 jwt:
     include-path-patterns:
         - /**

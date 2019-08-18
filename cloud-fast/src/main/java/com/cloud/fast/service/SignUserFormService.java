@@ -27,5 +27,5 @@ public interface SignUserFormService extends IService<SignUserForm> {
      * @param activityId
      * @return
      */
-    SignUserForm getUserActivity(String userId, Long activityId);
+    SignUserForm getUserActivity(String userId, String activityId);
 }

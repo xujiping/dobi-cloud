@@ -11,20 +11,29 @@ import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignActivity;
+import com.cloud.fast.entity.SignForm;
 import com.cloud.fast.entity.dto.SignActivityDto;
 import com.cloud.fast.entity.dto.SignFormDto;
 import com.cloud.fast.entity.dto.SignUserFormDto;
+import com.cloud.fast.entity.vo.SignActivityDetailVo;
+import com.cloud.fast.entity.vo.SignActivityVo;
 import com.cloud.fast.service.SignActivityService;
 import com.cloud.fast.service.SignFormService;
 import com.cloud.fast.service.SignUserFormService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -60,6 +69,15 @@ public class SignActivityController {
         return new ReturnBean().toJson();
     }
 
+    @UserLoginToken
+    @ApiOperation(value = "详情", httpMethod = "GET", response = SignActivityDetailVo.class)
+    @GetMapping("detail/{id}")
+    public ReturnBean detail(HttpServletRequest request, @PathVariable String id){
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        SignActivity signActivity = signActivityService.getById(id);
+        return new ReturnBean(signActivityService.wrapperDetail(signActivity, key));
+    }
+
     @PassToken
     @ApiOperation(value = "列表", httpMethod = "GET")
     @GetMapping("list")
@@ -85,9 +103,19 @@ public class SignActivityController {
 
     @PassToken
     @ApiOperation(value = "获取表单ID", httpMethod = "POST")
-    @PostMapping("获取表单ID")
+    @PostMapping("formId")
     public String getFormId(@RequestBody SignFormDto signFormDto) {
         return new ReturnBean(signFormService.getFormId(signFormDto)).toJson();
+    }
+
+    @PassToken
+    @ApiOperation(value="获取表单信息", httpMethod = "GET", response = SignForm.class)
+    @GetMapping("form/{id}")
+    public ReturnBean getForm(@PathVariable Integer id){
+        if (id == null){
+            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+        }
+        return new ReturnBean(signFormService.selectById(id));
     }
 
     @UserLoginToken

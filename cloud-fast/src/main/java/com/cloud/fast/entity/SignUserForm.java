@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -15,6 +17,7 @@ import java.io.Serializable;
  * @author xujiping
  * @since 2019-08-02
  */
+@Data
 public class SignUserForm extends Model<SignUserForm> {
 
     private static final long serialVersionUID = 1L;
@@ -28,7 +31,7 @@ public class SignUserForm extends Model<SignUserForm> {
     /**
      * 活动ID
      */
-    private Long activityId;
+    private String activityId;
     /**
      * 是否已参加
      */
@@ -50,6 +53,11 @@ public class SignUserForm extends Model<SignUserForm> {
      */
     private Integer sex;
 
+    private Date createTime;
+
+    private Date updateTime;
+
+    private Byte status;
 
     public Long getId() {
         return id;
@@ -65,14 +73,6 @@ public class SignUserForm extends Model<SignUserForm> {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public Long getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
     }
 
     public Boolean getJoined() {
@@ -120,17 +120,4 @@ public class SignUserForm extends Model<SignUserForm> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "SignUserForm{" +
-        "id=" + id +
-        ", userId=" + userId +
-        ", activityId=" + activityId +
-        ", joined=" + joined +
-        ", name=" + name +
-        ", phone=" + phone +
-        ", age=" + age +
-        ", sex=" + sex +
-        "}";
-    }
 }

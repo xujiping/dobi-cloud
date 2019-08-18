@@ -16,5 +16,13 @@ services:
             - webnet
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
+    dobi-fast:
+        image: xjp1070860185/dobi-fast
+        ports:
+            - "8082:8082"
+        networks:
+            - webnet
+        environment:
+            - "SPRING_PROFILES_ACTIVE=prod"
 networks:
     webnet:

@@ -2,6 +2,7 @@ package com.cloud.admin.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
 
@@ -30,6 +31,10 @@ public class SysUser extends Model<SysUser> {
      * 昵称
      */
     private String nickname;
+    /**
+     * 头像
+     */
+    private String avatar;
     /**
      * 真实姓名
      */
@@ -90,6 +95,14 @@ public class SysUser extends Model<SysUser> {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public void setNickname(String nickname) {
@@ -168,18 +181,19 @@ public class SysUser extends Model<SysUser> {
     @Override
     public String toString() {
         return "SysUser{" +
-        "id=" + id +
-        ", username=" + username +
-        ", password=" + password +
-        ", nickname=" + nickname +
-        ", realname=" + realname +
-        ", phone=" + phone +
-        ", sex=" + sex +
-        ", age=" + age +
-        ", birthday=" + birthday +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        ", status=" + status +
-        "}";
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", realname='" + realname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", sex=" + sex +
+                ", age=" + age +
+                ", birthday=" + birthday +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", status=" + status +
+                '}';
     }
 }

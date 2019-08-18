@@ -1,6 +1,9 @@
 package com.cloud.fast.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -8,14 +11,23 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SignUtil;
 import com.cloud.fast.entity.SignActivity;
+import com.cloud.fast.entity.SignUserForm;
 import com.cloud.fast.entity.dto.SignActivityDto;
+import com.cloud.fast.entity.vo.SignActivityDetailVo;
+import com.cloud.fast.entity.vo.SignActivityVo;
 import com.cloud.fast.mapper.SignActivityMapper;
 import com.cloud.fast.service.SignActivityService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cloud.fast.service.SignUserFormService;
+import com.cloud.fast.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -27,6 +39,8 @@ import java.util.Map;
  */
 @Service
 public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, SignActivity> implements SignActivityService {
+
+    @Autowired private SignUserFormService signUserFormService;
 
     @Override
     public SignActivity add(String userId, SignActivityDto signActivityDto) {
@@ -48,8 +62,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     }
 
     @Override
-    public Page<SignActivity> listByPage(Page<SignActivity> page) {
-        // todo 分页查询
+    public Page<SignActivityVo> listByPage(Page<SignActivity> page) {
+        Page<SignActivityVo> result = new Page<>();
         Wrapper<SignActivity> wrapper = new EntityWrapper<>();
         Map<String, Object> condition = page.getCondition();
         wrapper.orderBy(String.valueOf(condition.get("sort")));
@@ -57,7 +71,59 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
             // todo 查询附近
         }
         page = selectPage(page, wrapper);
-        page.setTotal(selectCount(wrapper));
-        return page;
+        List<SignActivity> records = page.getRecords();
+        List<SignActivityVo> list;
+        if (records != null && records.size() > 0) {
+            page.setTotal(selectCount(wrapper));
+            list = records.stream().map(this::wrapper).collect(Collectors.toList());
+            result.setRecords(list);
+        }
+        return result;
+    }
+
+    @Override
+    public SignActivity getById(String activityId) {
+        if (activityId == null) {
+            return null;
+        }
+        return selectById(activityId);
+    }
+
+    @Override
+    public SignActivityVo wrapper(SignActivity signActivity) {
+        SignActivityVo signActivityVo = new SignActivityVo();
+        if (signActivity == null) {
+            return signActivityVo;
+        }
+        BeanUtils.copyProperties(signActivity, signActivityVo);
+        String images = signActivity.getImages();
+        JSONObject json = JSONObject.parseObject(images);
+        signActivityVo.setCovers(json.getString("covers"));
+        signActivityVo.setImages(json.getString("images"));
+        // 时间
+        Date startTime = signActivity.getStartTime();
+        Date endTime = signActivity.getEndTime();
+        signActivityVo.setTime(TimeUtil.format(startTime, endTime));
+        return signActivityVo;
+    }
+
+    @Override
+    public SignActivityDetailVo wrapperDetail(SignActivity signActivity, String userId) {
+        SignActivityDetailVo detailVo = new SignActivityDetailVo();
+        if (signActivity == null){
+            return detailVo;
+        }
+        String id = signActivity.getId();
+        Date startTime = signActivity.getStartTime();
+        Date endTime = signActivity.getEndTime();
+        BeanUtils.copyProperties(signActivity, detailVo);
+        detailVo.setTime(TimeUtil.format(startTime, endTime));
+        detailVo.setCreateTime(DateUtil.formatDateTime(signActivity.getCreateTime()));
+        // 用户相关
+        if (StrUtil.isNotBlank(userId)){
+            SignUserForm signUserForm = signUserFormService.getUserActivity(userId, id);
+            detailVo.setSigned(signUserForm != null);
+        }
+        return detailVo;
     }
 }

@@ -60,7 +60,7 @@ public class JwtUtil {
             throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
         }
         JSONObject userObject = (JSONObject) returnBean.getData();
-        String password = userObject.getString("password");
+        String password = userObject.getString("secret");
         // 验证 token
         JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
         try {
