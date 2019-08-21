@@ -39,7 +39,9 @@ swagger:
     email: xjpdyx@hotmail.com
     description: 快速单品综合服务接口文档
 file:
-    server: /root/java/fast/
+    domain: http://file.cwmz.top/
+#    server: /root/java/fast/
+    server: D:\
 wx:
     appid:
     secret:

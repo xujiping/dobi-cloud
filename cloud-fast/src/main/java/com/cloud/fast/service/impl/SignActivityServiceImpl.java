@@ -15,6 +15,7 @@ import com.cloud.fast.entity.SignUserForm;
 import com.cloud.fast.entity.dto.SignActivityDto;
 import com.cloud.fast.entity.vo.SignActivityDetailVo;
 import com.cloud.fast.entity.vo.SignActivityVo;
+import com.cloud.fast.entity.vo.UserApplyVo;
 import com.cloud.fast.mapper.SignActivityMapper;
 import com.cloud.fast.service.SignActivityService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -47,6 +48,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         if (signActivityDto == null) {
             throw new BusinessException(ReturnCode.PARAMS_ERROR);
         }
+        String startTime = signActivityDto.getStartTime();
+        String endTime = signActivityDto.getEndTime();
         // todo 字段校验
         SignActivity signActivity = new SignActivity();
         BeanUtils.copyProperties(signActivityDto, signActivity);
@@ -54,6 +57,12 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         signActivity.setUserId(userId);
         signActivity.setCreateBy(userId);
         signActivity.setId(IdUtil.fastSimpleUUID());
+        if (StrUtil.isNotBlank(startTime)){
+            signActivity.setStartTime(DateUtil.parse(startTime));
+        }
+        if (StrUtil.isNotBlank(endTime)){
+            signActivity.setEndTime(DateUtil.parse(endTime));
+        }
         boolean insert = insert(signActivity);
         if (insert) {
             return selectById(signActivity.getId());
@@ -65,6 +74,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     public Page<SignActivityVo> listByPage(Page<SignActivity> page) {
         Page<SignActivityVo> result = new Page<>();
         Wrapper<SignActivity> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("create_time desc");
         Map<String, Object> condition = page.getCondition();
         wrapper.orderBy(String.valueOf(condition.get("sort")));
         if (condition.containsKey("latitude") && condition.containsKey("latitude")) {
@@ -125,5 +135,28 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
             detailVo.setSigned(signUserForm != null);
         }
         return detailVo;
+    }
+
+    @Override
+    public List<SignActivity> listByUser(String userId) {
+        if (StrUtil.isBlank(userId)){
+            return null;
+        }
+        Wrapper<SignActivity> wrapper = new EntityWrapper<>();
+        wrapper.orderBy("create_time desc");
+        wrapper.eq("user_id", userId);
+        return selectList(wrapper);
+    }
+
+    @Override
+    public UserApplyVo wrapperToApply(SignActivity signActivity) {
+        UserApplyVo applyVo = new UserApplyVo();
+        if (signActivity == null){
+            return applyVo;
+        }
+        BeanUtils.copyProperties(signActivity, applyVo);
+        applyVo.setActivityId(signActivity.getId());
+        applyVo.setTime(TimeUtil.format(signActivity.getStartTime(), signActivity.getEndTime()));
+        return applyVo;
     }
 }

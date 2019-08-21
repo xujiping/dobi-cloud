@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.SignActivityDto;
 import com.cloud.fast.entity.vo.SignActivityDetailVo;
 import com.cloud.fast.entity.vo.SignActivityVo;
+import com.cloud.fast.entity.vo.UserApplyVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,4 +61,18 @@ public interface SignActivityService extends IService<SignActivity> {
      * @return
      */
     SignActivityDetailVo wrapperDetail(SignActivity signActivity, String userId);
+
+    /**
+     * 用户发布的列表
+     * @param userId
+     * @return
+     */
+    List<SignActivity> listByUser(String userId);
+
+    /**
+     * 包装
+     * @param signActivity
+     * @return
+     */
+    UserApplyVo wrapperToApply(SignActivity signActivity);
 }

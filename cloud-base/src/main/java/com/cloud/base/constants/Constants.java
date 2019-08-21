@@ -17,7 +17,7 @@ public interface Constants {
      * 路径分隔符
      */
      String PATH_SEPARATOR = File.separator;
-//     String PATH_SEPARATOR = "/";
+     String URL_SEPARATOR = "/";
 
     /**
      * auth code 超时时间（毫秒）
@@ -171,4 +171,6 @@ public interface Constants {
      * 渠道类型
      */
     int CHANNEL_TYPE_WX = 1;
+
+    String DEFAULT_COVER = "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640";
 }

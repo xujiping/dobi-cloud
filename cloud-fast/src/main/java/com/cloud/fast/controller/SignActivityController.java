@@ -12,22 +12,20 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.entity.SignForm;
+import com.cloud.fast.entity.SignUserForm;
 import com.cloud.fast.entity.dto.SignActivityDto;
 import com.cloud.fast.entity.dto.SignFormDto;
 import com.cloud.fast.entity.dto.SignUserFormDto;
 import com.cloud.fast.entity.vo.SignActivityDetailVo;
-import com.cloud.fast.entity.vo.SignActivityVo;
+import com.cloud.fast.entity.vo.UserApplyVo;
 import com.cloud.fast.service.SignActivityService;
 import com.cloud.fast.service.SignFormService;
 import com.cloud.fast.service.SignUserFormService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -72,7 +70,7 @@ public class SignActivityController {
     @UserLoginToken
     @ApiOperation(value = "详情", httpMethod = "GET", response = SignActivityDetailVo.class)
     @GetMapping("detail/{id}")
-    public ReturnBean detail(HttpServletRequest request, @PathVariable String id){
+    public ReturnBean detail(HttpServletRequest request, @PathVariable String id) {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         SignActivity signActivity = signActivityService.getById(id);
         return new ReturnBean(signActivityService.wrapperDetail(signActivity, key));
@@ -109,10 +107,10 @@ public class SignActivityController {
     }
 
     @PassToken
-    @ApiOperation(value="获取表单信息", httpMethod = "GET", response = SignForm.class)
+    @ApiOperation(value = "获取表单信息", httpMethod = "GET", response = SignForm.class)
     @GetMapping("form/{id}")
-    public ReturnBean getForm(@PathVariable Integer id){
-        if (id == null){
+    public ReturnBean getForm(@PathVariable Integer id) {
+        if (id == null) {
             throw new BusinessException(ReturnCode.PARAMS_ERROR);
         }
         return new ReturnBean(signFormService.selectById(id));
@@ -126,6 +124,30 @@ public class SignActivityController {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         signUserFormService.join(key, signUserFormDto);
         return new ReturnBean().toJson();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "用户参与/发布的列表", httpMethod = "GET", response = UserApplyVo.class)
+    @GetMapping("user/applys")
+    public ReturnBean userApplys(HttpServletRequest request,
+                                 @ApiParam(name = "type", value = "类型：1我参加的 2我发布的")
+                                 @RequestParam(required = false, defaultValue = "1") Integer type) {
+        List<UserApplyVo> list = new ArrayList<>();
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        if (type == 1) {
+            // 我参与的
+            List<SignUserForm> userActivities = signUserFormService.listByUser(key);
+            if (userActivities != null && userActivities.size() > 0) {
+                list = userActivities.stream().map(signUserForm -> signUserFormService.wrapper(signUserForm)).collect(Collectors.toList());
+            }
+        } else {
+            // 我发布的
+            List<SignActivity> signActivities = signActivityService.listByUser(key);
+            if (signActivities != null && signActivities.size() > 0) {
+                list = signActivities.stream().map(signActivity -> signActivityService.wrapperToApply(signActivity)).collect(Collectors.toList());
+            }
+        }
+        return new ReturnBean(list);
     }
 
 }

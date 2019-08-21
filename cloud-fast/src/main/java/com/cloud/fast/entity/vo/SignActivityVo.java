@@ -1,5 +1,7 @@
 package com.cloud.fast.entity.vo;
 
+import cn.hutool.core.util.StrUtil;
+import com.cloud.base.constants.Constants;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -32,5 +34,7 @@ public class SignActivityVo implements Serializable {
 
     private String location;
 
-
+    public String getCovers() {
+        return StrUtil.isBlank(covers) ? Constants.DEFAULT_COVER : covers;
+    }
 }

@@ -3,6 +3,9 @@ package com.cloud.fast.service;
 import com.cloud.fast.entity.SignUserForm;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.SignUserFormDto;
+import com.cloud.fast.entity.vo.UserApplyVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -28,4 +31,18 @@ public interface SignUserFormService extends IService<SignUserForm> {
      * @return
      */
     SignUserForm getUserActivity(String userId, String activityId);
+
+    /**
+     * 获取用户参加的活动列表
+     * @param userId
+     * @return
+     */
+    List<SignUserForm> listByUser(String userId);
+
+    /**
+     * 包装
+     * @param signUserForm
+     * @return
+     */
+    UserApplyVo wrapper(SignUserForm signUserForm);
 }

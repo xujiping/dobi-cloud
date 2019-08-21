@@ -17,6 +17,7 @@ import java.util.Date;
 @Data
 public class SignActivityDto implements Serializable {
 
+    private static final long serialVersionUID = 8934166923069192891L;
     /**
      * 标题
      */
@@ -36,11 +37,11 @@ public class SignActivityDto implements Serializable {
     /**
      * 开始时间
      */
-    private Date startTime;
+    private String startTime;
     /**
      * 结束时间
      */
-    private Date endTime;
+    private String endTime;
     /**
      * 地点
      */

@@ -5,6 +5,10 @@ spring:
         active: dev
     application:
         name: dobi-fast
+    servlet:
+        multipart:
+            max-file-size: 30MB
+            max-request-size: 30MB
 management:
     endpoints:
         web:

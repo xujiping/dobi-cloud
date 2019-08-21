@@ -1,5 +1,9 @@
 package com.cloud.base.util;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.system.SystemUtil;
+import com.cloud.base.constants.Constants;
+
 import java.io.*;
 
 /**
@@ -20,6 +24,9 @@ public class FileUtil {
      * @throws Exception
      */
     public static File uploadFile(byte[] file, String fileName, String filePath) {
+        if (StrUtil.isNotBlank(filePath)){
+            filePath = StrUtil.appendIfMissing(filePath, Constants.PATH_SEPARATOR);
+        }
         File targetFile = new File(filePath);
         if (!targetFile.exists()) {
             targetFile.mkdirs();
