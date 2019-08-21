@@ -8,7 +8,7 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         username: root
         password: Dobi123456
-        url: jdbc:mysql://rm-m5e8r75zz97048wqp.mysql.rds.aliyuncs.com:3306/fast?serverTimezone=GMT
+        url: jdbc:mysql://rm-m5e8r75zz97048wqp3o.mysql.rds.aliyuncs.com:3306/fast?serverTimezone=GMT
         sql-script-encoding: UTF-8
         platform: mysql
 #    redis:
@@ -39,7 +39,7 @@ swagger:
     description: 快速单品综合服务接口文档
 file:
     domain: https://file.cwmz.top/
-    server: /root/java/fast/
+    server: /mnt/cloud/
 wx:
     appid:
     secret:
@@ -52,7 +52,7 @@ jwt:
         - /doc.html
         - /webjars/bycdao-ui/**
 uc:
-    domain: http://localhost:8100/
+    domain: http://admin.cwmz.top/
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check

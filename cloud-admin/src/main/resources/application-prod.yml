@@ -9,7 +9,6 @@ spring:
         url: jdbc:mysql://rm-m5e8r75zz97048wqp3o.mysql.rds.aliyuncs.com:3306/cloud_admin?serverTimezone=GMT
         username: root
         password: Dobi123456
-#        url: jdbc:mysql://rm-m5e8r75zz97048wqp.mysql.rds.aliyuncs.com:3306/pets?serverTimezone=GMT
         sql-script-encoding: UTF-8
         platform: mysql
 #    redis:
@@ -39,10 +38,10 @@ swagger:
     email: xjpdyx@hotmail.com
     description: 后台管理系统接口文档
 file:
-    server: /root/java/admin/
+    server: /mnt/cloud/
 wx:
-    appid:
-    secret:
+    appid: wx12509072f8865649
+    secret: c9313a02e78e085a253a304b64369b24
 jwt:
     include-path-patterns:
         - /**
@@ -52,7 +51,7 @@ jwt:
         - /doc.html
         - /webjars/bycdao-ui/**
 uc:
-    domain: http://localhost:8100/
+    domain: http://admin.cwmz.top/
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
