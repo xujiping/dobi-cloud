@@ -56,3 +56,8 @@ uc:
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
+# 七牛云
+qiniu:
+    access-key: eUGhwzBCa0-_H8rr3bbGT6Ov_ry3eXBGL-1YWhFP
+    secret-key: T_sGxrouhk1SIH0t98D1Lil5_bJwDEpkN55f0qil
+    bucket: dobi

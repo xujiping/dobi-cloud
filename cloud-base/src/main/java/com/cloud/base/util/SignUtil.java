@@ -22,14 +22,10 @@ public class SignUtil {
     public static String toJsonStr(String covers, String images) {
         JSONObject jsonObject = new JSONObject();
         if (StrUtil.isNotBlank(covers)) {
-            String[] split = StrUtil.split(covers, ",");
-            String s = JSONArray.toJSONString(split);
-            jsonObject.put("covers", s);
+            jsonObject.put("covers", StrUtil.removeSuffix(covers, ","));
         }
         if (StrUtil.isNotBlank(images)) {
-            String[] split = StrUtil.split(images, ",");
-            String s = JSONArray.toJSONString(split);
-            jsonObject.put("images", s);
+            jsonObject.put("images", StrUtil.removeSuffix(images, ","));
         }
         return jsonObject.toJSONString();
     }
