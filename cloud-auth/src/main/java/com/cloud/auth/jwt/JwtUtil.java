@@ -59,15 +59,15 @@ public class JwtUtil {
         if (!returnBean.isSuccess()) {
             throw new BusinessException(returnBean.getCode(), returnBean.getMsg());
         }
-        JSONObject userObject = (JSONObject) returnBean.getData();
-        String password = userObject.getString("secret");
-        // 验证 token
-        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
-        try {
-            jwtVerifier.verify(token);
-        } catch (JWTVerificationException e) {
-            throw new BusinessException(ReturnCode.TOKEN_FAIL);
-        }
+//        JSONObject userObject = (JSONObject) returnBean.getData();
+//        String password = userObject.getString("secret");
+//        // 验证 token
+//        JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(password)).build();
+//        try {
+//            jwtVerifier.verify(token);
+//        } catch (JWTVerificationException e) {
+//            throw new BusinessException(ReturnCode.TOKEN_FAIL);
+//        }
         // 校验用户权限
 //                String platformId = request.getHeader(Constants.HEADER_PLATFORM);
 //                if (StrUtil.isBlank(platformId)) {
