@@ -1,6 +1,7 @@
 package com.cloud.fast.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
@@ -32,11 +33,13 @@ public class QiniuController {
     @PassToken
     @ApiOperation(value = "获取上传凭证", httpMethod = "GET")
     @GetMapping("upToken")
-    public ReturnBean getUpToken() {
+    public String getUpToken() {
         String upToken = QiniuUploadUtil.getUpToken(qiniuConfig.getAccessKey(), qiniuConfig.getSecretKey(), qiniuConfig.getBucket());
         if (StrUtil.isBlank(upToken)) {
             throw new BusinessException(ReturnCode.FAIL);
         }
-        return new ReturnBean(upToken);
+        JSONObject json = new JSONObject();
+        json.put("upToken", upToken);
+        return json.toJSONString();
     }
 }
