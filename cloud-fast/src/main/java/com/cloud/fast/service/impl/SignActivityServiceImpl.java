@@ -41,7 +41,8 @@ import java.util.stream.Collectors;
 @Service
 public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, SignActivity> implements SignActivityService {
 
-    @Autowired private SignUserFormService signUserFormService;
+    @Autowired
+    private SignUserFormService signUserFormService;
 
     @Override
     public SignActivity add(String userId, SignActivityDto signActivityDto) {
@@ -57,10 +58,10 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         signActivity.setUserId(userId);
         signActivity.setCreateBy(userId);
         signActivity.setId(IdUtil.fastSimpleUUID());
-        if (StrUtil.isNotBlank(startTime)){
+        if (StrUtil.isNotBlank(startTime)) {
             signActivity.setStartTime(DateUtil.parse(startTime));
         }
-        if (StrUtil.isNotBlank(endTime)){
+        if (StrUtil.isNotBlank(endTime)) {
             signActivity.setEndTime(DateUtil.parse(endTime));
         }
         boolean insert = insert(signActivity);
@@ -84,7 +85,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         List<SignActivity> records = page.getRecords();
         List<SignActivityVo> list;
         if (records != null && records.size() > 0) {
-            page.setTotal(selectCount(wrapper));
+            result.setSize(page.getSize());
+            result.setTotal(selectCount(wrapper));
             list = records.stream().map(this::wrapper).collect(Collectors.toList());
             result.setRecords(list);
         }
@@ -120,7 +122,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     @Override
     public SignActivityDetailVo wrapperDetail(SignActivity signActivity, String userId) {
         SignActivityDetailVo detailVo = new SignActivityDetailVo();
-        if (signActivity == null){
+        if (signActivity == null) {
             return detailVo;
         }
         String id = signActivity.getId();
@@ -130,7 +132,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         detailVo.setTime(TimeUtil.format(startTime, endTime));
         detailVo.setCreateTime(DateUtil.formatDateTime(signActivity.getCreateTime()));
         // 用户相关
-        if (StrUtil.isNotBlank(userId)){
+        if (StrUtil.isNotBlank(userId)) {
             SignUserForm signUserForm = signUserFormService.getUserActivity(userId, id);
             detailVo.setSigned(signUserForm != null);
         }
@@ -139,7 +141,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
 
     @Override
     public List<SignActivity> listByUser(String userId) {
-        if (StrUtil.isBlank(userId)){
+        if (StrUtil.isBlank(userId)) {
             return null;
         }
         Wrapper<SignActivity> wrapper = new EntityWrapper<>();
@@ -151,7 +153,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     @Override
     public UserApplyVo wrapperToApply(SignActivity signActivity) {
         UserApplyVo applyVo = new UserApplyVo();
-        if (signActivity == null){
+        if (signActivity == null) {
             return applyVo;
         }
         BeanUtils.copyProperties(signActivity, applyVo);

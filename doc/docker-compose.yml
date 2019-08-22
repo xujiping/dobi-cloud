@@ -8,6 +8,8 @@ services:
             - webnet
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
+        volumes:
+            - /mnt/cloud/:/mnt/cloud/
     dobi-admin:
         image: xjp1070860185/dobi-admin
         ports:
@@ -16,6 +18,8 @@ services:
             - webnet
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
+        volumes:
+            - /mnt/cloud/:/mnt/cloud/
     dobi-fast:
         image: xjp1070860185/dobi-fast
         ports:
@@ -24,5 +28,7 @@ services:
             - webnet
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
+        volumes:
+          - /mnt/cloud/:/mnt/cloud/
 networks:
     webnet:
