@@ -39,7 +39,7 @@ public class QiniuController {
             throw new BusinessException(ReturnCode.FAIL);
         }
         JSONObject json = new JSONObject();
-        json.put("upToken", upToken);
+        json.put("uptoken", upToken);
         return json.toJSONString();
     }
 }
