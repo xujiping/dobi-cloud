@@ -2,6 +2,7 @@ package com.cloud.fast.controller;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
@@ -34,6 +35,7 @@ public class FileController {
     @Value("${file.server}")
     private String filePath;
 
+    @PassToken
     @ApiOperation(value = "文件上传到本地", httpMethod = "POST")
     @PostMapping("upload/local")
     public String uploadLocal(@RequestParam("file") MultipartFile multipartFile, @RequestParam(required = false, defaultValue = "other") String folder) {
