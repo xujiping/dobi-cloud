@@ -43,6 +43,14 @@ public class SignActivityDto implements Serializable {
      */
     private String endTime;
     /**
+     * 报名开始时间
+     */
+    private String signStartTime;
+    /**
+     * 报名结束时间
+     */
+    private String signEndTime;
+    /**
      * 地点
      */
     private String location;
@@ -54,6 +62,10 @@ public class SignActivityDto implements Serializable {
      * 经度
      */
     private String longitude;
+    /**
+     * 详细地址
+     */
+    private String locationDetail;
     /**
      * 联系人姓名
      */

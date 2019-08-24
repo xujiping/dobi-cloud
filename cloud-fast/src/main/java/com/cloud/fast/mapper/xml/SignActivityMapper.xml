@@ -16,9 +16,12 @@
         <result column="max_people" property="maxPeople"/>
         <result column="start_time" property="startTime"/>
         <result column="end_time" property="endTime"/>
+        <result column="sign_start_time" property="signStartTime" />
+        <result column="sign_end_time" property="signEndTime" />
         <result column="location" property="location"/>
         <result column="latitude" property="latitude"/>
         <result column="longitude" property="longitude"/>
+        <result column="location_detail" property="locationDetail" />
         <result column="contact_name" property="contactName"/>
         <result column="contact_phone" property="contactPhone"/>
         <result column="form_id" property="formId"/>

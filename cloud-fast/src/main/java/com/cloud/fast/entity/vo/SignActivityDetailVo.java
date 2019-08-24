@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 活动详情
@@ -97,4 +98,7 @@ public class SignActivityDetailVo implements Serializable {
 
     @ApiModelProperty("发起人头像")
     private String createHeader;
+
+    @ApiModelProperty("参加人员的用户信息列表")
+    private List<UserOpenInfoVo> signUsers;
 }

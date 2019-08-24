@@ -19,15 +19,18 @@ import com.cloud.fast.entity.dto.SignActivityDto;
 import com.cloud.fast.entity.vo.SignActivityDetailVo;
 import com.cloud.fast.entity.vo.SignActivityVo;
 import com.cloud.fast.entity.vo.UserApplyVo;
+import com.cloud.fast.entity.vo.UserOpenInfoVo;
 import com.cloud.fast.mapper.SignActivityMapper;
 import com.cloud.fast.service.SignActivityService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.fast.service.SignUserFormService;
+import com.cloud.fast.service.UserCenterService;
 import com.cloud.fast.util.TimeUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +50,11 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     @Autowired
     private SignUserFormService signUserFormService;
 
-    @Autowired private UserCenterConfig userCenterConfig;
+    @Autowired
+    private UserCenterConfig userCenterConfig;
+
+    @Autowired
+    private UserCenterService userCenterService;
 
     @Override
     public SignActivity add(String userId, SignActivityDto signActivityDto) {
@@ -56,6 +63,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         }
         String startTime = signActivityDto.getStartTime();
         String endTime = signActivityDto.getEndTime();
+        String signStartTime = signActivityDto.getSignStartTime();
+        String signEndTime = signActivityDto.getSignEndTime();
         // todo 字段校验
         SignActivity signActivity = new SignActivity();
         BeanUtils.copyProperties(signActivityDto, signActivity);
@@ -68,6 +77,12 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         }
         if (StrUtil.isNotBlank(endTime)) {
             signActivity.setEndTime(DateUtil.parse(endTime));
+        }
+        if (StrUtil.isNotBlank(signStartTime)) {
+            signActivity.setStartTime(DateUtil.parse(signStartTime));
+        }
+        if (StrUtil.isNotBlank(signEndTime)) {
+            signActivity.setEndTime(DateUtil.parse(signEndTime));
         }
         boolean insert = insert(signActivity);
         if (insert) {
@@ -141,13 +156,15 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         if (StrUtil.isNotBlank(userId)) {
             SignUserForm signUserForm = signUserFormService.getUserActivity(userId, id);
             detailVo.setSigned(signUserForm != null);
-            ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUserOpenInfo() + userId, null, null);
-            if (returnBean.isSuccess()){
-                JSONObject userJson = (JSONObject) returnBean.getData();
-                if (userJson.containsKey("avatar")){
-                    detailVo.setCreateHeader(userJson.getString("avatar"));
-                }
-            }
+            UserOpenInfoVo openInfo = userCenterService.getOpenInfo(userId);
+            detailVo.setCreateHeader(openInfo.getAvatar());
+        }
+        // 参与人员
+        List<UserOpenInfoVo> openInfoVoList;
+        List<SignUserForm> formList = signUserFormService.listByActivity(id);
+        if (formList != null && formList.size() > 0) {
+            openInfoVoList = formList.stream().map(form -> userCenterService.getOpenInfo(form.getUserId())).collect(Collectors.toList());
+            detailVo.setSignUsers(openInfoVoList);
         }
         return detailVo;
     }

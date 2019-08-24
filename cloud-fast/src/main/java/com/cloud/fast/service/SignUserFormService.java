@@ -45,4 +45,11 @@ public interface SignUserFormService extends IService<SignUserForm> {
      * @return
      */
     UserApplyVo wrapper(SignUserForm signUserForm);
+
+    /**
+     * 获取活动的参加人员
+     * @param activityId
+     * @return
+     */
+    List<SignUserForm> listByActivity(String activityId);
 }
