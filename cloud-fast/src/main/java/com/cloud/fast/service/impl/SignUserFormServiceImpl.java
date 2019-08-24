@@ -101,4 +101,14 @@ public class SignUserFormServiceImpl extends ServiceImpl<SignUserFormMapper, Sig
         applyVo.setJoined(true);
         return applyVo;
     }
+
+    @Override
+    public List<SignUserForm> listByActivity(String activityId) {
+        if (StrUtil.isBlank(activityId)) {
+            return null;
+        }
+        Wrapper<SignUserForm> wrapper = new EntityWrapper<>();
+        wrapper.eq("activity_id", activityId);
+        return selectList(wrapper);
+    }
 }
