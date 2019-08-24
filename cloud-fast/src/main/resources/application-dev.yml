@@ -54,6 +54,7 @@ uc:
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
+        user-open-info: /sysUser/info/open/
 # 七牛云
 qiniu:
     access-key: eUGhwzBCa0-_H8rr3bbGT6Ov_ry3eXBGL-1YWhFP

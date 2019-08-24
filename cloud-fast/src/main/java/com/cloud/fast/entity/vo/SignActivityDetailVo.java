@@ -1,5 +1,7 @@
 package com.cloud.fast.entity.vo;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -7,10 +9,12 @@ import java.util.Date;
 
 /**
  * 活动详情
+ *
  * @author xujiping
  * @date 2019-08-17 15:59
  */
 @Data
+@ApiModel("活动详情")
 public class SignActivityDetailVo implements Serializable {
 
     private static final long serialVersionUID = 7875594334860641376L;
@@ -90,4 +94,7 @@ public class SignActivityDetailVo implements Serializable {
     private String time;
 
     private Boolean signed;
+
+    @ApiModelProperty("发起人头像")
+    private String createHeader;
 }

@@ -23,5 +23,8 @@ public class UserCenterConfig {
     @Value("${uc.domain}${uc.request.check-permission}")
     private String requestCheckPermission;
 
+    @Value("${uc.domain}${uc.request.user-open-info}")
+    private String requestUserOpenInfo;
+
 
 }

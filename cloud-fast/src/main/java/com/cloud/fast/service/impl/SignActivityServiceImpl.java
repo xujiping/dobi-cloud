@@ -7,6 +7,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.auth.jwt.UcHttpUtil;
+import com.cloud.auth.jwt.UserCenterConfig;
+import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SignUtil;
@@ -43,6 +46,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
 
     @Autowired
     private SignUserFormService signUserFormService;
+
+    @Autowired private UserCenterConfig userCenterConfig;
 
     @Override
     public SignActivity add(String userId, SignActivityDto signActivityDto) {
@@ -110,6 +115,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         BeanUtils.copyProperties(signActivity, signActivityVo);
         String images = signActivity.getImages();
         JSONObject json = JSONObject.parseObject(images);
+
         signActivityVo.setCovers(json.getString("covers"));
         signActivityVo.setImages(json.getString("images"));
         // 时间
@@ -135,6 +141,13 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         if (StrUtil.isNotBlank(userId)) {
             SignUserForm signUserForm = signUserFormService.getUserActivity(userId, id);
             detailVo.setSigned(signUserForm != null);
+            ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUserOpenInfo() + userId, null, null);
+            if (returnBean.isSuccess()){
+                JSONObject userJson = (JSONObject) returnBean.getData();
+                if (userJson.containsKey("avatar")){
+                    detailVo.setCreateHeader(userJson.getString("avatar"));
+                }
+            }
         }
         return detailVo;
     }

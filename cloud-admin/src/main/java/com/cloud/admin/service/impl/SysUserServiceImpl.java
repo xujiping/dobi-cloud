@@ -10,6 +10,7 @@ import com.cloud.admin.entity.SysRolePermission;
 import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.dto.UserInfoDto;
+import com.cloud.admin.entity.vo.UserOpenInfoVo;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.mapper.SysUserMapper;
 import com.cloud.admin.service.*;
@@ -20,6 +21,7 @@ import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
 import com.cloud.base.util.TokenUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -224,5 +226,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Wrapper<LoginLog> wrapper = new EntityWrapper<>();
         wrapper.eq("token", token);
         return loginLogService.selectOne(wrapper);
+    }
+
+    @Override
+    public UserOpenInfoVo getOpenInfo(String userId) {
+        UserOpenInfoVo openInfoVo = new UserOpenInfoVo();
+        SysUser sysUser = selectById(userId);
+        if (sysUser == null) {
+            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+        }
+        BeanUtils.copyProperties(sysUser, openInfoVo);
+        openInfoVo.setUserId(userId);
+        return openInfoVo;
     }
 }

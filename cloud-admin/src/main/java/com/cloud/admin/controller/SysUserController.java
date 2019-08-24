@@ -8,6 +8,7 @@ import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.dto.UserInfoDto;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysUserService;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
@@ -51,12 +52,19 @@ public class SysUserController {
     @UserLoginToken
     @ApiOperation(value = "用户信息", httpMethod = "GET")
     @GetMapping("info")
-    public String menuList(HttpServletRequest request,
+    public String userInfo(HttpServletRequest request,
                            @NotNull
                            @ApiParam(required = true, name = "ucToken", value = "用户token")
                            @RequestHeader String ucToken) {
         String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         return new ReturnBean(userService.get(accountId)).toJson();
+    }
+
+    @PassToken
+    @ApiOperation(value = "用户开放信息", httpMethod = "GET")
+    @GetMapping("info/open/{id}")
+    public ReturnBean openUserInfo(@PathVariable(value = "id") String id){
+        return new ReturnBean(userService.getOpenInfo(id));
     }
 
     @UserLoginToken
