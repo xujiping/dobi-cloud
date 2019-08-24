@@ -56,6 +56,8 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         }
         String startTime = signActivityDto.getStartTime();
         String endTime = signActivityDto.getEndTime();
+        String signStartTime = signActivityDto.getSignStartTime();
+        String signEndTime = signActivityDto.getSignEndTime();
         // todo 字段校验
         SignActivity signActivity = new SignActivity();
         BeanUtils.copyProperties(signActivityDto, signActivity);
@@ -68,6 +70,12 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         }
         if (StrUtil.isNotBlank(endTime)) {
             signActivity.setEndTime(DateUtil.parse(endTime));
+        }
+        if (StrUtil.isNotBlank(signStartTime)) {
+            signActivity.setStartTime(DateUtil.parse(signStartTime));
+        }
+        if (StrUtil.isNotBlank(signEndTime)) {
+            signActivity.setEndTime(DateUtil.parse(signEndTime));
         }
         boolean insert = insert(signActivity);
         if (insert) {
