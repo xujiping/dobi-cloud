@@ -55,3 +55,4 @@ uc:
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
+        user-open-info: /sysUser/info/open/

@@ -6,6 +6,7 @@ import com.cloud.admin.entity.SysRoleUser;
 import com.cloud.admin.entity.SysUser;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.entity.dto.UserInfoDto;
+import com.cloud.admin.entity.vo.UserOpenInfoVo;
 import com.cloud.admin.entity.vo.UserVo;
 
 import java.util.List;
@@ -122,5 +123,12 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     LoginLog getByToken(String token);
+
+    /**
+     * 获取用户开放信息
+     * @param userId
+     * @return
+     */
+    UserOpenInfoVo getOpenInfo(String userId);
 
 }

@@ -22,8 +22,10 @@ public class UcHttpUtil {
     public static ReturnBean get(String url, String token, Map<String, Object> params) {
         String userResponse = HttpRequest.get(url)
                 .header(Constants.HEADER_TOKEN, token)
-                .form(params)//表单内容
-                .timeout(20000)//超时，毫秒
+                //表单内容
+                .form(params)
+                //超时，毫秒
+                .timeout(20000)
                 .execute().body();
         log.debug("HTTP请求URL=[" + url + "], RESPONSE=[" + userResponse + "]");
         JSONObject jsonObject = JSONObject.parseObject(userResponse);

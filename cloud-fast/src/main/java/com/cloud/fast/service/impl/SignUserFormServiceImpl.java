@@ -86,7 +86,7 @@ public class SignUserFormServiceImpl extends ServiceImpl<SignUserFormMapper, Sig
     public UserApplyVo wrapper(SignUserForm signUserForm) {
         UserApplyVo applyVo = new UserApplyVo();
         if (signUserForm == null){
-            return applyVo;
+            return null;
         }
         BeanUtils.copyProperties(signUserForm, applyVo);
         String activityId = signUserForm.getActivityId();
@@ -95,7 +95,10 @@ public class SignUserFormServiceImpl extends ServiceImpl<SignUserFormMapper, Sig
             applyVo.setTitle(signActivity.getTitle());
             applyVo.setTime(TimeUtil.format(signActivity.getStartTime(), signActivity.getEndTime()));
             applyVo.setStatus(String.valueOf(signActivity.getStatus()));
+        }else{
+            return null;
         }
+        applyVo.setJoined(true);
         return applyVo;
     }
 }

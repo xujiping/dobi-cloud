@@ -1,5 +1,6 @@
 package com.cloud.fast.controller;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -132,22 +134,25 @@ public class SignActivityController {
     public ReturnBean userApplys(HttpServletRequest request,
                                  @ApiParam(name = "type", value = "类型：1我参加的 2我发布的")
                                  @RequestParam(required = false, defaultValue = "1") Integer type) {
-        List<UserApplyVo> list = new ArrayList<>();
+        List<UserApplyVo> list;
+        Collection<UserApplyVo> userApplyVos = null;
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         if (type == 1) {
             // 我参与的
             List<SignUserForm> userActivities = signUserFormService.listByUser(key);
             if (userActivities != null && userActivities.size() > 0) {
                 list = userActivities.stream().map(signUserForm -> signUserFormService.wrapper(signUserForm)).collect(Collectors.toList());
+                userApplyVos = CollectionUtil.removeNull(list);
             }
         } else {
             // 我发布的
             List<SignActivity> signActivities = signActivityService.listByUser(key);
             if (signActivities != null && signActivities.size() > 0) {
                 list = signActivities.stream().map(signActivity -> signActivityService.wrapperToApply(signActivity)).collect(Collectors.toList());
+                userApplyVos = CollectionUtil.removeNull(list);
             }
         }
-        return new ReturnBean(list);
+        return new ReturnBean(userApplyVos);
     }
 
 }
