@@ -149,6 +149,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         String id = signActivity.getId();
         Date startTime = signActivity.getStartTime();
         Date endTime = signActivity.getEndTime();
+        String createBy = signActivity.getCreateBy();
         BeanUtils.copyProperties(signActivity, detailVo);
         detailVo.setTime(TimeUtil.format(startTime, endTime));
         detailVo.setCreateTime(DateUtil.formatDateTime(signActivity.getCreateTime()));
@@ -156,7 +157,10 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         if (StrUtil.isNotBlank(userId)) {
             SignUserForm signUserForm = signUserFormService.getUserActivity(userId, id);
             detailVo.setSigned(signUserForm != null);
-            UserOpenInfoVo openInfo = userCenterService.getOpenInfo(userId);
+        }
+        // 发起人
+        if (StrUtil.isNotBlank(createBy)){
+            UserOpenInfoVo openInfo = userCenterService.getOpenInfo(createBy);
             detailVo.setCreateHeader(openInfo.getAvatar());
         }
         // 参与人员
