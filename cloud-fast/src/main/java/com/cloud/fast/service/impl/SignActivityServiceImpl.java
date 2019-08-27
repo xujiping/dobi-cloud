@@ -51,9 +51,6 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     private SignUserFormService signUserFormService;
 
     @Autowired
-    private UserCenterConfig userCenterConfig;
-
-    @Autowired
     private UserCenterService userCenterService;
 
     @Override
@@ -96,6 +93,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         Page<SignActivityVo> result = new Page<>();
         Wrapper<SignActivity> wrapper = new EntityWrapper<>();
         wrapper.orderBy("create_time desc");
+        wrapper.ge("end_time", new Date());
         Map<String, Object> condition = page.getCondition();
         wrapper.orderBy(String.valueOf(condition.get("sort")));
         if (condition.containsKey("latitude") && condition.containsKey("latitude")) {
