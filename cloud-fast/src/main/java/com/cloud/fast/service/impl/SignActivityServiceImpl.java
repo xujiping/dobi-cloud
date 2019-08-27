@@ -1,8 +1,10 @@
 package com.cloud.fast.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -11,6 +13,7 @@ import com.cloud.auth.jwt.UcHttpUtil;
 import com.cloud.auth.jwt.UserCenterConfig;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.StatusEnum;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SignUtil;
 import com.cloud.fast.entity.SignActivity;
@@ -49,9 +52,6 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
 
     @Autowired
     private SignUserFormService signUserFormService;
-
-    @Autowired
-    private UserCenterConfig userCenterConfig;
 
     @Autowired
     private UserCenterService userCenterService;
@@ -96,6 +96,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         Page<SignActivityVo> result = new Page<>();
         Wrapper<SignActivity> wrapper = new EntityWrapper<>();
         wrapper.orderBy("create_time desc");
+        wrapper.eq("status", StatusEnum.NORMAL.getCode());
         Map<String, Object> condition = page.getCondition();
         wrapper.orderBy(String.valueOf(condition.get("sort")));
         if (condition.containsKey("latitude") && condition.containsKey("latitude")) {
@@ -193,6 +194,27 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
         BeanUtils.copyProperties(signActivity, applyVo);
         applyVo.setActivityId(signActivity.getId());
         applyVo.setTime(TimeUtil.format(signActivity.getStartTime(), signActivity.getEndTime()));
+        applyVo.setStatus(signActivity.getStatus().toString());
         return applyVo;
+    }
+
+    @Override
+    public void updateExpired() {
+        Date now = new Date();
+        Wrapper<SignActivity> wrapper = new EntityWrapper<>();
+        wrapper.eq("status", StatusEnum.NORMAL.getCode());
+        wrapper.lt("end_time", now);
+        List<SignActivity> list = selectList(wrapper);
+        if (list!= null && list.size() > 0){
+            for (SignActivity signActivity : list) {
+                signActivity.setUpdateTime(now);
+                signActivity.setStatus(Convert.toByte(StatusEnum.APPLY_FINISH.getCode()));
+                if (updateById(signActivity)){
+                    // 更新用户参加的状态
+                    signUserFormService.updateStatus(signActivity.getId(), null, StatusEnum.APPLY_FINISH);
+                }
+            }
+        }
+
     }
 }

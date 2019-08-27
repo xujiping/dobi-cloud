@@ -85,4 +85,7 @@ public class SignActivityDto implements Serializable {
     @ApiModelProperty("图片列表，多个用半角逗号分隔")
     private String images;
 
+    @ApiModelProperty("联系人微信号")
+    private String wxNumber;
+
 }

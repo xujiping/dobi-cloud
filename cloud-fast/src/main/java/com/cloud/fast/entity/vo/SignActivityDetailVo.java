@@ -73,6 +73,8 @@ public class SignActivityDetailVo implements Serializable {
      * 联系电话，多个用半角逗号分隔
      */
     private String contactPhone;
+
+    private String wxNumber;
     /**
      * 提交表单ID
      */

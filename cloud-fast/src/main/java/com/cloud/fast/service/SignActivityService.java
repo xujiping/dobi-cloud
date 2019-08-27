@@ -75,4 +75,9 @@ public interface SignActivityService extends IService<SignActivity> {
      * @return
      */
     UserApplyVo wrapperToApply(SignActivity signActivity);
+
+    /**
+     * 更新过期的活动
+     */
+    void updateExpired();
 }

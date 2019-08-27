@@ -25,6 +25,7 @@ public enum StatusEnum {
      * 活动报名，30-39
      */
     APPLY_FULL(30, "报名已满"),
+    APPLY_FINISH(31, "活动已结束")
     ;
 
     private int code;
@@ -35,4 +36,10 @@ public enum StatusEnum {
         this.name = name;
     }
 
-}
+    public int getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }}

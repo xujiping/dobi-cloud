@@ -1,10 +1,12 @@
 package com.cloud.fast.service.impl;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.StatusEnum;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.entity.SignUserForm;
@@ -19,6 +21,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -99,6 +102,7 @@ public class SignUserFormServiceImpl extends ServiceImpl<SignUserFormMapper, Sig
             return null;
         }
         applyVo.setJoined(true);
+        applyVo.setStatus(signUserForm.getStatus().toString());
         return applyVo;
     }
 
@@ -110,5 +114,22 @@ public class SignUserFormServiceImpl extends ServiceImpl<SignUserFormMapper, Sig
         Wrapper<SignUserForm> wrapper = new EntityWrapper<>();
         wrapper.eq("activity_id", activityId);
         return selectList(wrapper);
+    }
+
+    @Override
+    public boolean updateStatus(String activityId, String userId, StatusEnum statusEnum) {
+        if (StrUtil.isBlank(activityId) && StrUtil.isBlank(userId)){
+            return false;
+        }
+        if (statusEnum == null){
+            return false;
+        }
+        Wrapper<SignUserForm> wrapper = new EntityWrapper<>();
+        wrapper.eq("activity_id", activityId);
+        wrapper.eq("user_id", userId);
+        SignUserForm userForm = new SignUserForm();
+        userForm.setUpdateTime(new Date());
+        userForm.setStatus(Convert.toByte(statusEnum.getCode()));
+        return update(userForm, wrapper);
     }
 }
