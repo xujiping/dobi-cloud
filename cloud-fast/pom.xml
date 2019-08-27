@@ -14,7 +14,7 @@
 
     <name>cloud-fast</name>
     <description>快速单品项目</description>
-    
+
     <dependencies>
 
         <!-- 内部依赖 -->
@@ -44,6 +44,12 @@
         <!--<groupId>org.springframework.cloud</groupId>-->
         <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
         <!--</dependency>-->
+
+        <!-- quartz -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
 
     </dependencies>
 

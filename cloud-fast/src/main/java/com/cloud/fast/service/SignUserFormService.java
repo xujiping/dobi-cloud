@@ -1,5 +1,6 @@
 package com.cloud.fast.service;
 
+import com.cloud.base.constants.StatusEnum;
 import com.cloud.fast.entity.SignUserForm;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.SignUserFormDto;
@@ -52,4 +53,13 @@ public interface SignUserFormService extends IService<SignUserForm> {
      * @return
      */
     List<SignUserForm> listByActivity(String activityId);
+
+    /**
+     * 更新状态
+     * @param activityId
+     * @param userId
+     * @param statusEnum
+     * @return
+     */
+    boolean updateStatus(String activityId, String userId, StatusEnum statusEnum);
 }
