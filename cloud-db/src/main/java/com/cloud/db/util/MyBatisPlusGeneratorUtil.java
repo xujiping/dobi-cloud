@@ -96,7 +96,7 @@ public class MyBatisPlusGeneratorUtil {
         String packageName = "com.cloud.fast";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "lyx_label", "lyx_recommend", "lyx_user_like");
+                "lyx_keyword");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }

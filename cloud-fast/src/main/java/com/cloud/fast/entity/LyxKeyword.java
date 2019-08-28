@@ -4,45 +4,32 @@ import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
-import lombok.Data;
 
 import java.io.Serializable;
 
 /**
  * <p>
- * 推荐标签表
+ * 关键词表
  * </p>
  *
  * @author xujiping
  * @since 2019-08-28
  */
-@Data
-public class LyxLabel extends Model<LyxLabel> {
+public class LyxKeyword extends Model<LyxKeyword> {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    /**
-     * 推荐名称
-     */
     private String name;
     /**
-     * 主题
+     * 正在使用的数量
      */
-    private String subject;
+    private Long useCount;
     /**
-     * 喜欢数
+     * 总使用量
      */
-    private Integer likeCount;
-    /**
-     * 不喜欢数
-     */
-    private Integer dislikeCount;
-    /**
-     * 标签ID列表，用逗号分隔
-     */
-    private String keywords;
+    private Long useTotal;
 
 
     public Long getId() {
@@ -61,28 +48,20 @@ public class LyxLabel extends Model<LyxLabel> {
         this.name = name;
     }
 
-    public String getSubject() {
-        return subject;
+    public Long getUseCount() {
+        return useCount;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setUseCount(Long useCount) {
+        this.useCount = useCount;
     }
 
-    public Integer getLikeCount() {
-        return likeCount;
+    public Long getUseTotal() {
+        return useTotal;
     }
 
-    public void setLikeCount(Integer likeCount) {
-        this.likeCount = likeCount;
-    }
-
-    public Integer getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(Integer dislikeCount) {
-        this.dislikeCount = dislikeCount;
+    public void setUseTotal(Long useTotal) {
+        this.useTotal = useTotal;
     }
 
     @Override
@@ -90,4 +69,13 @@ public class LyxLabel extends Model<LyxLabel> {
         return this.id;
     }
 
+    @Override
+    public String toString() {
+        return "LyxKeyword{" +
+        "id=" + id +
+        ", name=" + name +
+        ", useCount=" + useCount +
+        ", useTotal=" + useTotal +
+        "}";
+    }
 }

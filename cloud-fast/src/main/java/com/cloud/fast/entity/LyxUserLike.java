@@ -7,6 +7,7 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 /**
  * <p>
@@ -16,6 +17,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
  * @author xujiping
  * @since 2019-08-28
  */
+@Data
 public class LyxUserLike extends Model<LyxUserLike> {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +35,7 @@ public class LyxUserLike extends Model<LyxUserLike> {
     /**
      * 标签列表，用逗号分隔
      */
-    private String tags;
+    private String keywords;
     private Date createTime;
     private Date updateTime;
 
@@ -62,14 +64,6 @@ public class LyxUserLike extends Model<LyxUserLike> {
         this.labelId = labelId;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -91,15 +85,4 @@ public class LyxUserLike extends Model<LyxUserLike> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "LyxUserLike{" +
-        "id=" + id +
-        ", userId=" + userId +
-        ", labelId=" + labelId +
-        ", tags=" + tags +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
-    }
 }

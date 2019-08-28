@@ -50,7 +50,8 @@ public enum ReturnCode {
     USER_JOINED(3001, "已经参加，不可重复参加"),
     ACTIVITY_NOT_ESIXT(3003, "活动不存在"),
     ACTIVITY_END(3005, "活动已结束"),
-
+    LYX_LABEL_NULL(3007, "推荐内容不能为空"),
+    LABEL_NOT_EXIST(3009, "标签不存在"),
     ;
 
     private int code;

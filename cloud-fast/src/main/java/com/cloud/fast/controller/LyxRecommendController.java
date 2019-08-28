@@ -1,9 +1,24 @@
 package com.cloud.fast.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.exception.BusinessException;
+import com.cloud.fast.entity.LyxRecommend;
+import com.cloud.fast.service.LyxLabelService;
+import com.cloud.fast.service.LyxRecommendService;
+import com.cloud.fast.service.LyxUserLikeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
 
 /**
  * <p>
@@ -13,9 +28,66 @@ import org.springframework.stereotype.Controller;
  * @author xujiping
  * @since 2019-08-28
  */
-@Controller
+@RestController
 @RequestMapping("/lyxRecommend")
+@Api(tags = "留余香")
+@Validated
 public class LyxRecommendController {
+
+    @Autowired
+    private LyxRecommendService lyxRecommendService;
+
+    @Autowired
+    private LyxLabelService lyxLabelService;
+
+    @Autowired
+    private LyxUserLikeService lyxUserLikeService;
+
+    @UserLoginToken
+    @ApiOperation(value = "新增推荐", httpMethod = "POST")
+    @PostMapping("info")
+    public ReturnBean add(HttpServletRequest request,
+                          @ApiParam(required = true, name = "title", value = "标题")
+                          @NotBlank
+                          @RequestParam String title,
+                          @ApiParam(required = true, name = "desc", value = "描述")
+                          @RequestParam String desc,
+                          @ApiParam(required = true, name = "labels", value = "标签JSON数组")
+                          @NotBlank
+                          @RequestParam String labels) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        LyxRecommend recommend = lyxRecommendService.add(key, title, desc);
+        if (recommend == null) {
+            throw new BusinessException(ReturnCode.FAIL);
+        }
+        String labelIds = lyxLabelService.add(key, labels);
+        if (StrUtil.isNotBlank(labelIds)) {
+            recommend.setLabelIds(labelIds);
+            boolean update = lyxRecommendService.updateById(recommend);
+            if (!update) {
+                throw new BusinessException(ReturnCode.FAIL);
+            }
+        }
+        return new ReturnBean();
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "喜欢", httpMethod = "POST")
+    @PostMapping("like")
+    public ReturnBean like(HttpServletRequest request,
+                           @ApiParam(required = true, name = "labelId", value = "标签ID")
+                           @NotBlank
+                           @RequestParam String labelId,
+                           @ApiParam(required = true, name = "keywords", value = "关键词ID列表")
+                           @NotBlank
+                           @RequestParam String keywords) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        boolean like = lyxUserLikeService.like(key, Long.valueOf(labelId), keywords);
+        if (!like) {
+            return new ReturnBean(ReturnCode.FAIL);
+        }
+        return new ReturnBean();
+    }
 
 }
 

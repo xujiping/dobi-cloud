@@ -13,4 +13,12 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface LyxLabelService extends IService<LyxLabel> {
 
+    /**
+     * 新增标签
+     * @param userId
+     * @param labels
+     * @return
+     */
+    String add(String userId, String labels);
+
 }

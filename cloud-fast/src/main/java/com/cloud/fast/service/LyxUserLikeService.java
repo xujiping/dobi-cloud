@@ -13,4 +13,13 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface LyxUserLikeService extends IService<LyxUserLike> {
 
+    /**
+     * 喜欢/收藏
+     * @param userId
+     * @param labelId
+     * @param keywords
+     * @return
+     */
+    boolean like(String userId, Long labelId, String keywords);
+
 }

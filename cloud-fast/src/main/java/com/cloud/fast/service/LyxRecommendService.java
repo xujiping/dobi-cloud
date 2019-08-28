@@ -13,4 +13,13 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface LyxRecommendService extends IService<LyxRecommend> {
 
+    /**
+     * 新增
+     * @param userId
+     * @param title
+     * @param desc
+     * @return
+     */
+    LyxRecommend add(String userId, String title, String desc);
+
 }
