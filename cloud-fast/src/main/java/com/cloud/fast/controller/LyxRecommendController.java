@@ -89,5 +89,20 @@ public class LyxRecommendController {
         return new ReturnBean();
     }
 
+    @UserLoginToken
+    @ApiOperation(value = "取消喜欢", httpMethod = "POST")
+    @PostMapping("dislike")
+    public ReturnBean dislike(HttpServletRequest request,
+                           @ApiParam(required = true, name = "labelId", value = "标签ID")
+                           @NotBlank
+                           @RequestParam String labelId) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        boolean dislike = lyxUserLikeService.dislike(key, Long.valueOf(labelId));
+        if (!dislike) {
+            return new ReturnBean(ReturnCode.FAIL);
+        }
+        return new ReturnBean();
+    }
+
 }
 

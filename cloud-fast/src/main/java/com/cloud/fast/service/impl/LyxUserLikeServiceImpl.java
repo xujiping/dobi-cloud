@@ -1,6 +1,8 @@
 package com.cloud.fast.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.LyxLabel;
@@ -39,5 +41,16 @@ public class LyxUserLikeServiceImpl extends ServiceImpl<LyxUserLikeMapper, LyxUs
         lyxUserLike.setLabelId(labelId);
         lyxUserLike.setKeywords(keywords);
         return insert(lyxUserLike);
+    }
+
+    @Override
+    public boolean dislike(String userId, Long labelId) {
+        if (StrUtil.isBlank(userId) || labelId == null) {
+            return false;
+        }
+        Wrapper<LyxUserLike> wrapper = new EntityWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("label_id", labelId);
+        return delete(wrapper);
     }
 }

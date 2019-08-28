@@ -22,4 +22,12 @@ public interface LyxUserLikeService extends IService<LyxUserLike> {
      */
     boolean like(String userId, Long labelId, String keywords);
 
+    /**
+     * 取消喜欢
+     * @param userId
+     * @param labelId
+     * @return
+     */
+    boolean dislike(String userId, Long labelId);
+
 }
