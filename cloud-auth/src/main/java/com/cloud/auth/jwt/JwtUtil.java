@@ -37,8 +37,8 @@ public class JwtUtil {
         return JWT.create()
                 // 存入token中的信息
                 .withAudience(userId)
-                // token超时时间，1天之后过期
-                .withExpiresAt(DateUtil.offsetDay(new DateTime(), 1))
+                // token超时时间，1月之后过期
+                .withExpiresAt(DateUtil.offsetMonth(new DateTime(), 1))
                 .sign(Algorithm.HMAC256(secret));
     }
 

@@ -19,7 +19,7 @@ public class SignActivityJob {
     @Autowired private SignActivityService signActivityService;
 
     @Async
-    @Scheduled(cron = "* 0/10 * * * *")
+    @Scheduled(cron = "* */10 * * * *")
     public void test(){
         log.debug("》》》更新活动表状态任务开始");
         signActivityService.updateExpired();
