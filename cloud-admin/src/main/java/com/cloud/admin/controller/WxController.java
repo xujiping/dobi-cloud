@@ -48,10 +48,12 @@ public class WxController {
     @PostMapping("code2Session")
     public String code2Session(
             @ApiParam(required = true, name = "jsCode", value = "登录时获取的 code")
-            @RequestParam String jsCode) {
+            @RequestParam String jsCode,
+            @ApiParam(name = "appName", value = "应用名称")
+            @RequestParam(required = false) String appName) {
         ReturnBean rb = new ReturnBean();
-        OauthByWxCode oauthByWxCode = wxService.wxCodeToOauth(wxConfig, jsCode);
-        if (oauthByWxCode == null || !oauthByWxCode.isSuccess()){
+        OauthByWxCode oauthByWxCode = wxService.wxCodeToOauth(wxConfig, jsCode, appName);
+        if (oauthByWxCode == null || oauthByWxCode.getErrcode() != null){
             rb.setReturnCode(ReturnCode.WX_CODE_SESSION_ERROR, null);
         }
         String openid = Objects.requireNonNull(oauthByWxCode).getOpenid();

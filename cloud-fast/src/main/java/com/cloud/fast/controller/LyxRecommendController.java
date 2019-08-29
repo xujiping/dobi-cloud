@@ -1,12 +1,17 @@
 package com.cloud.fast.controller;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.LyxRecommend;
+import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.service.LyxLabelService;
 import com.cloud.fast.service.LyxRecommendService;
 import com.cloud.fast.service.LyxUserLikeService;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 /**
  * <p>
@@ -102,6 +108,17 @@ public class LyxRecommendController {
             return new ReturnBean(ReturnCode.FAIL);
         }
         return new ReturnBean();
+    }
+
+    @PassToken
+    @ApiOperation(value = "列表", httpMethod = "GET")
+    @GetMapping("list")
+    public String list(@ApiParam(name = "page", value = "页码", defaultValue = "1")
+                       @RequestParam(required = false, defaultValue = "1") Integer page,
+                       @ApiParam(name = "size", value = "大小", defaultValue = "10")
+                       @RequestParam(required = false, defaultValue = "10") Integer size) {
+        Page<LyxRecommend> pageObject = new Page<>(page, size);
+        return new ReturnBean(lyxRecommendService.listByPage(pageObject)).toJson();
     }
 
 }
