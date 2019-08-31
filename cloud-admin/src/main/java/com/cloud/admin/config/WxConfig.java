@@ -25,4 +25,10 @@ public class WxConfig {
 
     @Value("${wx.secret}")
     private String secret;
+
+    @Value("${wx.lyx.appid}")
+    private String lyxAppid;
+
+    @Value("${wx.lyx.secret}")
+    private String lyxSecret;
 }

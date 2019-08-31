@@ -26,13 +26,17 @@ public class WxService {
      * @param wxCode
      * @return
      */
-    public OauthByWxCode wxCodeToOauth(WxConfig wxConfig, String wxCode) {
+    public OauthByWxCode wxCodeToOauth(WxConfig wxConfig, String wxCode, String appName) {
         if (StrUtil.isBlank(wxCode)) {
             return null;
         }
         OauthByWxCode oauthByWxCode;
         String appid = wxConfig.getAppid();
         String secret = wxConfig.getSecret();
+        if (StrUtil.isNotBlank(appName) && appName.equals("lyx")){
+            appid = wxConfig.getLyxAppid();
+            secret = wxConfig.getLyxSecret();
+        }
         log.info("根据小程序前端登录code获取授权sessionkey，appid[" + appid + "]，appSecret[" + secret + "],wxCode[" + wxCode + "].." +
                 ".");
         try {
