@@ -1,15 +1,25 @@
 version: "3"
 services:
-    dobi-pets:
-        image: xjp1070860185/dobi-pets
+    dobi-gateway:
+        image: xjp1070860185/dobi-gateway
         ports:
-            - "8081:8081"
+            - "8110:8110"
         networks:
             - webnet
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
         volumes:
-            - /mnt/cloud/:/mnt/cloud/
+          - /mnt/cloud/:/mnt/cloud/
+#    dobi-pets:
+#        image: xjp1070860185/dobi-pets
+#        ports:
+#            - "8081:8081"
+#        networks:
+#            - webnet
+#        environment:
+#            - "SPRING_PROFILES_ACTIVE=prod"
+#        volumes:
+#            - /mnt/cloud/:/mnt/cloud/
     dobi-admin:
         image: xjp1070860185/dobi-admin
         ports:
@@ -29,6 +39,6 @@ services:
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
         volumes:
-          - /mnt/cloud/:/mnt/cloud/
+            - /mnt/cloud/:/mnt/cloud/
 networks:
     webnet:
