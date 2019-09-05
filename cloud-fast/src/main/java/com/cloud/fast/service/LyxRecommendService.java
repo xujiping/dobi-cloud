@@ -41,4 +41,12 @@ public interface LyxRecommendService extends IService<LyxRecommend> {
      */
     LyxRecommendVo wrapper(LyxRecommend lyxRecommend);
 
+    /**
+     * 包装详情
+     * @param lyxRecommend
+     * @param userId
+     * @return
+     */
+    LyxRecommendVo wrapperDetail(LyxRecommend lyxRecommend, String userId);
+
 }

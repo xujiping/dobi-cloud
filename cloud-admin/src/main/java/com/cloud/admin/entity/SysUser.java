@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,11 +15,14 @@ import com.baomidou.mybatisplus.activerecord.Model;
  * @author xujiping
  * @since 2019-06-05
  */
+@Data
 public class SysUser extends Model<SysUser> {
 
     private static final long serialVersionUID = 1L;
 
     private String id;
+
+    private String appName;
     /**
      * 登录用户名
      */
@@ -178,22 +182,4 @@ public class SysUser extends Model<SysUser> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "SysUser{" +
-                "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", realname='" + realname + '\'' +
-                ", phone='" + phone + '\'' +
-                ", sex=" + sex +
-                ", age=" + age +
-                ", birthday=" + birthday +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", status=" + status +
-                '}';
-    }
 }

@@ -2,6 +2,9 @@ package com.cloud.fast.service;
 
 import com.cloud.fast.entity.LyxLabel;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.fast.entity.vo.LyxLabelVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -21,4 +24,26 @@ public interface LyxLabelService extends IService<LyxLabel> {
      */
     String add(String userId, String labels);
 
+    /**
+     * 按ID查询
+     * @param ids
+     * @return
+     */
+    List<LyxLabel> listByIds(String ids);
+
+    /**
+     * 包装
+     * @param lyxLabel
+     * @param userId
+     * @return
+     */
+    LyxLabelVo wrapper(LyxLabel lyxLabel, String userId);
+
+    /**
+     * 按用户查询
+     * @param userId
+     * @param subject
+     * @return
+     */
+    List<LyxLabel> listByUserLike(String userId, String subject);
 }

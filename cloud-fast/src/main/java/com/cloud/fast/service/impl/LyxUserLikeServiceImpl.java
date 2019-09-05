@@ -14,6 +14,8 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户喜欢收藏的 服务实现类
@@ -52,5 +54,23 @@ public class LyxUserLikeServiceImpl extends ServiceImpl<LyxUserLikeMapper, LyxUs
         wrapper.eq("user_id", userId);
         wrapper.eq("label_id", labelId);
         return delete(wrapper);
+    }
+
+    @Override
+    public boolean liked(String userId, Long labelId) {
+        if (StrUtil.isBlank(userId) || labelId == null) {
+            return false;
+        }
+        Wrapper<LyxUserLike> wrapper = new EntityWrapper<>();
+        wrapper.eq("user_id", userId);
+        wrapper.eq("label_id", labelId);
+        return selectOne(wrapper) != null;
+    }
+
+    @Override
+    public List<LyxUserLike> listByUser(String userId) {
+        Wrapper<LyxUserLike> wrapper = new EntityWrapper<>();
+        wrapper.eq("user_id", userId);
+        return selectList(wrapper);
     }
 }

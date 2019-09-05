@@ -169,7 +169,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public UserVo loginByWx(String openId) {
+    public UserVo loginByWx(String openId, String appName) {
         if (StrUtil.isBlank(openId)) {
             return null;
         }
@@ -180,6 +180,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             userId = IdUtil.fastSimpleUUID();
             user.setId(userId);
             user.setUsername(openId);
+            user.setAppName(appName);
             user.setStatus(Constants.STATUS_NOT_INIT);
             boolean insert = insert(user);
             if (!insert) {
