@@ -1,5 +1,6 @@
 package com.cloud.gateway.swagger;
 
+import lombok.AllArgsConstructor;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Component
 @Primary
+@AllArgsConstructor
 public class SwaggerProvider implements SwaggerResourcesProvider {
 
     public static final String API_URI = "/v2/api-docs";
@@ -25,11 +27,6 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
     private final RouteLocator routeLocator;
 
     private final GatewayProperties gatewayProperties;
-
-    public SwaggerProvider(RouteLocator routeLocator, GatewayProperties gatewayProperties) {
-        this.routeLocator = routeLocator;
-        this.gatewayProperties = gatewayProperties;
-    }
 
     @Override
 
