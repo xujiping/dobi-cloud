@@ -10,8 +10,10 @@ import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
+import com.cloud.fast.entity.LyxLabel;
 import com.cloud.fast.entity.LyxRecommend;
 import com.cloud.fast.entity.SignActivity;
+import com.cloud.fast.entity.vo.LyxLabelVo;
 import com.cloud.fast.service.LyxLabelService;
 import com.cloud.fast.service.LyxRecommendService;
 import com.cloud.fast.service.LyxUserLikeService;
@@ -24,7 +26,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -99,9 +104,9 @@ public class LyxRecommendController {
     @ApiOperation(value = "取消喜欢", httpMethod = "POST")
     @PostMapping("dislike")
     public ReturnBean dislike(HttpServletRequest request,
-                           @ApiParam(required = true, name = "labelId", value = "标签ID")
-                           @NotBlank
-                           @RequestParam String labelId) {
+                              @ApiParam(required = true, name = "labelId", value = "标签ID")
+                              @NotBlank
+                              @RequestParam String labelId) {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         boolean dislike = lyxUserLikeService.dislike(key, Long.valueOf(labelId));
         if (!dislike) {
@@ -113,12 +118,37 @@ public class LyxRecommendController {
     @PassToken
     @ApiOperation(value = "列表", httpMethod = "GET")
     @GetMapping("list")
-    public String list(@ApiParam(name = "page", value = "页码", defaultValue = "1")
-                       @RequestParam(required = false, defaultValue = "1") Integer page,
-                       @ApiParam(name = "size", value = "大小", defaultValue = "10")
-                       @RequestParam(required = false, defaultValue = "10") Integer size) {
+    public ReturnBean list(@ApiParam(name = "page", value = "页码", defaultValue = "1")
+                           @RequestParam(required = false, defaultValue = "1") Integer page,
+                           @ApiParam(name = "size", value = "大小", defaultValue = "10")
+                           @RequestParam(required = false, defaultValue = "10") Integer size) {
         Page<LyxRecommend> pageObject = new Page<>(page, size);
-        return new ReturnBean(lyxRecommendService.listByPage(pageObject)).toJson();
+        return new ReturnBean(lyxRecommendService.listByPage(pageObject));
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "详情", httpMethod = "GET")
+    @GetMapping("detail/{id}")
+    public ReturnBean labels(HttpServletRequest request,
+                             @ApiParam(name = "id", value = "推荐ID")
+                             @PathVariable Long id) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        return new ReturnBean(lyxRecommendService.wrapperDetail(lyxRecommendService.selectById(id), key));
+    }
+
+    @UserLoginToken
+    @ApiOperation(value = "收藏列表", httpMethod = "GET")
+    @GetMapping("like/list")
+    public ReturnBean likeList(HttpServletRequest request,
+                             @ApiParam(name = "subject", value = "主题")
+                             @RequestParam(required = false) String subject) {
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        List<LyxLabel> list = lyxLabelService.listByUserLike(key, subject);
+        List<LyxLabelVo> labels = new ArrayList<>();
+        if (list != null && list.size() > 0){
+            labels = list.stream().map(lyxLabel -> lyxLabelService.wrapper(lyxLabel, key)).collect(Collectors.toList());
+        }
+        return new ReturnBean(labels);
     }
 
 }

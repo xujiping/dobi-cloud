@@ -9,35 +9,38 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-fast</artifactId>
+    <artifactId>cloud-gateway</artifactId>
     <packaging>jar</packaging>
 
-    <name>cloud-fast</name>
-    <description>快速单品项目</description>
+    <name>cloud-gateway</name>
+    <description>网关</description>
 
     <dependencies>
 
         <!-- 内部依赖 -->
         <dependency>
             <groupId>com.dobi</groupId>
-            <artifactId>cloud-db</artifactId>
+            <artifactId>cloud-base</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.dobi</groupId>
-            <artifactId>cloud-auth</artifactId>
+            <artifactId>cloud-db</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <!-- 内部依赖 end -->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+        <!-- 内部依赖end -->
 
         <!-- 服务注册 -->
         <dependency>
@@ -45,14 +48,25 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
 
-        <!-- quartz -->
+        <!-- 配置管理 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-quartz</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <!-- 网关 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+
+        <!-- hystrix -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
 
     </dependencies>
-
 
     <build>
         <plugins>
@@ -79,5 +93,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

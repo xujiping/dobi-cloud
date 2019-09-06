@@ -3,6 +3,8 @@ package com.cloud.fast.service;
 import com.cloud.fast.entity.LyxUserLike;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户喜欢收藏的 服务类
@@ -29,5 +31,20 @@ public interface LyxUserLikeService extends IService<LyxUserLike> {
      * @return
      */
     boolean dislike(String userId, Long labelId);
+
+    /**
+     * 是否已经喜欢
+     * @param userId
+     * @param labelId
+     * @return
+     */
+    boolean liked(String userId, Long labelId);
+
+    /**
+     * 根据用户查询
+     * @param userId
+     * @return
+     */
+    List<LyxUserLike> listByUser(String userId);
 
 }

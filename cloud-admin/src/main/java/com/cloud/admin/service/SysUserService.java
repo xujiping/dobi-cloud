@@ -97,9 +97,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 根据微信open_id获取登陆信息
      * @param openId
+     * @param appName
      * @return
      */
-    UserVo loginByWx(String openId);
+    UserVo loginByWx(String openId, String appName);
 
     /**
      * 更新用户信息

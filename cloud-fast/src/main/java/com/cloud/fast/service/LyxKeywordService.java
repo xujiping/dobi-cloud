@@ -3,6 +3,8 @@ package com.cloud.fast.service;
 import com.cloud.fast.entity.LyxKeyword;
 import com.baomidou.mybatisplus.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  * 关键词表 服务类
@@ -33,4 +35,10 @@ public interface LyxKeywordService extends IService<LyxKeyword> {
      */
     void updateCount(String ids, boolean add);
 
+    /**
+     * 根据ID列表查询
+     * @param ids
+     * @return
+     */
+    List<LyxKeyword> listByIds(String ids);
 }

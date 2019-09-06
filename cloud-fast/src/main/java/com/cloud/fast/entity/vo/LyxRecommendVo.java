@@ -3,6 +3,7 @@ package com.cloud.fast.entity.vo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: xujiping
@@ -25,6 +26,8 @@ public class LyxRecommendVo {
      * 标签ID列表，逗号分隔
      */
     private String labelIds;
+
+    private List<LyxLabelVo> labels;
     /**
      * 创建者ID
      */
@@ -41,4 +44,7 @@ public class LyxRecommendVo {
      * 状态
      */
     private Integer status;
+
+    private String createHeader;
+
 }

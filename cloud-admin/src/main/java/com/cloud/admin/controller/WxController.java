@@ -58,7 +58,7 @@ public class WxController {
         }
         String openid = Objects.requireNonNull(oauthByWxCode).getOpenid();
         // 判断本地是否有用户，如果有则返回token，如果没有则创建新用户，并返回token
-        UserVo userVo = userService.loginByWx(openid);
+        UserVo userVo = userService.loginByWx(openid, appName);
         rb.setData(userVo);
         return rb.toJson();
     }

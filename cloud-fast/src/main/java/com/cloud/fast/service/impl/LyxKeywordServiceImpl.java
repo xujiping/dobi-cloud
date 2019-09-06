@@ -10,6 +10,8 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 关键词表 服务实现类
@@ -62,5 +64,12 @@ public class LyxKeywordServiceImpl extends ServiceImpl<LyxKeywordMapper, LyxKeyw
                 keywordMapper.minusCounts(ids);
             }
         }
+    }
+
+    @Override
+    public List<LyxKeyword> listByIds(String ids) {
+        Wrapper<LyxKeyword> wrapper = new EntityWrapper<>();
+        wrapper.in("id", ids);
+        return selectList(wrapper);
     }
 }
