@@ -46,12 +46,9 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
                                                 predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
                                                         .replace("/**", API_URI)));
                                     });
-
-
                         }
                 );
         return resources;
-
     }
 
     private SwaggerResource swaggerResource(String name, String location) {

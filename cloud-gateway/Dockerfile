@@ -1,6 +1,6 @@
 FROM java:8
 
-VOLUME /tmp/fast
+VOLUME /tmp/gateway
 
 ADD /target/cloud-gateway-1.0-SNAPSHOT.jar /app.jar
 

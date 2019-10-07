@@ -2,6 +2,7 @@ package com.cloud.fast.util;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
 
@@ -9,6 +10,7 @@ import java.util.Date;
  * @author xujiping
  * @date 2019-08-17 16:30
  */
+@Slf4j
 public class TimeUtil {
 
     /**
