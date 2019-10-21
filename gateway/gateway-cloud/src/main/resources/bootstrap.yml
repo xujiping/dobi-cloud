@@ -1,0 +1,12 @@
+spring:
+    application:
+        name: dobi-gateway
+    cloud:
+        # nacos服务配置
+        nacos:
+            config:
+                server-addr: 144.34.143.83:8848
+                file-extension: yaml
+                group: cloud-gateway
+    profiles:
+        active: dev
