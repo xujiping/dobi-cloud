@@ -1,5 +1,6 @@
 package com.cloud.admin.controller;
 
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.ReturnBean;
 import io.swagger.annotations.Api;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "默认")
 public class IndexController {
 
-    @UserLoginToken
+    @PassToken
     @GetMapping("")
     public String index() {
         return new ReturnBean().toJson();

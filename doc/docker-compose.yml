@@ -1,15 +1,15 @@
 version: "3"
 services:
     dobi-gateway:
-        image: xjp1070860185/dobi-gateway
+        image: registry.cn-qingdao.aliyuncs.com/dobi/cloud-gateway
         ports:
             - "8110:8110"
         networks:
             - webnet
         environment:
-            - "SPRING_PROFILES_ACTIVE=prod"
+            - "SPRING_PROFILES_ACTIVE=dev"
         volumes:
-          - /mnt/cloud/:/mnt/cloud/
+          - /tmp/cloud/:/tmp/cloud/
 #    dobi-pets:
 #        image: xjp1070860185/dobi-pets
 #        ports:
@@ -21,15 +21,15 @@ services:
 #        volumes:
 #            - /mnt/cloud/:/mnt/cloud/
     dobi-admin:
-        image: xjp1070860185/dobi-admin
+        image: registry.cn-qingdao.aliyuncs.com/dobi/cloud-admin
         ports:
             - "8100:8100"
         networks:
             - webnet
         environment:
-            - "SPRING_PROFILES_ACTIVE=prod"
+            - "SPRING_PROFILES_ACTIVE=dev"
         volumes:
-            - /mnt/cloud/:/mnt/cloud/
+            - /tmp/cloud/:/tmp/cloud/
     dobi-fast:
         image: xjp1070860185/dobi-fast
         ports:
