@@ -1,4 +1,0 @@
-com\cloud\db\config\MybatisPlusConfig.class
-com\cloud\db\util\MyBatisPlusGeneratorUtil.class
-com\cloud\db\config\DruidDBConfig.class
-com\cloud\db\handler\MyMetaObjectHandler.class
