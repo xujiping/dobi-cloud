@@ -1,8 +1,9 @@
 spring:
-    #    cloud:
-    #        nacos:
-    #            discovery:
-    #                server-addr: 47.110.251.3:8848
+    cloud:
+        nacos:
+            discovery:
+                server-addr: 144.34.143.83:8848
+                ip: 47.110.251.3
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver

@@ -17,7 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableCaching
 @EnableDiscoveryClient
 @EnableConfigurationProperties
-@NacosConfigurationProperties(dataId = "gateway-cloud-dev.yaml", autoRefreshed = true)
+@NacosConfigurationProperties(dataId = "gateway-cloud", autoRefreshed = true)
 public class GatewayCloudApplication {
 
     public static void main(String[] args) {

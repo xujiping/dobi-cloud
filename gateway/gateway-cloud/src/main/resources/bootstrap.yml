@@ -3,6 +3,8 @@ server:
 spring:
     application:
         name: gateway-cloud
+    profiles:
+        active: dev
     cloud:
         # nacos服务配置
         nacos:
@@ -10,5 +12,3 @@ spring:
                 server-addr: 144.34.143.83:8848
                 file-extension: yaml
                 group: DOBI_CLOUD
-    profiles:
-        active: dev
