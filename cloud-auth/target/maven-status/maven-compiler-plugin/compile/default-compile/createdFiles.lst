@@ -1,0 +1,10 @@
+com\cloud\auth\jwt\ParameterServletRequestWrapper.class
+com\cloud\auth\jwt\UcHttpUtil.class
+com\cloud\auth\jwt\UserCenterConfig.class
+com\cloud\auth\jwt\UserLoginToken.class
+com\cloud\auth\jwt\JWTConfig.class
+com\cloud\auth\jwt\WebFilterParam.class
+com\cloud\auth\jwt\PassToken.class
+com\cloud\auth\jwt\JwtUtil.class
+com\cloud\auth\jwt\CorsInterceptor.class
+com\cloud\auth\jwt\JwtTokenInterceptor.class
