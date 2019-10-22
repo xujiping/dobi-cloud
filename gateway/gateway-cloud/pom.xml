@@ -34,6 +34,8 @@
         <jjwt.version>0.9.1</jjwt.version>
         <modelmapper.version>1.1.0</modelmapper.version>
         <easy-poi.version>4.0.0</easy-poi.version>
+        <!-- 配置中心 -->
+        <nacos.config.version>0.2.1.RELEASE</nacos.config.version>
     </properties>
 
     <dependencies>
@@ -69,6 +71,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- 配置中心 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${nacos.config.version}</version>
         </dependency>
 
         <dependency>

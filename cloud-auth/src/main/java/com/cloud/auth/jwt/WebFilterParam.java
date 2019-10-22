@@ -26,7 +26,6 @@ import java.util.Map;
  * @Date: 2019年6月15日 0015 下午 01:47:05
  * @Version 1.0
  */
-@Component
 @ServletComponentScan
 @WebFilter(urlPatterns = "/*", filterName = "webFilterParam")
 @Slf4j

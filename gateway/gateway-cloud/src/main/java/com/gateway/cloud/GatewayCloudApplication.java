@@ -1,5 +1,6 @@
 package com.gateway.cloud;
 
+import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -16,6 +17,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableCaching
 @EnableDiscoveryClient
 @EnableConfigurationProperties
+@NacosConfigurationProperties(dataId = "gateway-cloud-dev.yaml", autoRefreshed = true)
 public class GatewayCloudApplication {
 
     public static void main(String[] args) {
