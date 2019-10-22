@@ -82,6 +82,29 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <!-- 把jar包拷贝到指定目录位置 -->
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <tasks>
+                                <copy todir="${project.basedir}/docker">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="${project.artifactId}-${project.version}.jar" />
+                                    </fileset>
+                                </copy>
+                                <move file="${project.basedir}/docker/${project.artifactId}-${project.version}.jar" tofile="${project.basedir}/docker/${project.artifactId}.jar" />
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- docker 镜像 -->
             <plugin>
                 <groupId>io.fabric8</groupId>
