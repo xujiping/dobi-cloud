@@ -14,15 +14,16 @@ public class CorsInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        String origin = httpServletRequest.getHeader("Origin");
-        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET");
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", "X-URL-PATH, Origin, X-Requested-With, X_Requested_With, Content-Type, Accept, lmt-token, user-id, openid, x-access-token, Access-Control-Allow-Origin,Set-Cookie,Cookie,userFlag,ucToken,platform");
-        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
-        httpServletResponse.setHeader("XDomainRequestAllowed", "1");
-        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Set-Cookie, userFlag, Content-Length, Cookie");
-        if (StringUtils.isNotBlank(httpServletRequest.getHeader("userFlag")))
-            httpServletResponse.setHeader("userFlag", httpServletRequest.getHeader("userFlag"));
+//        String origin = httpServletRequest.getHeader("Origin");
+////        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+//        httpServletResponse.setHeader("Access-Control-Allow-Methods", "POST,OPTIONS,GET");
+//        httpServletResponse.setHeader("Access-Control-Allow-Headers", "X-URL-PATH, Origin, X-Requested-With, X_Requested_With, Content-Type, Accept, lmt-token, user-id, openid, x-access-token, Access-Control-Allow-Origin,Set-Cookie,Cookie,userFlag,ucToken,platform");
+//        httpServletResponse.setHeader("Access-Control-Allow-Credentials", "true");
+//        httpServletResponse.setHeader("XDomainRequestAllowed", "1");
+//        httpServletResponse.setHeader("Access-Control-Expose-Headers", "Set-Cookie, userFlag, Content-Length, Cookie");
+//        if (StringUtils.isNotBlank(httpServletRequest.getHeader("userFlag"))) {
+//            httpServletResponse.setHeader("userFlag", httpServletRequest.getHeader("userFlag"));
+//        }
         return true;
     }
 
