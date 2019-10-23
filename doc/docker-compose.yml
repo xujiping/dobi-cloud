@@ -7,7 +7,7 @@ services:
         networks:
             - webnet
         environment:
-            - "SPRING_PROFILES_ACTIVE=dev"
+            - "SPRING_PROFILES_ACTIVE=prod"
         volumes:
           - /tmp/cloud/:/tmp/cloud/
 #    dobi-pets:
@@ -27,7 +27,7 @@ services:
         networks:
             - webnet
         environment:
-            - "SPRING_PROFILES_ACTIVE=dev"
+            - "SPRING_PROFILES_ACTIVE=prod"
         volumes:
             - /tmp/cloud/:/tmp/cloud/
 #    dobi-fast:
