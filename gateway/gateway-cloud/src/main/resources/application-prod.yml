@@ -3,7 +3,7 @@ spring:
         nacos:
             discovery:
                 server-addr: 144.34.143.83:8848
-                ip: 47.110.251.3
+#                ip: 47.110.251.3
         gateway:
             discovery:
                 locator:

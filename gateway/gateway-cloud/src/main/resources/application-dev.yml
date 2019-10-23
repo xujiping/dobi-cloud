@@ -10,4 +10,6 @@ spring:
                     lowerCaseServiceId: true
             loadbalancer:
                 use404: true
-
+logging:
+    level:
+        root: info
