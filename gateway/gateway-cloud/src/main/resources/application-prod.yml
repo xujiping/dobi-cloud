@@ -11,4 +11,3 @@ spring:
                     lowerCaseServiceId: true
             loadbalancer:
                 use404: true
-
