@@ -52,10 +52,7 @@ public class SysUserController {
     @UserLoginToken
     @ApiOperation(value = "用户信息", httpMethod = "GET")
     @GetMapping("info")
-    public String userInfo(HttpServletRequest request,
-                           @NotNull
-                           @ApiParam(required = true, name = "ucToken", value = "用户token")
-                           @RequestHeader String ucToken) {
+    public String userInfo(HttpServletRequest request) {
         String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         return new ReturnBean(userService.get(accountId)).toJson();
     }

@@ -22,4 +22,10 @@ public class IndexController {
         return new ReturnBean().toJson();
     }
 
+    @PassToken
+    @GetMapping("auth")
+    public String auth(){
+        return "不需要认证";
+    }
+
 }

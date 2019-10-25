@@ -1,6 +1,7 @@
 package com.cloud.admin.controller;
 
 import com.cloud.admin.service.SysPermissionService;
+import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
@@ -34,17 +35,13 @@ public class SysPermissionController {
     @UserLoginToken
     @ApiOperation(value = "列表", httpMethod = "GET", notes = "查询权限列表，默认查询1级权限列表，后续根据upId查询下一级的权限列表")
     @GetMapping("list")
-    public String list(HttpServletRequest request,
-                       @NotNull
-                       @ApiParam(required = true, name = "ucToken", value = "用户token")
-                       @RequestHeader String ucToken,
+    public String list(@NotNull
                        @ApiParam(name = "upId", value = "上级权限ID")
                        @RequestParam(required = false) Integer upId) {
-        String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         return new ReturnBean(permissionService.listChild(upId)).toJson();
     }
 
-    @UserLoginToken
+    @PassToken
     @ApiOperation(value = "全部权限列表", httpMethod = "GET", notes = "全部权限列表，并返回用户勾选的权限ID列表")
     @GetMapping("all")
     public String all() {

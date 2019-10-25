@@ -1,15 +1,19 @@
 package com.cloud.base.config;
 
+import com.cloud.base.constants.Constants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author xujiping
@@ -51,7 +55,9 @@ public class SwaggerConfig {
                     //当前包路径
                     .apis(RequestHandlerSelectors.basePackage(swaggerPackage))
                     .paths(PathSelectors.any())
-                    .build();
+                    .build()
+                    .securitySchemes(securitySchemes())
+                    .securityContexts(securityContexts());
         } else {
             return new Docket(DocumentationType.SWAGGER_2)
                     .apiInfo(apiInfo())
@@ -71,5 +77,40 @@ public class SwaggerConfig {
                 .version(version)
                 .description(description)
                 .build();
+    }
+
+    /**
+     * 全局头部列表
+     *
+     * @return
+     */
+    private List<ApiKey> securitySchemes() {
+        List<ApiKey> list = new ArrayList<>();
+        list.add(new ApiKey(Constants.HEADER_TOKEN, Constants.HEADER_TOKEN, "header"));
+        return list;
+    }
+
+    /**
+     * 全局参数匹配URL
+     * 所有包含“auth”的接口不需要使用securitySchemes
+     *
+     * @return
+     */
+    private List<SecurityContext> securityContexts() {
+        List<SecurityContext> list = new ArrayList<>();
+        list.add(SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex("^(?!auth).*$"))
+                .build());
+        return list;
+    }
+
+    List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        List<SecurityReference> list = new ArrayList<>();
+        list.add(new SecurityReference("Authorization", authorizationScopes));
+        return list;
     }
 }
