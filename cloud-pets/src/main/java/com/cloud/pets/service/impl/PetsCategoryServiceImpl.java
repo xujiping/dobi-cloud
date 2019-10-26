@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsCategory;
 import com.cloud.pets.mapper.PetsCategoryMapper;
@@ -46,7 +46,7 @@ public class PetsCategoryServiceImpl extends ServiceImpl<PetsCategoryMapper, Pet
         }
         PetsCategory petsCategory = get(name);
         if (petsCategory != null) {
-            throw new BusinessException(ReturnCode.PET_CATEGORY_EXIST);
+            throw new BusinessException(ResultCode.PET_CATEGORY_EXIST);
         }
         petsCategory = new PetsCategory();
         petsCategory.setName(name);
@@ -57,7 +57,7 @@ public class PetsCategoryServiceImpl extends ServiceImpl<PetsCategoryMapper, Pet
     public boolean update(Integer id, String name, String status) {
         PetsCategory petsCategory = selectById(id);
         if (petsCategory == null) {
-            throw new BusinessException(ReturnCode.NOT_EXISTS);
+            throw new BusinessException(ResultCode.NOT_EXISTS);
         }
         if (StringUtils.isNotEmpty(name)) {
             petsCategory.setName(name);

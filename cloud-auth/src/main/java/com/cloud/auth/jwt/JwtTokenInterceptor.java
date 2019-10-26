@@ -1,7 +1,7 @@
 package com.cloud.auth.jwt;
 
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
-        throw new BusinessException(ReturnCode.INVALID_REQUEST);
+        throw new BusinessException(ResultCode.INVALID_REQUEST);
     }
 
     @Override

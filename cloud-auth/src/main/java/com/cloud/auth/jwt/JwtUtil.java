@@ -5,12 +5,9 @@ import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
 
@@ -52,7 +49,7 @@ public class JwtUtil {
     public static void validate(UserCenterConfig userCenterConfig, String token) {
         // 执行认证
         if (StrUtil.isBlank(token)) {
-            throw new BusinessException(ReturnCode.NO_TOKEN);
+            throw new BusinessException(ResultCode.NO_TOKEN);
         }
         // 查询用户信息，此时已经在用户中心校验了一次token
         ReturnBean returnBean = UcHttpUtil.get(userCenterConfig.getRequestUser(), token, null);
@@ -66,16 +63,16 @@ public class JwtUtil {
 //        try {
 //            jwtVerifier.verify(token);
 //        } catch (JWTVerificationException e) {
-//            throw new BusinessException(ReturnCode.TOKEN_FAIL);
+//            throw new BusinessException(ResultCode.TOKEN_FAIL);
 //        }
         // 校验用户权限
 //                String platformId = request.getHeader(Constants.HEADER_PLATFORM);
 //                if (StrUtil.isBlank(platformId)) {
-//                    throw new BusinessException(ReturnCode.PARAMS_ERROR);
+//                    throw new BusinessException(ResultCode.PARAMS_ERROR);
 //                }
 ////                boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), userId, requestURI);
 ////                if (!checkPermission) {
-////                    throw new BusinessException(ReturnCode.NO_PERMISSION);
+////                    throw new BusinessException(ResultCode.NO_PERMISSION);
 ////                }
     }
 

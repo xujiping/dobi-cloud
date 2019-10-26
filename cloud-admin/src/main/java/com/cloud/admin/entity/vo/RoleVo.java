@@ -1,5 +1,6 @@
 package com.cloud.admin.entity.vo;
 
+import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.Date;
  * @Version 1.0
  */
 @Data
+@ApiModel("角色实体")
 public class RoleVo implements Serializable {
 
     private static final long serialVersionUID = 8571979663698056179L;

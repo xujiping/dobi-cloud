@@ -41,7 +41,7 @@ public class MyBatisPlusGeneratorUtil {
         gc.setFileOverride(false);
         gc.setActiveRecord(true);
         //XML 二级缓存
-        gc.setEnableCache(true);
+        gc.setEnableCache(false);
         gc.setBaseResultMap(true);
         gc.setBaseColumnList(false);
         //作者

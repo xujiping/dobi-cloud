@@ -3,7 +3,7 @@ package com.cloud.pets.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.Collect;
 import com.cloud.pets.mapper.CollectMapper;
@@ -40,7 +40,7 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
         }
         Collect collect = get(userId, subject, resourceId);
         if (collect != null) {
-            throw new BusinessException(ReturnCode.COLLECTED);
+            throw new BusinessException(ResultCode.COLLECTED);
         }
         collect = new Collect();
         collect.setUserId(userId);

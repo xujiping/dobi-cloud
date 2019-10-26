@@ -11,7 +11,7 @@ import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,24 +61,24 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (StrUtil.isBlank(token)) {
-                    throw new BusinessException(ReturnCode.NO_TOKEN);
+                    throw new BusinessException(ResultCode.NO_TOKEN);
                 }
                 // 查询用户信息
                 SysUser user = userService.selectById(accountId);
                 if (user == null) {
-                    throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+                    throw new BusinessException(ResultCode.USER_NOT_EXISTS);
                 }
                 String username = user.getUsername();
                 LoginLog loginLog = userService.getByToken(token);
                 if (loginLog == null) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
+                    throw new BusinessException(ResultCode.TOKEN_FAIL);
                 }
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(loginLog.getSecret())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new BusinessException(ReturnCode.TOKEN_FAIL);
+                    throw new BusinessException(ResultCode.TOKEN_FAIL);
                 }
                 // admin用户不校验权限
                 if (!username.equals("dobi")) {
@@ -86,19 +86,19 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                         // 校验用户权限
                         String platformId = request.getHeader("platform");
                         if (StrUtil.isBlank(platformId)) {
-                            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+                            throw new BusinessException(ResultCode.PARAMS_ERROR);
                         }
                         boolean checkPermission = userService.checkPermission(Integer.parseInt(platformId), accountId
                                 , requestURI);
                         if (!checkPermission) {
-                            throw new BusinessException(ReturnCode.NO_PERMISSION);
+                            throw new BusinessException(ResultCode.NO_PERMISSION);
                         }
                     }
                 }
                 return true;
             }
         }
-        throw new BusinessException(ReturnCode.INVALID_REQUEST);
+        throw new BusinessException(ResultCode.INVALID_REQUEST);
     }
 
     @Override

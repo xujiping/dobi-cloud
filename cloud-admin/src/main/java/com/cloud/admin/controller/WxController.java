@@ -2,14 +2,12 @@ package com.cloud.admin.controller;
 
 import com.cloud.admin.config.WxConfig;
 import com.cloud.admin.entity.vo.UserVo;
-import com.cloud.admin.service.OpenChannelService;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.admin.wx.OauthByWxCode;
 import com.cloud.admin.wx.WxService;
 import com.cloud.auth.jwt.PassToken;
-import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -54,7 +52,7 @@ public class WxController {
         ReturnBean rb = new ReturnBean();
         OauthByWxCode oauthByWxCode = wxService.wxCodeToOauth(wxConfig, jsCode, appName);
         if (oauthByWxCode == null || oauthByWxCode.getErrcode() != null){
-            rb.setReturnCode(ReturnCode.WX_CODE_SESSION_ERROR, null);
+            rb.setReturnCode(ResultCode.WX_CODE_SESSION_ERROR, null);
         }
         String openid = Objects.requireNonNull(oauthByWxCode).getOpenid();
         // 判断本地是否有用户，如果有则返回token，如果没有则创建新用户，并返回token

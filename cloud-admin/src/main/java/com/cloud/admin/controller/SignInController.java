@@ -3,10 +3,9 @@ package com.cloud.admin.controller;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
-import com.cloud.auth.jwt.JwtUtil;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,11 +47,11 @@ public class SignInController {
                          @RequestParam String password) {
         SysUser user = userService.getByUsername(username);
         if (user != null) {
-            throw new BusinessException(ReturnCode.USER_EXIST);
+            throw new BusinessException(ResultCode.USER_EXIST);
         }
         user = userService.addNormal(username, password);
         if (user == null) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         Integer status = user.getStatus();
         // 生成token

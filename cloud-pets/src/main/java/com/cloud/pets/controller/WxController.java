@@ -1,7 +1,7 @@
 package com.cloud.pets.controller;
 
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.pets.common.wx.OauthByWxCode;
 import com.cloud.pets.common.wx.WxService;
 import com.cloud.pets.config.WxConfig;
@@ -40,7 +40,7 @@ public class WxController {
         ReturnBean rb = new ReturnBean();
         OauthByWxCode oauthByWxCode = wxService.wxCodeToOauth(wxConfig, jsCode);
         if (oauthByWxCode == null){
-            rb.setReturnCode(ReturnCode.WX_CODE_SESSION_ERROR, null);
+            rb.setReturnCode(ResultCode.WX_CODE_SESSION_ERROR, null);
         }
         // todo 判断本地是否有用户，如果有则返回token，如果没有则创建新用户，并返回token
         return rb.toJson();

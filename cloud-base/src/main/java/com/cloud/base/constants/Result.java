@@ -1,42 +1,78 @@
-package com.cloud.base.constantss;
+package com.cloud.base.constants;
+
+import com.alibaba.fastjson.JSONObject;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
+ * 全局结果返回实体
+ *
  * @author xujiping
  * @date 2018/6/20 13:40
  */
+@Data
+@AllArgsConstructor
 public class Result implements Serializable {
 
-    /**
-     * 错误码，没有错误返回0
-     */
-    private Integer errno;
+    private Integer code;
 
-    private String[] data;
+    private String message;
 
-    public Integer getErrno() {
-        return errno;
+    private Object data;
+
+    public void setResultCode(ResultCode resultCode) {
+        this.code = resultCode.code();
+        this.message = resultCode.msg();
     }
 
-    public void setErrno(Integer errno) {
-        this.errno = errno;
+    public Result() {
     }
 
-    public String[] getData() {
-        return data;
-    }
-
-    public void setData(String[] data) {
+    public Result(ResultCode resultCode, Object data) {
+        this.code = resultCode.code();
+        this.message = resultCode.msg();
         this.data = data;
     }
 
-    @Override
-    public String toString() {
-        return "Result{" +
-                "errno=" + errno +
-                ", data=" + Arrays.toString(data) +
-                '}';
+    public static Result success() {
+        Result result = new Result();
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
     }
+
+    public static Result success(Object data) {
+        Result result = new Result();
+        result.setResultCode(ResultCode.SUCCESS);
+        result.setData(data);
+        return result;
+    }
+
+    public static Result failure(ResultCode resultCode) {
+        Result result = new Result();
+        result.setResultCode(resultCode);
+        return result;
+    }
+
+    public static Result failure(ResultCode resultCode, Object data) {
+        Result result = new Result();
+        result.setResultCode(resultCode);
+        result.setData(data);
+        return result;
+    }
+
+    /**
+     * 转换成json字符串
+     *
+     * @return
+     */
+    public String toJson() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code", code);
+        jsonObject.put("msg", message);
+        jsonObject.put("data", data);
+        return jsonObject.toJSONString();
+    }
+
 }

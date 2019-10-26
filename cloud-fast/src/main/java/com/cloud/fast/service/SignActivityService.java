@@ -1,7 +1,6 @@
 package com.cloud.fast.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.fast.entity.SignActivity;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.SignActivityDto;
@@ -10,7 +9,6 @@ import com.cloud.fast.entity.vo.SignActivityVo;
 import com.cloud.fast.entity.vo.UserApplyVo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

@@ -1,16 +1,18 @@
 package com.cloud.base.constants;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.Data;
 
 /**
  * @author xujiping
  * @date 2018/6/11 15:58
  */
-public class ReturnBean {
+@Data
+public class ReturnBean<T> {
 
     private int code;
     private String msg;
-    private Object data;
+    private T data;
     private Long count;
     private Long minTime;
     private Long maxTime;
@@ -19,18 +21,18 @@ public class ReturnBean {
      * 成功
      */
     public ReturnBean() {
-        this.code = ReturnCode.SUCCESS.code();
-        this.msg = ReturnCode.SUCCESS.msg();
+        this.code = ResultCode.SUCCESS.code();
+        this.msg = ResultCode.SUCCESS.msg();
     }
 
-    public ReturnBean(Object data) {
-        this.code = ReturnCode.SUCCESS.code();
-        this.msg = ReturnCode.SUCCESS.msg();
+    public ReturnBean(T data) {
+        this.code = ResultCode.SUCCESS.code();
+        this.msg = ResultCode.SUCCESS.msg();
         this.data = data;
     }
 
     public boolean isSuccess() {
-        return code == ReturnCode.SUCCESS.code();
+        return code == ResultCode.SUCCESS.code();
     }
 
     /**
@@ -38,52 +40,20 @@ public class ReturnBean {
      *
      * @param code 错误码
      */
-    public ReturnBean(ReturnCode code) {
+    public ReturnBean(ResultCode code) {
         this.code = code.code();
         this.msg = code.msg();
     }
 
-    public ReturnBean(ReturnCode code, Object data) {
+    public ReturnBean(ResultCode code, T data) {
         this.code = code.code();
         this.msg = code.msg();
         this.data = data;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public Long getCount() {
-        return count;
-    }
-
-    public void setCount(Long count) {
-        this.count = count;
-    }
-
-    public void setReturnCode(ReturnCode returnCode, Object data) {
-        this.code = returnCode.code();
-        this.msg = returnCode.msg();
+    public void setReturnCode(ResultCode resultCode, T data) {
+        this.code = resultCode.code();
+        this.msg = resultCode.msg();
         this.data = data;
     }
 

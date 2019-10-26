@@ -3,8 +3,7 @@ package com.cloud.fast.controller;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.cloud.auth.jwt.PassToken;
-import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.open.qiniu.QiniuUploadUtil;
 import com.cloud.fast.config.QiniuConfig;
@@ -36,7 +35,7 @@ public class QiniuController {
     public String getUpToken() {
         String upToken = QiniuUploadUtil.getUpToken(qiniuConfig.getAccessKey(), qiniuConfig.getSecretKey(), qiniuConfig.getBucket());
         if (StrUtil.isBlank(upToken)) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         JSONObject json = new JSONObject();
         json.put("uptoken", upToken);

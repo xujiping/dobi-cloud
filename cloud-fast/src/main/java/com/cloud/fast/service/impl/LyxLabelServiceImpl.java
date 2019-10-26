@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.LyxLabel;
 import com.cloud.fast.entity.LyxUserLike;
@@ -44,11 +44,11 @@ public class LyxLabelServiceImpl extends ServiceImpl<LyxLabelMapper, LyxLabel> i
     public String add(String userId, String labels) {
         StringBuilder ids = new StringBuilder();
         if (StrUtil.isBlank(labels)) {
-            throw new BusinessException(ReturnCode.LYX_LABEL_NULL);
+            throw new BusinessException(ResultCode.LYX_LABEL_NULL);
         }
         JSONArray jsonArray = JSONArray.parseArray(labels);
         if (jsonArray == null || jsonArray.size() <= 0) {
-            throw new BusinessException(ReturnCode.LYX_LABEL_NULL);
+            throw new BusinessException(ResultCode.LYX_LABEL_NULL);
         }
         for (Object object : jsonArray) {
             JSONObject jsonObject = (JSONObject) object;

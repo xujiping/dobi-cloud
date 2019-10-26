@@ -11,7 +11,7 @@ import com.cloud.admin.service.*;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.PlatformEnum;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,11 +48,11 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public boolean add(int platform, String name, String intro) {
         if (PlatformEnum.getpName(platform) == null) {
-            throw new BusinessException(ReturnCode.PLATFORM_NOT_EXIST);
+            throw new BusinessException(ResultCode.PLATFORM_NOT_EXIST);
         }
         SysRole role = get(platform, name);
         if (role != null) {
-            throw new BusinessException(ReturnCode.ROLE_EXIST);
+            throw new BusinessException(ResultCode.ROLE_EXIST);
         }
         role = new SysRole();
         role.setPlatformId(platform);
@@ -98,7 +98,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public boolean addUser(String userId, int roleId) {
         SysRole role = selectById(roleId);
         if (role == null || role.getStatus() == Constants.STATUS_UNENABLE) {
-            throw new BusinessException(ReturnCode.ROLE_NULL_OR_UNENABLE);
+            throw new BusinessException(ResultCode.ROLE_NULL_OR_UNENABLE);
         }
         Integer platformId = role.getPlatformId();
         SysRoleUser userRole = getUserRole(platformId, userId);

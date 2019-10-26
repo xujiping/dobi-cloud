@@ -1,7 +1,7 @@
 package com.cloud.pets.controller;
 
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Pets;
@@ -90,7 +90,7 @@ public class PetsController {
         ReturnBean rb = new ReturnBean();
         boolean add = petsService.add(key, categoryId, speciesId, nickname, age, sex);
         if (!add) {
-            rb.setReturnCode(ReturnCode.FAIL, null);
+            rb.setReturnCode(ResultCode.FAIL, null);
         }
         return rb.toJson();
     }
@@ -116,11 +116,11 @@ public class PetsController {
         // 检查宠物是否存在
         Pets pets = petsService.get(key, id);
         if (pets == null) {
-            throw new BusinessException(ReturnCode.PETS_NOT_EXISTS);
+            throw new BusinessException(ResultCode.PETS_NOT_EXISTS);
         }
         boolean add = petsService.updateInfo(id, categoryId, speciesId, nickname, age, sex);
         if (!add) {
-            rb.setReturnCode(ReturnCode.FAIL, null);
+            rb.setReturnCode(ResultCode.FAIL, null);
         }
         return rb.toJson();
     }

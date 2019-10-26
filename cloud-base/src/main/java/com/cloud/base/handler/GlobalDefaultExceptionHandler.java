@@ -1,9 +1,8 @@
 package com.cloud.base.handler;
 
-import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.Result;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,41 +38,41 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public String defultExcepitonHandler(HttpServletRequest request, Exception e) {
-        ReturnBean returnBean = new ReturnBean();
+    public Result defultExcepitonHandler(HttpServletRequest request, Exception e) {
+        Result result = new Result();
         if (e instanceof BusinessException) {
             log("业务异常", e, request);
             BusinessException businessException = (BusinessException) e;
-            returnBean.setCode(businessException.getCode());
-            returnBean.setMsg(businessException.getMessage());
-            returnBean.setData(businessException.getData());
+            result.setCode(businessException.getCode());
+            result.setMessage(businessException.getMessage());
+            result.setData(businessException.getData());
         } else if (e instanceof ConstraintViolationException) {
             //参数校验异常
-            returnBean.setCode(ReturnCode.PARAMS_ERROR.code());
+            result.setCode(ResultCode.PARAMS_ERROR.code());
             ConstraintViolationException constraintViolationException = (ConstraintViolationException) e;
             Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
             for (ConstraintViolation<?> item : violations) {
-                returnBean.setMsg(item.getMessage());
+                result.setMessage(item.getMessage());
                 Path propertyPath = item.getPropertyPath();
                 String propertyStr = propertyPath.toString();
                 if (propertyStr.contains("arg0")) {
-                    returnBean.setData("phone");
+                    result.setData("phone");
                 } else if (propertyStr.contains("arg1")) {
-                    returnBean.setData("validateCode");
+                    result.setData("validateCode");
                 } else if (propertyStr.contains("arg2")) {
-                    returnBean.setData("password");
+                    result.setData("password");
                 } else if (propertyStr.contains("arg3")) {
-                    returnBean.setData("repeatPassword");
+                    result.setData("repeatPassword");
                 }
             }
-            logger.debug("参数校验异常[code = " + returnBean.getCode() + ", message = " + returnBean.getMsg() + "]");
+            logger.debug("参数校验异常[code = " + result.getCode() + ", message = " + result.getMessage() + "]");
         } else {
             //未知错误
             logger.error("未知异常", e);
             log("未知异常", e, request);
-            returnBean.setReturnCode(ReturnCode.FAIL, null);
+            result.setResultCode(ResultCode.FAIL);
         }
-        return returnBean.toJson();
+        return result;
     }
 
     private void log(String title, Exception e, HttpServletRequest request) {
@@ -83,7 +82,7 @@ public class GlobalDefaultExceptionHandler extends ResponseEntityExceptionHandle
         Enumeration<String> parameterNames = request.getParameterNames();
         buffer.append("->请求参数[");
         while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement().toString();
+            String name = parameterNames.nextElement();
             buffer.append("        " + name + ":" + request.getParameter(name) + ",");
         }
         buffer.append("]");

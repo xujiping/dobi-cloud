@@ -4,7 +4,7 @@ import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsSpecies;
 import com.cloud.pets.entity.PetsSpeciesDetail;
@@ -18,8 +18,6 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -83,7 +81,7 @@ public class PetsSpeciesController {
         ReturnBean rb = new ReturnBean();
         boolean add = petsSpeciesService.add(name, categoryId, heat);
         if (!add) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return rb.toJson();
     }
@@ -104,7 +102,7 @@ public class PetsSpeciesController {
         ReturnBean rb = new ReturnBean();
         boolean update = petsSpeciesService.update(id, name, categoryId, heat, status);
         if (!update) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return rb.toJson();
     }

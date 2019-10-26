@@ -5,6 +5,7 @@ import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.CorsInterceptor;
 import com.cloud.auth.jwt.JWTConfig;
 import com.cloud.auth.jwt.UserCenterConfig;
+import com.cloud.base.interceptor.ResponseResultInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private JWTConfig jwtConfig;
 
-    @Autowired private SysUserService userService;
+    @Autowired
+    private SysUserService userService;
+
+    @Autowired
+    private ResponseResultInterceptor responseResultInterceptor;
 
     @Bean
     public JwtTokenInterceptor jwtTokenInterceptor() {
@@ -31,6 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(responseResultInterceptor);
         registry.addInterceptor(new CorsInterceptor()).addPathPatterns("/**");
         registry.addInterceptor(jwtTokenInterceptor())
                 .addPathPatterns(jwtConfig.getIncludePathPatterns())

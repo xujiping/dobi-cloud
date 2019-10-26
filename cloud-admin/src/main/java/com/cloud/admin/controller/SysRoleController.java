@@ -3,16 +3,14 @@ package com.cloud.admin.controller;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysRole;
-import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.RoleVo;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysRoleService;
-import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.PlatformEnum;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,12 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +47,7 @@ public class SysRoleController {
     @UserLoginToken
     @ApiOperation(value = "分页列表", httpMethod = "GET")
     @GetMapping("page")
-    public String listByPage(@ApiParam(name = "platform", value = "平台ID")
+    public ReturnBean<Page<RoleVo>> listByPage(@ApiParam(name = "platform", value = "平台ID")
                              @RequestHeader(required = false) Integer platform,
                              @ApiParam(name = "page", value = "页码", defaultValue = "1")
                              @RequestParam(required = false, defaultValue = "1") Integer page,
@@ -69,13 +64,13 @@ public class SysRoleController {
 
         }
         Page<SysRole> rolePage = new Page<>(page, size);
-        return new ReturnBean(roleService.listByPage(rolePage, params)).toJson();
+        return new ReturnBean(roleService.listByPage(rolePage, params));
     }
 
     @UserLoginToken
     @ApiOperation(value = "创建角色", httpMethod = "POST")
     @PostMapping("new")
-    public String add(
+    public ReturnBean add(
             @NotNull
             @ApiParam(required = true, name = "platform", value = "平台ID")
             @RequestParam Integer platform,
@@ -88,42 +83,42 @@ public class SysRoleController {
         ReturnBean rb = new ReturnBean(true);
         boolean add = roleService.add(platform, roleName, roleIntro);
         if (!add) {
-            rb.setReturnCode(ReturnCode.FAIL, false);
+            rb.setReturnCode(ResultCode.FAIL, false);
         }
-        return rb.toJson();
+        return rb;
     }
 
     @UserLoginToken
     @ApiOperation(value = "删除角色", httpMethod = "GET")
     @GetMapping("remove/{id}")
-    public String remove(@ApiParam(required = true, name = "id", value = "角色ID")
+    public ReturnBean remove(@ApiParam(required = true, name = "id", value = "角色ID")
                          @PathVariable Integer id) {
         boolean remove = roleService.remove(id);
         if (!remove) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
-        return new ReturnBean().toJson();
+        return new ReturnBean();
     }
 
     @UserLoginToken
     @ApiOperation(value = "给用户分配角色", httpMethod = "POST")
     @PostMapping("user")
-    public String addUser(@ApiParam(required = true, name = "roleId", value = "角色ID")
+    public ReturnBean addUser(@ApiParam(required = true, name = "roleId", value = "角色ID")
                           @RequestParam Integer roleId,
                           @ApiParam(required = true, name = "userId", value = "用户ID")
                           @RequestParam String userId) {
         ReturnBean rb = new ReturnBean(true);
         boolean addUser = roleService.addUser(userId, roleId);
         if (!addUser) {
-            rb.setReturnCode(ReturnCode.FAIL, false);
+            rb.setReturnCode(ResultCode.FAIL, false);
         }
-        return rb.toJson();
+        return rb;
     }
 
     @UserLoginToken
     @ApiOperation(value = "给角色分配权限", httpMethod = "POST")
     @PostMapping("permission/add")
-    public String addPermission(HttpServletRequest request,
+    public ReturnBean addPermission(HttpServletRequest request,
                                 @ApiParam(required = true, name = "roleId", value = "角色ID")
                                 @RequestParam Integer roleId,
                                 @ApiParam(required = true, name = "permissionIdList", value = "权限ID列表，用英文半角逗号分隔")
@@ -131,13 +126,13 @@ public class SysRoleController {
         String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         ReturnBean rb = new ReturnBean(true);
         roleService.addPermission(accountId, roleId, permissionIdList);
-        return rb.toJson();
+        return rb;
     }
 
     @UserLoginToken
     @ApiOperation(value = "取消角色权限", httpMethod = "POST")
     @PostMapping("permission/remove")
-    public String removePermission(HttpServletRequest request,
+    public ReturnBean removePermission(HttpServletRequest request,
                                    @ApiParam(required = true, name = "roleId", value = "角色ID")
                                    @RequestParam Integer roleId,
                                    @ApiParam(required = true, name = "permissionIdList", value = "权限ID列表，用英文半角逗号分隔")
@@ -145,15 +140,15 @@ public class SysRoleController {
         String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         ReturnBean rb = new ReturnBean(true);
         roleService.removePermission(accountId, roleId, permissionIdList);
-        return rb.toJson();
+        return rb;
     }
 
     @UserLoginToken
     @ApiOperation(value = "角色权限ID列表", httpMethod = "GET", notes = "返回用户勾选的权限ID列表")
     @GetMapping("permissions")
-    public String listRole(@ApiParam(required = true, name = "roleId", value = "角色ID")
+    public ReturnBean listRole(@ApiParam(required = true, name = "roleId", value = "角色ID")
                            @RequestParam Integer roleId) {
-        return new ReturnBean(permissionService.listRole(roleId)).toJson();
+        return new ReturnBean(permissionService.listRole(roleId));
     }
 
 }

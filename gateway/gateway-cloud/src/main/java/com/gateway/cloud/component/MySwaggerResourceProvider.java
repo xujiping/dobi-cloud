@@ -50,7 +50,6 @@ public class MySwaggerResourceProvider implements SwaggerResourcesProvider {
         routeLocator.getRoutes().filter(route -> route.getUri().getHost() != null)
                 .filter(route -> !self.equals(route.getUri().getHost()))
                 .subscribe(route -> routeHosts.add(route.getUri().getHost()));
-
         // 记录已经添加过的server，存在同一个应用注册了多个服务在nacos上
         Set<String> dealed = new HashSet<>();
         routeHosts.forEach(instance -> {

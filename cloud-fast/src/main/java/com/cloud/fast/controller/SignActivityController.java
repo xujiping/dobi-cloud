@@ -8,8 +8,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.entity.SignForm;
@@ -63,7 +63,7 @@ public class SignActivityController {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         SignActivity signActivity = signActivityService.add(key, signActivityDto);
         if (signActivity == null) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return new ReturnBean().toJson();
     }
@@ -112,7 +112,7 @@ public class SignActivityController {
     @GetMapping("form/{id}")
     public ReturnBean getForm(@PathVariable Integer id) {
         if (id == null) {
-            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+            throw new BusinessException(ResultCode.PARAMS_ERROR);
         }
         return new ReturnBean(signFormService.selectById(id));
     }

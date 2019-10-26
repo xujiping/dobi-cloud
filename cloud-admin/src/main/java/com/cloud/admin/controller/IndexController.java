@@ -2,6 +2,8 @@ package com.cloud.admin.controller;
 
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.ResponseResult;
+import com.cloud.base.constants.Result;
 import com.cloud.base.constants.ReturnBean;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public class IndexController {
     @PassToken
     @GetMapping("")
     public String index() {
-        return new ReturnBean().toJson();
+        return "sd";
     }
 
     @PassToken

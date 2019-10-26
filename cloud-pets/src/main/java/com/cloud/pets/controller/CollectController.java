@@ -2,8 +2,8 @@ package com.cloud.pets.controller;
 
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.pets.service.CollectService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +43,7 @@ public class CollectController {
         ReturnBean rb = new ReturnBean();
         boolean add = collectService.add(key, subject, id);
         if (!add) {
-            rb.setReturnCode(ReturnCode.FAIL, null);
+            rb.setReturnCode(ResultCode.FAIL, null);
         }
         return rb.toJson();
     }

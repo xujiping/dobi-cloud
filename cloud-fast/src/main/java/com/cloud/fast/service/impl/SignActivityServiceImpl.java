@@ -4,15 +4,11 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.druid.support.spring.stat.annotation.Stat;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.auth.jwt.UcHttpUtil;
-import com.cloud.auth.jwt.UserCenterConfig;
-import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.StatusEnum;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SignUtil;
@@ -33,7 +29,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +54,7 @@ public class SignActivityServiceImpl extends ServiceImpl<SignActivityMapper, Sig
     @Override
     public SignActivity add(String userId, SignActivityDto signActivityDto) {
         if (signActivityDto == null) {
-            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+            throw new BusinessException(ResultCode.PARAMS_ERROR);
         }
         String startTime = signActivityDto.getStartTime();
         String endTime = signActivityDto.getEndTime();

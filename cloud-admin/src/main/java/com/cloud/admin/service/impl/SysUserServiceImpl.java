@@ -17,10 +17,9 @@ import com.cloud.admin.service.*;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.auth.jwt.JwtUtil;
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.MD5Util;
-import com.cloud.base.util.TokenUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,10 +57,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser get(String userId) {
         SysUser sysUser = selectById(userId);
         if (sysUser == null) {
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+            throw new BusinessException(ResultCode.USER_NOT_EXISTS);
         }
         if (sysUser.getStatus() == Constants.STATUS_UNENABLE) {
-            throw new BusinessException(ReturnCode.USER_LOCKED);
+            throw new BusinessException(ResultCode.USER_LOCKED);
         }
         return sysUser;
     }
@@ -86,7 +85,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public UserVo login(String username, String password) {
         SysUser user = getByUsername(username);
         if (user == null) {
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+            throw new BusinessException(ResultCode.USER_NOT_EXISTS);
         }
         Integer status = user.getStatus();
         if (MD5Util.MD5(password).equals(user.getPassword())) {
@@ -162,7 +161,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser sysUser = selectById(userId);
         if (sysUser == null) {
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+            throw new BusinessException(ResultCode.USER_NOT_EXISTS);
         }
         sysUser.setStatus(status);
         return updateById(sysUser);
@@ -200,7 +199,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         SysUser user = get(userId);
         if (user == null) {
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+            throw new BusinessException(ResultCode.USER_NOT_EXISTS);
         }
         user.setNickname(userInfoDto.getNickName());
         user.setAvatar(userInfoDto.getAvatarUrl());
@@ -234,7 +233,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         UserOpenInfoVo openInfoVo = new UserOpenInfoVo();
         SysUser sysUser = selectById(userId);
         if (sysUser == null) {
-            throw new BusinessException(ReturnCode.USER_NOT_EXISTS);
+            throw new BusinessException(ResultCode.USER_NOT_EXISTS);
         }
         BeanUtils.copyProperties(sysUser, openInfoVo);
         openInfoVo.setUserId(userId);

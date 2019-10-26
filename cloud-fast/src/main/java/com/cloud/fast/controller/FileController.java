@@ -4,8 +4,8 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.FileUtil;
 import io.swagger.annotations.Api;
@@ -41,13 +41,13 @@ public class FileController {
     public String uploadLocal(@RequestParam("file") MultipartFile multipartFile, @RequestParam(required = false, defaultValue = "other") String folder) {
         // 文件上传，返回文件信息
         if (multipartFile == null) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         byte[] bytes;
         try {
             bytes = multipartFile.getBytes();
         } catch (IOException e) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         String originalFilename = multipartFile.getOriginalFilename();
         String suffix = StrUtil.subAfter(originalFilename, '.', true);
@@ -55,7 +55,7 @@ public class FileController {
         String newFileName = newName + "." + suffix;
         File file = FileUtil.uploadFile(bytes, newFileName, filePath + folder);
         if (file == null) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         String url = fileDomain + folder + Constants.URL_SEPARATOR + newFileName;
         return new ReturnBean(url).toJson();

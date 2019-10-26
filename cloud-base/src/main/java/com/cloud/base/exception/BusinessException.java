@@ -1,6 +1,6 @@
 package com.cloud.base.exception;
 
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 
 /**
  * 业务异常
@@ -20,18 +20,18 @@ public class BusinessException extends RuntimeException {
     private Object data;
 
     public BusinessException() {
-        super(ReturnCode.FAIL.msg());
-        this.code = ReturnCode.FAIL.code();
+        super(ResultCode.FAIL.msg());
+        this.code = ResultCode.FAIL.code();
     }
 
-    public BusinessException(ReturnCode returnCode) {
-        super(returnCode.msg());
-        this.code = returnCode.code();
+    public BusinessException(ResultCode resultCode) {
+        super(resultCode.msg());
+        this.code = resultCode.code();
     }
 
-    public BusinessException(ReturnCode returnCode, Object data) {
-        super(returnCode.msg());
-        this.code = returnCode.code();
+    public BusinessException(ResultCode resultCode, Object data) {
+        super(resultCode.msg());
+        this.code = resultCode.code();
         this.data = data;
     }
 
@@ -40,9 +40,9 @@ public class BusinessException extends RuntimeException {
         this.code = code;
     }
 
-    public BusinessException(ReturnCode returnCode, Exception e) {
-        super(returnCode.msg(), e.getCause());
-        this.code = returnCode.code();
+    public BusinessException(ResultCode resultCode, Exception e) {
+        super(resultCode.msg(), e.getCause());
+        this.code = resultCode.code();
     }
 
     public Integer getCode() {

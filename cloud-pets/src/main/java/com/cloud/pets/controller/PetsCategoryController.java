@@ -2,8 +2,8 @@ package com.cloud.pets.controller;
 
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.pets.entity.PetsCategory;
 import com.cloud.pets.service.PetsCategoryService;
@@ -55,7 +55,7 @@ public class PetsCategoryController {
         ReturnBean rb = new ReturnBean();
         boolean add = petsCategoryService.add(name);
         if (!add){
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return rb.toJson();
     }
@@ -73,7 +73,7 @@ public class PetsCategoryController {
         ReturnBean rb = new ReturnBean();
         boolean update = petsCategoryService.update(id, name, status);
         if (!update){
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return rb.toJson();
     }

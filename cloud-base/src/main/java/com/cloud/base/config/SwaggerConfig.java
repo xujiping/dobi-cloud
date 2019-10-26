@@ -55,9 +55,9 @@ public class SwaggerConfig {
                     //当前包路径
                     .apis(RequestHandlerSelectors.basePackage(swaggerPackage))
                     .paths(PathSelectors.any())
-                    .build()
-                    .securitySchemes(securitySchemes())
-                    .securityContexts(securityContexts());
+                    .build();
+//                    .securitySchemes(securitySchemes())
+//                    .securityContexts(securityContexts());
         } else {
             return new Docket(DocumentationType.SWAGGER_2)
                     .apiInfo(apiInfo())

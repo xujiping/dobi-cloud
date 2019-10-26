@@ -3,8 +3,8 @@ package com.cloud.admin.controller;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,7 +44,7 @@ public class LoginController {
                          @RequestParam String password) {
         UserVo userVo = userService.login(username, password);
         if (userVo == null){
-            throw new BusinessException(ReturnCode.LOGIN_FAIL);
+            throw new BusinessException(ResultCode.LOGIN_FAIL);
         }
         return new ReturnBean(userVo).toJson();
     }

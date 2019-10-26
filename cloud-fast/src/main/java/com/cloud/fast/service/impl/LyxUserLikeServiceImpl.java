@@ -3,7 +3,7 @@ package com.cloud.fast.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.LyxLabel;
 import com.cloud.fast.entity.LyxUserLike;
@@ -36,7 +36,7 @@ public class LyxUserLikeServiceImpl extends ServiceImpl<LyxUserLikeMapper, LyxUs
         }
         LyxLabel lyxLabel = lyxLabelService.selectById(labelId);
         if (lyxLabel == null){
-            throw new BusinessException(ReturnCode.LABEL_NOT_EXIST);
+            throw new BusinessException(ResultCode.LABEL_NOT_EXIST);
         }
         LyxUserLike lyxUserLike = new LyxUserLike();
         lyxUserLike.setUserId(userId);

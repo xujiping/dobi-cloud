@@ -1,8 +1,8 @@
 package com.cloud.pets.controller;
 
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.base.util.SpageUtil;
 import com.cloud.pets.entity.Demand;
@@ -149,7 +149,7 @@ public class DemandController {
         ReturnBean rb = new ReturnBean();
         boolean add = demandService.add(Integer.valueOf(key), typeId, age, price, sex, categoryId, speciesId, content);
         if (!add) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return rb.toJson();
     }
@@ -161,7 +161,7 @@ public class DemandController {
         ReturnBean rb = new ReturnBean();
         DemandVo demandVo = demandService.getOne(id);
         if (demandVo == null) {
-            throw new BusinessException(ReturnCode.NOT_EXISTS);
+            throw new BusinessException(ResultCode.NOT_EXISTS);
         }
         rb.setData(demandVo);
         return rb.toJson();

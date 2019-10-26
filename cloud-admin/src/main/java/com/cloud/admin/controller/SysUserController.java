@@ -3,7 +3,6 @@ package com.cloud.admin.controller;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.admin.entity.SysRole;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.dto.UserInfoDto;
 import com.cloud.admin.service.SysPermissionService;
@@ -11,8 +10,8 @@ import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
 import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,14 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * <p>
@@ -106,7 +101,7 @@ public class SysUserController {
                                @RequestParam Integer status) {
         boolean update = userService.updateStatus(userId, status);
         if (!update) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         return new ReturnBean().toJson();
     }
@@ -119,7 +114,7 @@ public class SysUserController {
                            @RequestBody UserInfoDto userInfoDto) {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         if (StrUtil.isBlank(key)) {
-            throw new BusinessException(ReturnCode.TOKEN_FAIL);
+            throw new BusinessException(ResultCode.TOKEN_FAIL);
         }
         userService.update(key, userInfoDto);
         return new ReturnBean().toJson();

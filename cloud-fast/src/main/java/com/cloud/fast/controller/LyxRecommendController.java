@@ -1,18 +1,15 @@
 package com.cloud.fast.controller;
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ReturnBean;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.LyxLabel;
 import com.cloud.fast.entity.LyxRecommend;
-import com.cloud.fast.entity.SignActivity;
 import com.cloud.fast.entity.vo.LyxLabelVo;
 import com.cloud.fast.service.LyxLabelService;
 import com.cloud.fast.service.LyxRecommendService;
@@ -28,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -69,14 +65,14 @@ public class LyxRecommendController {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         LyxRecommend recommend = lyxRecommendService.add(key, title, desc);
         if (recommend == null) {
-            throw new BusinessException(ReturnCode.FAIL);
+            throw new BusinessException(ResultCode.FAIL);
         }
         String labelIds = lyxLabelService.add(key, labels);
         if (StrUtil.isNotBlank(labelIds)) {
             recommend.setLabelIds(labelIds);
             boolean update = lyxRecommendService.updateById(recommend);
             if (!update) {
-                throw new BusinessException(ReturnCode.FAIL);
+                throw new BusinessException(ResultCode.FAIL);
             }
         }
         return new ReturnBean();
@@ -95,7 +91,7 @@ public class LyxRecommendController {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         boolean like = lyxUserLikeService.like(key, Long.valueOf(labelId), keywords);
         if (!like) {
-            return new ReturnBean(ReturnCode.FAIL);
+            return new ReturnBean(ResultCode.FAIL);
         }
         return new ReturnBean();
     }
@@ -110,7 +106,7 @@ public class LyxRecommendController {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         boolean dislike = lyxUserLikeService.dislike(key, Long.valueOf(labelId));
         if (!dislike) {
-            return new ReturnBean(ReturnCode.FAIL);
+            return new ReturnBean(ResultCode.FAIL);
         }
         return new ReturnBean();
     }

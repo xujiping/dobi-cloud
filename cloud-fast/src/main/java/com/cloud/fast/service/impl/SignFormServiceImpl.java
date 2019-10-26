@@ -2,7 +2,7 @@ package com.cloud.fast.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.SignForm;
 import com.cloud.fast.entity.dto.SignFormDto;
@@ -27,7 +27,7 @@ public class SignFormServiceImpl extends ServiceImpl<SignFormMapper, SignForm> i
     @Override
     public int getFormId(SignFormDto signFormDto) {
         if (signFormDto == null) {
-            throw new BusinessException(ReturnCode.PARAMS_ERROR);
+            throw new BusinessException(ResultCode.PARAMS_ERROR);
         }
         Wrapper<SignForm> wrapper = new EntityWrapper<>();
         wrapper.eq("name", signFormDto.getName());
@@ -40,7 +40,7 @@ public class SignFormServiceImpl extends ServiceImpl<SignFormMapper, SignForm> i
             BeanUtils.copyProperties(signFormDto, signForm);
             boolean insert = insert(signForm);
             if (!insert) {
-                throw new BusinessException(ReturnCode.FAIL);
+                throw new BusinessException(ResultCode.FAIL);
             }
         }
         return signForm.getId();

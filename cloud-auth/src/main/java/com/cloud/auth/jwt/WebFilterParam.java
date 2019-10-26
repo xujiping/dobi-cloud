@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.cloud.base.constants.Constants;
-import com.cloud.base.constants.ReturnCode;
+import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ import java.util.Map;
  * @Version 1.0
  */
 @Component
-@WebFilter(urlPatterns = "/*", filterName = "webFilterParam")
+@WebFilter(urlPatterns = "/test", filterName = "webFilterParam")
 @Slf4j
 public class WebFilterParam extends OncePerRequestFilter {
 
@@ -40,13 +40,13 @@ public class WebFilterParam extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             if (StrUtil.isBlank(token)) {
-                throw new BusinessException(ReturnCode.NO_TOKEN);
+                throw new BusinessException(ResultCode.NO_TOKEN);
             }
             // 获取token中的 userId
             try {
                 userId = JWT.decode(token).getAudience().get(0);
             } catch (JWTDecodeException j) {
-                throw new BusinessException(ReturnCode.TOKEN_FAIL);
+                throw new BusinessException(ResultCode.TOKEN_FAIL);
             }
             Map<String, String[]> parameterMap = new HashMap<>(request.getParameterMap());
             //修改请求参数
