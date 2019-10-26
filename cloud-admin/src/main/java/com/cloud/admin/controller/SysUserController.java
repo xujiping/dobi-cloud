@@ -5,11 +5,14 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.dto.UserInfoDto;
+import com.cloud.admin.entity.vo.PermissionVo;
+import com.cloud.admin.entity.vo.UserOpenInfoVo;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;
 import com.cloud.base.constants.Constants;
+import com.cloud.base.constants.ResponseResult;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.exception.BusinessException;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +41,7 @@ import java.util.Map;
 @RequestMapping("/sysUser")
 @Api(tags = "平台用户")
 @Validated
+@ResponseResult
 public class SysUserController {
     @Autowired
     private SysUserService userService;
@@ -47,77 +52,75 @@ public class SysUserController {
     @UserLoginToken
     @ApiOperation(value = "用户信息", httpMethod = "GET")
     @GetMapping("info")
-    public String userInfo(HttpServletRequest request) {
+    public SysUser userInfo(HttpServletRequest request) {
         String accountId = request.getParameter(Constants.HEADER_ACCOUNT_ID);
-        return new ReturnBean(userService.get(accountId)).toJson();
+        return userService.get(accountId);
     }
 
     @PassToken
     @ApiOperation(value = "用户开放信息", httpMethod = "GET")
     @GetMapping("info/open/{id}")
-    public ReturnBean openUserInfo(@PathVariable(value = "id") String id){
-        return new ReturnBean(userService.getOpenInfo(id));
+    public UserOpenInfoVo openUserInfo(@PathVariable(value = "id") String id) {
+        return userService.getOpenInfo(id);
     }
 
     @UserLoginToken
     @ApiOperation(value = "菜单列表", httpMethod = "GET")
     @GetMapping("menu")
-    public String menuList(@NotNull
-                           @ApiParam(required = true, name = "platform", value = "平台ID")
-                           @RequestHeader Integer platform,
-                           @NotBlank
-                           @ApiParam(required = true, name = "accountId", value = "用户ID")
-                           @RequestHeader String accountId,
-                           @NotNull
-                           @ApiParam(required = true, name = "level", value = "菜单级别")
-                           @RequestParam Integer level) {
-        return new ReturnBean(permissionService.list(platform, accountId, level)).toJson();
+    public List<PermissionVo> menuList(@NotNull
+                                       @ApiParam(required = true, name = "platform", value = "平台ID")
+                                       @RequestHeader Integer platform,
+                                       @NotBlank
+                                       @ApiParam(required = true, name = "accountId", value = "用户ID")
+                                       @RequestHeader String accountId,
+                                       @NotNull
+                                       @ApiParam(required = true, name = "level", value = "菜单级别")
+                                       @RequestParam Integer level) {
+        return permissionService.list(platform, accountId, level);
     }
 
     @UserLoginToken
     @ApiOperation(value = "分页列表", httpMethod = "GET")
     @GetMapping("page")
-    public String listByPage(@ApiParam(name = "page", value = "页码", defaultValue = "1")
-                             @RequestParam(required = false) Integer page,
-                             @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
-                             @RequestParam(required = false) Integer size,
-                             @ApiParam(name = "status", value = "状态： null所有 0不可用 1正常")
-                             @RequestParam(required = false) Integer status) {
+    public Page<SysUser> listByPage(@ApiParam(name = "page", value = "页码", defaultValue = "1")
+                                    @RequestParam(required = false) Integer page,
+                                    @ApiParam(name = "size", value = "每页大小", defaultValue = "10")
+                                    @RequestParam(required = false) Integer size,
+                                    @ApiParam(name = "status", value = "状态： null所有 0不可用 1正常")
+                                    @RequestParam(required = false) Integer status) {
         Map<String, Object> params = MapUtil.newHashMap(1);
         if (status != null) {
             params.put("status", status);
         }
         Page<SysUser> userPage = new Page<>(page, size);
         userPage = userService.listByPage(userPage, params);
-        return new ReturnBean(userPage).toJson();
+        return userPage;
     }
 
     @UserLoginToken
     @ApiOperation(value = "更新用户状态", httpMethod = "POST")
     @PostMapping("update/status")
-    public String updateStatus(@ApiParam(required = true, name = "userId", value = "用户ID")
-                               @RequestParam String userId,
-                               @ApiParam(required = true, name = "status", value = "状态")
-                               @RequestParam Integer status) {
+    public void updateStatus(@ApiParam(required = true, name = "userId", value = "用户ID")
+                             @RequestParam String userId,
+                             @ApiParam(required = true, name = "status", value = "状态")
+                             @RequestParam Integer status) {
         boolean update = userService.updateStatus(userId, status);
         if (!update) {
             throw new BusinessException(ResultCode.FAIL);
         }
-        return new ReturnBean().toJson();
     }
 
     @UserLoginToken
     @ApiOperation(value = "初始化用户基本信息", httpMethod = "POST")
     @PostMapping("info/init")
-    public String initInfo(HttpServletRequest request,
-                           @ApiParam(required = true, name = "userInfoDto", value = "用户信息")
-                           @RequestBody UserInfoDto userInfoDto) {
+    public void initInfo(HttpServletRequest request,
+                         @ApiParam(required = true, name = "userInfoDto", value = "用户信息")
+                         @RequestBody UserInfoDto userInfoDto) {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
         if (StrUtil.isBlank(key)) {
             throw new BusinessException(ResultCode.TOKEN_FAIL);
         }
         userService.update(key, userInfoDto);
-        return new ReturnBean().toJson();
     }
 
 

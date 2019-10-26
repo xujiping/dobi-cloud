@@ -3,6 +3,7 @@ package com.cloud.admin.controller;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.ResponseResult;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.exception.BusinessException;
@@ -28,6 +29,7 @@ import javax.validation.constraints.NotEmpty;
 @RequestMapping("login")
 @Validated
 @Api(tags = "登录")
+@ResponseResult
 public class LoginController {
 
     @Autowired
@@ -36,7 +38,7 @@ public class LoginController {
     @PassToken
     @ApiOperation(value = "普通登录", httpMethod = "POST", notes = "用户名、密码登录")
     @PostMapping("normal")
-    public String normal(@NotEmpty
+    public UserVo normal(@NotEmpty
                          @ApiParam(required = true, name = "username", value = "用户名")
                          @RequestParam String username,
                          @NotEmpty
@@ -46,6 +48,6 @@ public class LoginController {
         if (userVo == null){
             throw new BusinessException(ResultCode.LOGIN_FAIL);
         }
-        return new ReturnBean(userVo).toJson();
+        return userVo;
     }
 }

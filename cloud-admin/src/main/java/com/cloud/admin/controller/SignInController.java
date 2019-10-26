@@ -4,6 +4,7 @@ import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.ResponseResult;
 import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
@@ -31,6 +32,7 @@ import javax.validation.constraints.NotEmpty;
 @RequestMapping("signIn")
 @Api(tags = "注册")
 @Validated
+@ResponseResult
 public class SignInController {
 
     @Autowired
@@ -39,7 +41,7 @@ public class SignInController {
     @PassToken
     @ApiOperation(value = "普通注册", httpMethod = "POST", notes = "用户名、密码注册")
     @PostMapping("normal")
-    public String normal(@NotEmpty
+    public UserVo normal(@NotEmpty
                          @ApiParam(required = true, name = "username", value = "用户名")
                          @RequestParam String username,
                          @Length(min = 6, max = 20)
@@ -56,7 +58,6 @@ public class SignInController {
         Integer status = user.getStatus();
         // 生成token
         String token = userService.getToken(user.getId(), password);
-        UserVo userVo = new UserVo(user.getId(), user.getNickname(), token, null, status);
-        return new ReturnBean(userVo).toJson();
+        return new UserVo(user.getId(), user.getNickname(), token, null, status);
     }
 }

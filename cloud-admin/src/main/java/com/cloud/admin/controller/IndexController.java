@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @Api(tags = "默认")
+@ResponseResult
 public class IndexController {
 
     @PassToken

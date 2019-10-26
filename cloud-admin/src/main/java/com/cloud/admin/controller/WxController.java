@@ -6,8 +6,10 @@ import com.cloud.admin.service.SysUserService;
 import com.cloud.admin.wx.OauthByWxCode;
 import com.cloud.admin.wx.WxService;
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.ResponseResult;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.constants.ReturnBean;
+import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,6 +33,7 @@ import java.util.Objects;
 @RequestMapping("wx")
 @Api(tags = "微信相关接口")
 @Slf4j
+@ResponseResult
 public class WxController {
 
     @Autowired
@@ -39,25 +42,24 @@ public class WxController {
     @Autowired
     private WxService wxService;
 
-    @Autowired private SysUserService userService;
+    @Autowired
+    private SysUserService userService;
 
     @PassToken
     @ApiOperation(value = "微信code2Session", httpMethod = "POST", notes = "成功之后返回用户token")
     @PostMapping("code2Session")
-    public String code2Session(
+    public UserVo code2Session(
             @ApiParam(required = true, name = "jsCode", value = "登录时获取的 code")
             @RequestParam String jsCode,
             @ApiParam(name = "appName", value = "应用名称")
             @RequestParam(required = false) String appName) {
-        ReturnBean rb = new ReturnBean();
         OauthByWxCode oauthByWxCode = wxService.wxCodeToOauth(wxConfig, jsCode, appName);
-        if (oauthByWxCode == null || oauthByWxCode.getErrcode() != null){
-            rb.setReturnCode(ResultCode.WX_CODE_SESSION_ERROR, null);
+        if (oauthByWxCode == null || oauthByWxCode.getErrcode() != null) {
+            throw new BusinessException(ResultCode.WX_CODE_SESSION_ERROR);
         }
         String openid = Objects.requireNonNull(oauthByWxCode).getOpenid();
         // 判断本地是否有用户，如果有则返回token，如果没有则创建新用户，并返回token
         UserVo userVo = userService.loginByWx(openid, appName);
-        rb.setData(userVo);
-        return rb.toJson();
+        return userVo;
     }
 }
