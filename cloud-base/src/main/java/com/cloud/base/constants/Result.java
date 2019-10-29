@@ -67,12 +67,12 @@ public class Result implements Serializable {
      *
      * @return
      */
-    public String toJson() {
+    public JSONObject toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", code);
         jsonObject.put("message", message);
         jsonObject.put("data", data);
-        return jsonObject.toJSONString();
+        return jsonObject;
     }
 
 }

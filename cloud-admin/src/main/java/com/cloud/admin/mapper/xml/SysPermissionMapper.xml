@@ -7,15 +7,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cloud.admin.entity.SysPermission">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="platform_id" property="platformId" />
-        <result column="menu_name" property="menuName" />
-        <result column="menu_value" property="menuValue" />
-        <result column="up_id" property="upId" />
-        <result column="level" property="level" />
-        <result column="uri" property="uri" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="platform_id" property="platformId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_value" property="menuValue"/>
+        <result column="menu_vo" property="menuNo"/>
+        <result column="up_id" property="upId"/>
+        <result column="level" property="level"/>
+        <result column="uri" property="uri"/>
+        <result column="weight" property="weight"/>
+        <result column="status" property="status"/>
     </resultMap>
 
 </mapper>

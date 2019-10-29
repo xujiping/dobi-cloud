@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  * @author xujiping
  * @since 2019-06-06
  */
+@Data
 public class SysPermission extends Model<SysPermission> {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +55,16 @@ public class SysPermission extends Model<SysPermission> {
      * 状态：0不可用 1正常
      */
     private Integer status;
+
+    /**
+     * 菜单编号
+     */
+    private Integer menuNo;
+
+    /**
+     * 权重
+     */
+    private Integer weight;
 
 
     public Integer getId() {
@@ -132,18 +144,4 @@ public class SysPermission extends Model<SysPermission> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "SysPermission{" +
-        "id=" + id +
-        ", title=" + title +
-        ", platformId=" + platformId +
-        ", menuName=" + menuName +
-        ", menuValue=" + menuValue +
-        ", upId=" + upId +
-        ", level=" + level +
-        ", uri=" + uri +
-        ", status=" + status +
-        "}";
-    }
 }
