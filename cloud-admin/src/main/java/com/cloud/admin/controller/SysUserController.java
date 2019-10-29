@@ -67,16 +67,15 @@ public class SysUserController {
     @UserLoginToken
     @ApiOperation(value = "菜单列表", httpMethod = "GET")
     @GetMapping("menu")
-    public List<PermissionVo> menuList(@NotNull
+    public List<PermissionVo> menuList(HttpServletRequest request,
+                                       @NotNull
                                        @ApiParam(required = true, name = "platform", value = "平台ID")
                                        @RequestHeader Integer platform,
-                                       @NotBlank
-                                       @ApiParam(required = true, name = "accountId", value = "用户ID")
-                                       @RequestHeader String accountId,
                                        @NotNull
                                        @ApiParam(required = true, name = "level", value = "菜单级别")
                                        @RequestParam Integer level) {
-        return permissionService.list(platform, accountId, level);
+        String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        return permissionService.list(platform, key, level);
     }
 
     @UserLoginToken

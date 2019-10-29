@@ -33,6 +33,6 @@ public class UserVo implements Serializable {
     private Integer status;
 
     public String getAvatar() {
-        return StrUtil.isBlank(avatar) ? "http://pukfwh6z7.bkt.clouddn.com/cwmz-logo.png" : avatar;
+        return StrUtil.isBlank(avatar) ? "http://file.cwmz.top/cwmz-logo.png" : avatar;
     }
 }

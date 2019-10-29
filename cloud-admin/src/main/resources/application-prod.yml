@@ -60,3 +60,6 @@ uc:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
         user-open-info: /sysUser/info/open/
+dobi:
+    admin:
+        user: dobi

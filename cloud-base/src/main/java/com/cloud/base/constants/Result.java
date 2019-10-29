@@ -70,7 +70,7 @@ public class Result implements Serializable {
     public String toJson() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("code", code);
-        jsonObject.put("msg", message);
+        jsonObject.put("message", message);
         jsonObject.put("data", data);
         return jsonObject.toJSONString();
     }

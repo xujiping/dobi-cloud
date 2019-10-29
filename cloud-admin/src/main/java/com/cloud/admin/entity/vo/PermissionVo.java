@@ -31,4 +31,5 @@ public class PermissionVo implements Serializable {
      * 菜单值
      */
     private String menuValue;
+
 }

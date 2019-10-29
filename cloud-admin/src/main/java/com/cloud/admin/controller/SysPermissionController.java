@@ -1,6 +1,7 @@
 package com.cloud.admin.controller;
 
 import com.cloud.admin.entity.vo.PermissionTree;
+import com.cloud.admin.entity.vo.PermissionVo;
 import com.cloud.admin.service.SysPermissionService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.auth.jwt.UserLoginToken;

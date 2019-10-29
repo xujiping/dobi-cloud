@@ -19,7 +19,7 @@ import java.util.Arrays;
  *
  * @author xujiping
  */
-//@Aspect
+@Aspect
 @Component
 @Slf4j
 public class WebLogConfig {
@@ -43,14 +43,14 @@ public class WebLogConfig {
         // 记录下请求内容
         String ip = IpUtils.getIpAddr(request);
         String url = request.getRequestURL().toString();
-//        log.info("****** IP : " + ip);
-//        log.info("****** URL : " + url);
-//        log.info("****** HTTP_METHOD : " + request.getMethod());
-//        log.info("****** CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
-//                .getSignature().getName());
-//        log.info("****** ARGS : " + Arrays.toString(joinPoint.getArgs()));
-//        // 处理完请求，返回内容
-//        log.info("****** RESPONSE : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
-//                .getSignature().getName() + ": \n" + JSONUtil.toJsonPrettyStr(result));
+        log.info("****** IP : " + ip);
+        log.info("****** URL : " + url);
+        log.info("****** HTTP_METHOD : " + request.getMethod());
+        log.info("****** CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
+                .getSignature().getName());
+        log.info("****** ARGS : " + Arrays.toString(joinPoint.getArgs()));
+        // 处理完请求，返回内容
+        log.info("****** RESPONSE : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
+                .getSignature().getName() + ": \n" + JSONUtil.toJsonPrettyStr(result));
     }
 }
