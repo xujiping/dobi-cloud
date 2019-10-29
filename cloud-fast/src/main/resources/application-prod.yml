@@ -52,7 +52,7 @@ jwt:
         - /doc.html
         - /webjars/bycdao-ui/**
 uc:
-    domain: http://admin.cwmz.top/
+    domain: http://admin.cwmz.top/dobi-admin/
     request:
         user-info: /sysUser/info
         check-permission: /sysPermission/check
