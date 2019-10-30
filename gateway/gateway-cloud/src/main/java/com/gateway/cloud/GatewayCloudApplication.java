@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfigurat
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @author xujiping
@@ -19,6 +20,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @EnableConfigurationProperties
 @NacosConfigurationProperties(dataId = "gateway-cloud", autoRefreshed = true)
+@EnableFeignClients
 public class GatewayCloudApplication {
 
     public static void main(String[] args) {
