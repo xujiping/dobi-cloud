@@ -1,7 +1,6 @@
 package com.gateway.cloud;
 
 import com.alibaba.nacos.api.config.annotation.NacosConfigurationProperties;
-import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

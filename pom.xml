@@ -20,7 +20,6 @@
         <module>cloud-auth</module>
         <module>cloud-fast</module>
         <module>gateway</module>
-        <module>common</module>
     </modules>
 
     <!-- spring boot 2.0 -->

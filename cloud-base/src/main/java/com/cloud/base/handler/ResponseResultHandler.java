@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 处理是否需要包装返回
@@ -39,8 +40,11 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
     public Object beforeBodyWrite(Object o, MethodParameter methodParameter, MediaType mediaType, Class<? extends HttpMessageConverter<?>> aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         log.info("进入返回体 重写格式 处理中...");
         if (o instanceof Result){
-            return ((Result) o).toJson();
+            return o;
         }
-        return Result.success(o).toJson();
+        if (o instanceof String){
+            return Result.success().toJson();
+        }
+        return Result.success(o);
     }
 }
