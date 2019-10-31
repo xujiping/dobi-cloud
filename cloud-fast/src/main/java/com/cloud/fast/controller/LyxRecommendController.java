@@ -89,6 +89,9 @@ public class LyxRecommendController {
                            @NotBlank
                            @RequestParam String keywords) {
         String key = request.getParameter(Constants.HEADER_ACCOUNT_ID);
+        if (StrUtil.isBlank(key)){
+            throw new BusinessException(ResultCode.TOKEN_FAIL);
+        }
         boolean like = lyxUserLikeService.like(key, Long.valueOf(labelId), keywords);
         if (!like) {
             return new ReturnBean(ResultCode.FAIL);
