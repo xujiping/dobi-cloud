@@ -17,6 +17,7 @@ public enum ResultCode {
     INVALID_REQUEST(111, "无效请求"),
     TOKEN_FAIL(401, "token认证失败，请重新登录"),
     PLATFORM_NOT_EXIST(402, "平台不存在"),
+    HTTP_NOT_FOUND(404, "请求失败"),
 
     /**
      * 用户

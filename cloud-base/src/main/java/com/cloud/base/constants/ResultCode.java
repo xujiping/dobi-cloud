@@ -62,6 +62,15 @@ public enum ResultCode {
         this.msg = msg;
     }
 
+    public static ResultCode getByCode(Integer code){
+        for (ResultCode resultCode : ResultCode.values()){
+            if (resultCode.code == code){
+                return resultCode;
+            }
+        }
+        return null;
+    }
+
     public int code() {
         return code;
     }

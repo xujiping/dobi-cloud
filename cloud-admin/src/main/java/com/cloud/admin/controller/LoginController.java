@@ -1,5 +1,6 @@
 package com.cloud.admin.controller;
 
+import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
@@ -50,4 +51,5 @@ public class LoginController {
         }
         return userVo;
     }
+
 }

@@ -12,3 +12,13 @@ spring:
                 server-addr: 144.34.143.83:8848
                 file-extension: yaml
                 group: DOBI_CLOUD
+feign:
+    hystrix:
+        enabled: true # 开启Feign熔断
+hystrix:
+    command:
+        default:
+            execution:
+                isolation:
+                    thread:
+                        timeoutInMilliseconds: 100

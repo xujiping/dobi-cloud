@@ -1,6 +1,6 @@
 package com.gateway.cloud.filter;
 
-import com.gateway.cloud.UserCenterService;
+import com.gateway.cloud.client.UserCenterClient;
 import com.gateway.cloud.common.Constants;
 import com.gateway.cloud.common.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ import java.util.List;
 @Component
 public class TokenFilter implements GlobalFilter, Ordered {
 
-    @Autowired private UserCenterService userCenterService;
+    @Autowired private UserCenterClient userCenterClient;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -38,8 +38,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
         HttpHeaders headers = request.getHeaders();
         if(headers.containsKey(Constants.HEADER_TOKEN)){
             List<String> tokens = headers.get(Constants.HEADER_TOKEN);
-            log.info("token=" + tokens.get(0));
-            Result result = userCenterService.userInfo();
+            Result result = userCenterClient.userInfo(tokens.get(0));
             if(!result.isSuccess()){
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
