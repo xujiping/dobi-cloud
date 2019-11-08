@@ -52,6 +52,12 @@ public enum ResultCode {
     ACTIVITY_END(3005, "活动已结束"),
     LYX_LABEL_NULL(3007, "推荐内容不能为空"),
     LABEL_NOT_EXIST(3009, "标签不存在"),
+
+    /**
+     * 古籍项目
+     */
+    BOOK_NOT_EXIST(4001, "该书籍不存在"),
+
     ;
 
     private int code;

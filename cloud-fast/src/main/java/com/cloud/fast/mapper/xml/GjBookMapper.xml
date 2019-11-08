@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cloud.fast.mapper.GjBookMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cloud.fast.entity.GjBook">
+        <id column="id" property="id" />
+        <result column="parent_id" property="parentId"/>
+        <result column="level" property="level"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="book_name" property="bookName" />
+        <result column="subheading" property="subheading" />
+        <result column="author_id" property="authorId" />
+        <result column="book_introduce" property="bookIntroduce" />
+        <result column="book_detail" property="bookDetail" />
+        <result column="publish_time" property="publishTime" />
+        <result column="real_price" property="realPrice" />
+        <result column="price" property="price" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="status" property="status" />
+    </resultMap>
+
+</mapper>
