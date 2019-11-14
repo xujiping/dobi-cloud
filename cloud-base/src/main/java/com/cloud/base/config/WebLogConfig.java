@@ -50,7 +50,10 @@ public class WebLogConfig {
                 .getSignature().getName());
         log.info("****** ARGS : " + Arrays.toString(joinPoint.getArgs()));
         // 处理完请求，返回内容
-        String responseStr = JSONUtil.isJson(result.toString())? JSONUtil.toJsonPrettyStr(result) : result.toString();
+        String responseStr = null;
+        if (result != null){
+            responseStr = JSONUtil.isJson(result.toString())? JSONUtil.toJsonPrettyStr(result) : result.toString();
+        }
         log.info("****** RESPONSE : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
                 .getSignature().getName() + ": \n" + responseStr);
     }

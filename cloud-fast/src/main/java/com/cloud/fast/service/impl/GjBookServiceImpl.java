@@ -5,6 +5,7 @@ import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import com.cloud.fast.entity.GjBook;
+import com.cloud.fast.entity.dto.BookDto;
 import com.cloud.fast.entity.vo.GjBookVo;
 import com.cloud.fast.mapper.GjBookMapper;
 import com.cloud.fast.service.GjAuthorService;
@@ -61,4 +62,10 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
         }
         return gjBook;
     }
+
+    @Override
+    public GjBookVo newBook(BookDto bookDto) {
+        return null;
+    }
+
 }

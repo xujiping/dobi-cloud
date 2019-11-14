@@ -1,6 +1,8 @@
 package com.cloud.fast.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +19,7 @@ public class GjAuthor extends Model<GjAuthor> {
 
     private static final long serialVersionUID = 1L;
 
+    @TableId(type = IdType.AUTO)
     private Long id;
     /**
      * 真实姓名
