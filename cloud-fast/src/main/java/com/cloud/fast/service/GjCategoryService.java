@@ -1,10 +1,8 @@
 package com.cloud.fast.service;
 
-import com.cloud.fast.entity.GjCategory;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-
-import java.util.List;
-import java.util.Map;
+import com.cloud.fast.entity.GjCategory;
 
 /**
  * <p>
@@ -40,8 +38,8 @@ public interface GjCategoryService extends IService<GjCategory> {
 
     /**
      * 条件查询
-     * @param params
+     * @param pageObject
      * @return
      */
-    List<GjCategory> list(Map<String, Object> params);
+    Page<GjCategory> list(Page<GjCategory> pageObject);
 }

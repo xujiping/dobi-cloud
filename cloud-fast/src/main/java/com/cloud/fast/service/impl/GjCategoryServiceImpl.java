@@ -3,13 +3,13 @@ package com.cloud.fast.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.fast.entity.GjCategory;
 import com.cloud.fast.mapper.GjCategoryMapper;
 import com.cloud.fast.service.GjCategoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,11 +61,15 @@ public class GjCategoryServiceImpl extends ServiceImpl<GjCategoryMapper, GjCateg
     }
 
     @Override
-    public List<GjCategory> list(Map<String, Object> params) {
-        Wrapper<GjCategory> wrapper = new EntityWrapper<>();
-        if (params != null && params.containsKey("level")) {
-            wrapper.eq("level", params.get("level"));
+    public Page<GjCategory> list(Page<GjCategory> pageObject) {
+        if (pageObject == null) {
+            return selectPage(null);
         }
-        return selectList(wrapper);
+        Map<String, Object> condition = pageObject.getCondition();
+        Wrapper<GjCategory> wrapper = new EntityWrapper<>();
+        if (condition != null && condition.containsKey("level")) {
+            wrapper.eq("level", condition.get("level"));
+        }
+        return selectPage(pageObject, wrapper);
     }
 }

@@ -1,12 +1,10 @@
 package com.cloud.admin.controller;
 
-import com.cloud.admin.entity.SysUser;
 import com.cloud.admin.entity.vo.UserVo;
 import com.cloud.admin.service.SysUserService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ResponseResult;
 import com.cloud.base.constants.ResultCode;
-import com.cloud.base.constants.ReturnBean;
 import com.cloud.base.exception.BusinessException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
