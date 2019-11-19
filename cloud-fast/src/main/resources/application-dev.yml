@@ -4,7 +4,7 @@ spring:
         nacos:
             discovery:
                 server-addr: 192.168.0.114:8848
-                ip: 192.168.1.108
+                ip: 192.168.0.135
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver
