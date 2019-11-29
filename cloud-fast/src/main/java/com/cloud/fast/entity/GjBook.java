@@ -35,6 +35,10 @@ public class GjBook extends Model<GjBook> {
      */
     private String bookName;
     /**
+     * 封面
+     */
+    private String cover;
+    /**
      * 副标题
      */
     private String subheading;

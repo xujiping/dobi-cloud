@@ -1,8 +1,10 @@
 package com.cloud.fast.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.fast.entity.GjBook;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.BookDto;
+import com.cloud.fast.entity.vo.GjBookSimpleVo;
 import com.cloud.fast.entity.vo.GjBookVo;
 
 /**
@@ -30,10 +32,24 @@ public interface GjBookService extends IService<GjBook> {
     GjBookVo wrapper(GjBook book);
 
     /**
+     * 简单包装
+     * @param book
+     * @return
+     */
+    GjBookSimpleVo wrapperSimple(GjBook book);
+
+    /**
      * 新增书籍
      * @param bookDto
      * @return
      */
     GjBookVo newBook(BookDto bookDto);
+
+    /**
+     * 分页查询
+     * @param page
+     * @return
+     */
+    Page<GjBookSimpleVo> page(Page<GjBook> page);
 
 }

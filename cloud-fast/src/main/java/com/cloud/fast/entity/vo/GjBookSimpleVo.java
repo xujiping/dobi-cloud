@@ -10,14 +10,15 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @author xujiping
- * @date 2019-11-08 11:40
+ * @Author: xujiping
+ * @Date: 2019年11月19日 0019 下午 10:17:05
+ * @Version 1.0
  */
+@ApiModel("书籍")
 @Data
-@ApiModel("书籍VO")
-public class GjBookVo implements Serializable {
+public class GjBookSimpleVo implements Serializable {
 
-    private static final long serialVersionUID = 1522726681615961878L;
+    private static final long serialVersionUID = 2381337594574994339L;
 
     private Long id;
 
@@ -39,10 +40,6 @@ public class GjBookVo implements Serializable {
      * 书籍简介
      */
     private String bookIntroduce;
-    /**
-     * 书籍详情
-     */
-    private String bookDetail;
     /**
      * 出版时间
      */
