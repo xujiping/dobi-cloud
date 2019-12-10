@@ -39,6 +39,7 @@ public class TokenFilter implements GlobalFilter, Ordered {
         if(headers.containsKey(Constants.HEADER_TOKEN)){
             List<String> tokens = headers.get(Constants.HEADER_TOKEN);
             Result result = userCenterClient.userInfo(tokens.get(0));
+            log.info("用户中心返回：" + result.toString());
             if(!result.isSuccess()){
                 ServerHttpResponse response = exchange.getResponse();
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);

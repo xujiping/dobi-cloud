@@ -1,5 +1,7 @@
 package com.cloud.fast.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
@@ -7,7 +9,6 @@ import com.cloud.fast.entity.GjAuthor;
 import com.cloud.fast.entity.dto.AuthorDto;
 import com.cloud.fast.mapper.GjAuthorMapper;
 import com.cloud.fast.service.GjAuthorService;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,10 @@ public class GjAuthorServiceImpl extends ServiceImpl<GjAuthorMapper, GjAuthor> i
             return null;
         }
         return author;
+    }
+
+    @Override
+    public Page<GjAuthor> page(Page<GjAuthor> pageObject) {
+        return selectPage(pageObject);
     }
 }

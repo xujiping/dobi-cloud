@@ -61,16 +61,19 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (StrUtil.isBlank(token)) {
+                    log.error("token为空");
                     throw new BusinessException(ResultCode.NO_TOKEN);
                 }
                 // 查询用户信息
                 SysUser user = userService.selectById(accountId);
                 if (user == null) {
+                    log.error("用户为空，userId={}", accountId);
                     throw new BusinessException(ResultCode.USER_NOT_EXISTS);
                 }
                 String username = user.getUsername();
                 LoginLog loginLog = userService.getByToken(token);
                 if (loginLog == null) {
+                    log.error("登陆记录不存在, token={}", token);
                     throw new BusinessException(ResultCode.TOKEN_FAIL);
                 }
                 // 验证 token
@@ -78,6 +81,7 @@ public class JwtTokenInterceptor implements HandlerInterceptor {
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
+                    log.error("token校验失败, token={}", token);
                     throw new BusinessException(ResultCode.TOKEN_FAIL);
                 }
                 // admin用户不校验权限

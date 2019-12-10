@@ -1,5 +1,6 @@
 package com.cloud.fast.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.fast.entity.GjAuthor;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.fast.entity.dto.AuthorDto;
@@ -27,4 +28,11 @@ public interface GjAuthorService extends IService<GjAuthor> {
      * @return
      */
     GjAuthor get(Long authorId);
+
+    /**
+     * 分页
+     * @param pageObject
+     * @return
+     */
+    Page<GjAuthor> page(Page<GjAuthor> pageObject);
 }
