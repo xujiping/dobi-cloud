@@ -1,10 +1,10 @@
 spring:
     # nacos服务配置
-    cloud:
-        nacos:
-            discovery:
-                server-addr: mse-fc920290-p.nacos-ans.mse.aliyuncs.com:8848
-#                ip: 192.168.0.135
+#    cloud:
+#        nacos:
+#            discovery:
+#                server-addr: mse-fc920290-p.nacos-ans.mse.aliyuncs.com:8848
+##                ip: 192.168.0.135
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver

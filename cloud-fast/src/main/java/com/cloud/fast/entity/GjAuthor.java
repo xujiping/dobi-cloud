@@ -3,6 +3,7 @@ package com.cloud.fast.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @author xujiping
  * @since 2019-11-08
  */
+@Data
 public class GjAuthor extends Model<GjAuthor> {
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +46,11 @@ public class GjAuthor extends Model<GjAuthor> {
     /**
      * 出生日期
      */
-    private Date birthday;
+    private String birthday;
     /**
      * 死亡日期
      */
-    private Date deathday;
+    private String deathday;
     /**
      * 详细介绍
      */
@@ -106,22 +108,6 @@ public class GjAuthor extends Model<GjAuthor> {
         this.introduce = introduce;
     }
 
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public Date getDeathday() {
-        return deathday;
-    }
-
-    public void setDeathday(Date deathday) {
-        this.deathday = deathday;
-    }
-
     public String getDetail() {
         return detail;
     }
@@ -159,21 +145,4 @@ public class GjAuthor extends Model<GjAuthor> {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "GjAuthor{" +
-        "id=" + id +
-        ", name=" + name +
-        ", zi=" + zi +
-        ", hao=" + hao +
-        ", biName=" + biName +
-        ", introduce=" + introduce +
-        ", birthday=" + birthday +
-        ", deathday=" + deathday +
-        ", detail=" + detail +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        ", status=" + status +
-        "}";
-    }
 }
