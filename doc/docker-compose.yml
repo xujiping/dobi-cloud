@@ -1,15 +1,15 @@
 version: "2"
 services:
-    dobi-gateway:
-        image: registry.cn-hangzhou.aliyuncs.com/dobi/gateway-cloud:latest
-        ports:
-            - "8110:8110"
-        networks:
-            - webnet
-        environment:
-            - "SPRING_PROFILES_ACTIVE=prod"
-        volumes:
-          - /tmp/cloud/:/tmp/cloud/
+#    dobi-gateway:
+#        image: registry.cn-hangzhou.aliyuncs.com/dobi/gateway-cloud:latest
+#        ports:
+#            - "8110:8110"
+#        networks:
+#            - webnet
+#        environment:
+#            - "SPRING_PROFILES_ACTIVE=prod"
+#        volumes:
+#          - /tmp/cloud/:/tmp/cloud/
 #    dobi-pets:
 #        image: xjp1070860185/dobi-pets
 #        ports:
