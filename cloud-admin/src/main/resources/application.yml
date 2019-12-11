@@ -2,7 +2,7 @@ server:
     port: 8100
 spring:
     profiles:
-        active: dev
+        active: prod
     application:
         name: dobi-admin
 management:

@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 services:
 #    dobi-gateway:
 #        image: registry.cn-hangzhou.aliyuncs.com/dobi/gateway-cloud:latest
@@ -29,7 +29,7 @@ services:
         environment:
             - "SPRING_PROFILES_ACTIVE=prod"
         volumes:
-            - /tmp/cloud/:/tmp/cloud/
+            - /mnt/cloud/:/mnt/cloud/
 #    dobi-fast:
 #        image: xjp1070860185/dobi-fast
 #        ports:

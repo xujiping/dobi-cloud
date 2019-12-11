@@ -7,7 +7,7 @@
     <!-- 定义变量值 -->
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
     <springProfile name="prod">
-        <property name="LOG_HOME" value="/mnt/website/logs/admin"/>
+        <property name="LOG_HOME" value="/mnt/cloud/logs/admin"/>
     </springProfile>
     <springProfile name="dev">
         <property name="LOG_HOME" value="logs/admin"/>
