@@ -84,18 +84,18 @@ public class MyBatisPlusGeneratorUtil {
      * @param args
      */
     public static void main(String[] args) {
-        String url = "jdbc:mysql://192.168.1.19:3306/account_core?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia" +
+        String url = "jdbc:mysql://rm-m5e277z772hwom5t6jo.mysql.rds.aliyuncs.com:3306/cloud_admin?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=Asia" +
                 "/Shanghai";
         String username = "root";
-        String password = "ssds123456";
+        String password = "Dobi624dobi624";
         String driverName = "com.mysql.jdbc.Driver";
         String author = "xujiping";
         // TODO 检查输出目录是否正确
-        String outputDir = "D:\\javaProjects\\idea\\dobi-cloud\\cloud-fast\\src\\main\\java";
-        String packageName = "com.cloud.fast";
+        String outputDir = "/Users/jipingxu/GitHub/dobi-cloud/cloud-admin/src/main/java";
+        String packageName = "com.cloud.admin.fast";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "year_data_test");
+                "gj_author", "gj_book", "gj_book_content", "gj_book_menu", "gj_category", "gj_link", "carousel");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }

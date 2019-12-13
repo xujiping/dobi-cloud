@@ -2,7 +2,7 @@ server:
     port: 8100
 spring:
     profiles:
-        active: prod
+        active: dev
     application:
         name: dobi-admin
 management:
@@ -12,8 +12,8 @@ management:
                 include=*:
 #mybatis-plus配置
 mybatis-plus:
-    mapper-locations: classpath:/com/cloud/admin/mapper/xml/*Mapper.xml
-    #实体扫描
+    mapper-locations: classpath*:/com/cloud/admin/mapper/xml/*Mapper.xml,/com/cloud/admin/fast/mapper/xml/*Mapper.xml
+    # MyBaits 别名包扫描路径
     type-aliases-package: com.cloud.admin.entity
     global-config:
         #主键类型 0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID
