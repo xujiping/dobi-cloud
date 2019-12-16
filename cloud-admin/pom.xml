@@ -41,6 +41,14 @@
             <!--<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
         <!--</dependency>-->
 
+        <!-- 爬虫jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.12.1</version>
+        </dependency>
+
+
     </dependencies>
 
 

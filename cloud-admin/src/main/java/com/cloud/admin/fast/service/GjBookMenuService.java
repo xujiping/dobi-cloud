@@ -3,6 +3,9 @@ package com.cloud.admin.fast.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.fast.entity.GjBookMenu;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.fast.entity.dto.MenuContentDto;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,5 +23,19 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
      * @return
      */
     Page<GjBookMenu> page(Page<GjBookMenu> page);
+
+    /**
+     * 新增菜单和内容
+     * @param menuContentDto
+     * @return
+     */
+    boolean addMenuAndContent(MenuContentDto menuContentDto);
+
+    /**
+     * 根绝书籍ID或标题查询目录
+     * @param bookId
+     * @return
+     */
+    List<GjBookMenu> getByBook(Long bookId, String title);
 
 }
