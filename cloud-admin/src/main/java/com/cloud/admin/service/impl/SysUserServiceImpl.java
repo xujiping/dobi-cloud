@@ -94,7 +94,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             if (StrUtil.isBlank(name)) {
                 name = user.getUsername();
             }
-            return new UserVo(user.getId(), name, token, null, status);
+            return new UserVo(user.getId(), name, token, "", status);
         }
         return null;
     }

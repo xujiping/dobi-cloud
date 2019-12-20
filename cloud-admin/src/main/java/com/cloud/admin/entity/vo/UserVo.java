@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @Version 1.0
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserVo implements Serializable {
 

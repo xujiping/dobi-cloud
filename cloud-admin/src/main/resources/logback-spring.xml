@@ -2,7 +2,7 @@
 <configuration debug="false">
 
     <!-- 设置上下文，用于区分不同的应用程序的记录 -->
-    <contextName>pets</contextName>
+    <contextName>uc</contextName>
 
     <!-- 定义变量值 -->
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->

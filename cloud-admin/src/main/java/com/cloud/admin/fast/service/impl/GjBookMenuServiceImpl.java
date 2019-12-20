@@ -1,6 +1,7 @@
 package com.cloud.admin.fast.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -13,6 +14,10 @@ import com.cloud.admin.fast.mapper.GjBookMenuMapper;
 import com.cloud.admin.fast.service.GjBookContentService;
 import com.cloud.admin.fast.service.GjBookMenuService;
 import com.cloud.base.constants.Constants;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,5 +80,37 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
             wrapper.eq("title", title);
         }
         return selectList(wrapper);
+    }
+
+    @Override
+    public boolean readHtml(String url, MenuContentDto menuContentDto) {
+        if (StrUtil.isBlank(url)) {
+            return false;
+        }
+        String html = HttpUtil.get(url);
+        Document doc = Jsoup.parse(html);
+        Element cont = doc.select(".sons > .cont").get(0);
+        Elements span = cont.select("span");
+        menuContentDto.setTitle(span.text());
+        Element contson = cont.select(".contson").get(0);
+        menuContentDto.setContent(contson.html());
+        menuContentDto.setDesc(StrUtil.sub(contson.text(), 0, 50));
+        // 译文
+        Element yz = cont.select("a:contains(译注)").get(0);
+        String href = yz.attr("href");
+        String id = href.substring(21, href.length() - 1);
+        url = "https://so.gushiwen.org/guwen/ajaxbfanyi.aspx?id=" + id;
+        html = HttpUtil.get(url);
+        doc = Jsoup.parse(html);
+        Element yw = doc.select("p:contains(译文)").get(0);
+        Element zs = doc.select("p:contains(注释)").get(0);
+        String replace = StrUtil.replace(yw.html(), "<strong>译文<br /></strong>", "");
+        String replace2 = StrUtil.replace(zs.html(), "<strong>注释</strong><br />", "");
+        menuContentDto.setTransText(replace);
+        menuContentDto.setAnnontation(replace2);
+        if (StrUtil.isNotBlank(menuContentDto.getTitle()) && StrUtil.isNotBlank(menuContentDto.getContent())) {
+            return true;
+        }
+        return false;
     }
 }

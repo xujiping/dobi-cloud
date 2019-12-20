@@ -38,4 +38,11 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
      */
     List<GjBookMenu> getByBook(Long bookId, String title);
 
+    /**
+     * 解析一个html页面
+     * @param url
+     * @return
+     */
+    boolean readHtml(String url, MenuContentDto menuContentDto);
+
 }
