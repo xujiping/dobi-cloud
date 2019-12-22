@@ -2,6 +2,7 @@ package com.cloud.admin.fast.service;
 
 import com.cloud.admin.fast.entity.GjBookContent;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.fast.entity.vo.BookContentVo;
 
 /**
  * <p>
@@ -18,6 +19,13 @@ public interface GjBookContentService extends IService<GjBookContent> {
      * @param menuId
      * @return
      */
-    GjBookContent getByMenuId(Long menuId);
+    BookContentVo getByMenuId(Long menuId);
+
+    /**
+     * 包装
+     * @param bookContent
+     * @return
+     */
+    BookContentVo wrapper(GjBookContent bookContent);
 
 }

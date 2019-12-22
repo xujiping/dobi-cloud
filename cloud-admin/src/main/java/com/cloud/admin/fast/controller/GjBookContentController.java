@@ -2,6 +2,7 @@ package com.cloud.admin.fast.controller;
 
 
 import com.cloud.admin.fast.entity.GjBookContent;
+import com.cloud.admin.fast.entity.vo.BookContentVo;
 import com.cloud.admin.fast.service.GjBookContentService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ResponseResult;
@@ -33,7 +34,7 @@ public class GjBookContentController {
     @ApiOperation(value = "查看内容")
     @GetMapping("{menuId}")
     @PassToken
-    public GjBookContent getContent(@ApiParam(required = true, name = "menuId", value = "目录ID")
+    public BookContentVo getContent(@ApiParam(required = true, name = "menuId", value = "目录ID")
                                     @PathVariable(name = "menuId") Long menuId) {
         return bookContentService.getByMenuId(menuId);
     }
