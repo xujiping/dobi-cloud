@@ -62,7 +62,9 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
         if (bookVo != null) {
             contentVo.setBookTitle(bookVo.getBookName());
             GjAuthor author = bookVo.getGjAuthor();
-            contentVo.setAuthor(author.getName());
+            if (author != null) {
+                contentVo.setAuthor(author.getName());
+            }
         }
         // 菜单
         GjBookMenu bookMenu = bookMenuService.selectById(menuId);
@@ -80,10 +82,10 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
             }
             contentVo.setMenuTitle(bookMenu.getTitle());
         }
-        if (StrUtil.isBlank(transText)){
+        if (StrUtil.isBlank(transText)) {
             contentVo.setTransText(Constants.NO_TRANS_MSG);
         }
-        if (StrUtil.isBlank(annotation)){
+        if (StrUtil.isBlank(annotation)) {
             contentVo.setAnnotation(Constants.NO_ANNOTATION_MSG);
         }
         return contentVo;
