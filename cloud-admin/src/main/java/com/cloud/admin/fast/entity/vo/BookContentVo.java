@@ -41,4 +41,8 @@ public class BookContentVo implements Serializable {
      * 注释
      */
     private String annotation;
+
+    private Long preMenuId;
+
+    private Long nextMenuId;
 }

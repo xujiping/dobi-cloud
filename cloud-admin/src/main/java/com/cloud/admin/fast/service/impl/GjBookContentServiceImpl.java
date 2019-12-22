@@ -64,6 +64,17 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
         // 菜单
         GjBookMenu bookMenu = bookMenuService.selectById(menuId);
         if (bookMenu != null) {
+            Integer weight = bookMenu.getWeight();
+            if (weight != null) {
+                GjBookMenu preMenu = bookMenuService.getByWeight(bookId, weight - 1);
+                if (preMenu != null) {
+                    contentVo.setPreMenuId(preMenu.getId());
+                }
+                GjBookMenu nextMenu = bookMenuService.getByWeight(bookId, weight + 1);
+                if (nextMenu != null) {
+                    contentVo.setNextMenuId(nextMenu.getId());
+                }
+            }
             contentVo.setMenuTitle(bookMenu.getTitle());
         }
         return contentVo;

@@ -45,4 +45,12 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
      */
     boolean readHtml(String url, MenuContentDto menuContentDto);
 
+    /**
+     * 根据权重查询菜单
+     * @param bookId
+     * @param weight
+     * @return
+     */
+    GjBookMenu getByWeight(Long bookId, Integer weight);
+
 }

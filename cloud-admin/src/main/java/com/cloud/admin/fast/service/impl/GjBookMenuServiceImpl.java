@@ -113,4 +113,15 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
         }
         return false;
     }
+
+    @Override
+    public GjBookMenu getByWeight(Long bookId, Integer weight) {
+        if (bookId == null || weight == null || weight < 0) {
+            return null;
+        }
+        Wrapper<GjBookMenu> wrapper = new EntityWrapper<>();
+        wrapper.eq("book_id", bookId);
+        wrapper.eq("weight", weight);
+        return selectOne(wrapper);
+    }
 }
