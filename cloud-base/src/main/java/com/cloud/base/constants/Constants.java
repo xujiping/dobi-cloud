@@ -173,4 +173,7 @@ public interface Constants {
     int CHANNEL_TYPE_WX = 1;
 
     String DEFAULT_COVER = "https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640";
+
+    String NO_TRANS_MSG = "暂无注释，我们正在努力上传中";
+    String NO_ANNOTATION_MSG = "暂无译文，我们正在努力上传中";
 }

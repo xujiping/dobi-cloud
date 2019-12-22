@@ -1,5 +1,6 @@
 package com.cloud.admin.fast.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.cloud.admin.fast.entity.GjAuthor;
@@ -54,6 +55,8 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
         BeanUtils.copyProperties(bookContent, contentVo);
         Long bookId = bookContent.getBookId();
         Long menuId = bookContent.getMenuId();
+        String annotation = bookContent.getAnnotation();
+        String transText = bookContent.getTransText();
         // 书籍
         GjBookVo bookVo = bookService.get(bookId);
         if (bookVo != null) {
@@ -76,6 +79,12 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
                 }
             }
             contentVo.setMenuTitle(bookMenu.getTitle());
+        }
+        if (StrUtil.isBlank(transText)){
+            contentVo.setTransText(Constants.NO_TRANS_MSG);
+        }
+        if (StrUtil.isBlank(annotation)){
+            contentVo.setAnnotation(Constants.NO_ANNOTATION_MSG);
         }
         return contentVo;
     }
