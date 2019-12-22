@@ -65,7 +65,14 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
             BeanUtils.copyProperties(menuContentDto, content);
             content.setAnnotation(menuContentDto.getAnnontation());
             content.setMenuId(menu.getId());
-            contentService.insert(content);
+            try{
+                contentService.insert(content);
+            }catch (Exception e){
+                content.setContent("数据错误");
+                content.setTransText("");
+                content.setAnnotation("");
+                contentService.insert(content);
+            }
         }
         return false;
     }
@@ -102,12 +109,31 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
         url = "https://so.gushiwen.org/guwen/ajaxbfanyi.aspx?id=" + id;
         html = HttpUtil.get(url);
         doc = Jsoup.parse(html);
-        Element yw = doc.select("p:contains(译文)").get(0);
-        Element zs = doc.select("p:contains(注释)").get(0);
-        String replace = StrUtil.replace(yw.html(), "<strong>译文<br /></strong>", "");
-        String replace2 = StrUtil.replace(zs.html(), "<strong>注释</strong><br />", "");
-        menuContentDto.setTransText(replace);
-        menuContentDto.setAnnontation(replace2);
+        int fa = 1;
+        Elements ywElements = doc.select("p:contains(译文)");
+        if (ywElements == null || ywElements.size() < 1) {
+            ywElements = doc.select(".shisoncont > p");
+            fa = 2;
+        }
+        if (ywElements != null && ywElements.size() > 0) {
+            StringBuilder replace = new StringBuilder();
+            if (fa == 1) {
+                Element yw = ywElements.get(0);
+                replace = new StringBuilder(StrUtil.replace(yw.html(), "<strong>译文<br /></strong>", ""));
+            }
+            if (fa == 2) {
+                for (Element yw : ywElements) {
+                    replace.append(yw.toString());
+                }
+            }
+            menuContentDto.setTransText(replace.toString());
+        }
+        Elements zsElements = doc.select("p:contains(注释)");
+        if (zsElements != null && zsElements.size() > 0) {
+            Element zs = zsElements.get(0);
+            String replace2 = StrUtil.replace(zs.html(), "<strong>注释</strong><br />", "");
+            menuContentDto.setAnnontation(replace2);
+        }
         if (StrUtil.isNotBlank(menuContentDto.getTitle()) && StrUtil.isNotBlank(menuContentDto.getContent())) {
             return true;
         }

@@ -2,6 +2,7 @@ package com.cloud.admin.fast.controller;
 
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.fast.entity.GjAuthor;
 import com.cloud.admin.fast.entity.GjBookMenu;
 import com.cloud.admin.fast.entity.vo.BookMenusVo;
 import com.cloud.admin.fast.entity.vo.GjBookVo;
@@ -41,16 +42,19 @@ public class GjBookMenuController {
     @PassToken
     @GetMapping("page/{bookId}")
     public BookMenusVo page(@ApiParam(required = true, name = "bookId", value = "书籍ID")
-                                 @PathVariable(name = "bookId") Long bookId,
+                            @PathVariable(name = "bookId") Long bookId,
                             @ApiParam(name = "page", value = "页码", defaultValue = "1")
-                                 @RequestParam(required = false, defaultValue = "1") Integer page,
+                            @RequestParam(required = false, defaultValue = "1") Integer page,
                             @ApiParam(name = "size", value = "大小", defaultValue = "10")
-                                 @RequestParam(required = false, defaultValue = "10") Integer size) {
+                            @RequestParam(required = false, defaultValue = "10") Integer size) {
         BookMenusVo bookMenusVo = new BookMenusVo();
         GjBookVo bookVo = bookService.get(bookId);
-        if (bookVo != null){
+        if (bookVo != null) {
             bookMenusVo.setBookName(bookVo.getBookName());
-            bookMenusVo.setAuthor(bookVo.getGjAuthor().getName());
+            GjAuthor gjAuthor = bookVo.getGjAuthor();
+            if (gjAuthor != null) {
+                bookMenusVo.setAuthor(bookVo.getGjAuthor().getName());
+            }
         }
         Page<GjBookMenu> pageObject = new Page<>(page, size);
         Map<String, Object> condition = MapUtil.newHashMap(1);

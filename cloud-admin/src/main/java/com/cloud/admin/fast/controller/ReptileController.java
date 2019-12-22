@@ -34,19 +34,21 @@ public class ReptileController {
     @GetMapping("html")
     public String html() {
         MenuContentDto menuContentDto;
-        String url = "https://so.gushiwen.org/guwen/book_6.aspx";
+        String url = "https://so.gushiwen.org/guwen/book_1.aspx";
         String html = HttpUtil.get(url);
         Document doc = Jsoup.parse(html);
         Elements bookcont = doc.getElementsByClass("bookcont");
-        Elements spanList = bookcont.get(0).children().get(0).children();
-        for (int i = 0; i < spanList.size(); i++) {
-            Element element = spanList.get(i);
-            String href = element.child(0).attr("href");
+        Elements aList = bookcont.select("span > a");
+        for (int i = 0; i < aList.size(); i++) {
+            Element element = aList.get(i);
+            String href = element.attr("href");
             href = "https://so.gushiwen.org" + href;
+            System.out.println(href);
             menuContentDto = new MenuContentDto();
-            menuContentDto.setBookId(2L);
+            menuContentDto.setBookId(3L);
             menuContentDto.setWeight(i + 1);
             if (menuService.readHtml(href, menuContentDto)) {
+                System.out.println(menuContentDto);
                 menuService.addMenuAndContent(menuContentDto);
             }
         }
