@@ -95,7 +95,7 @@ public class MyBatisPlusGeneratorUtil {
         String packageName = "com.cloud.admin.fast";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "gj_author", "gj_book", "gj_book_content", "gj_book_menu", "gj_category", "gj_link", "carousel");
+                "gj_today");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }
