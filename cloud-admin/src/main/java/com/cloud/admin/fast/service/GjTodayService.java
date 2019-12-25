@@ -3,6 +3,7 @@ package com.cloud.admin.fast.service;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.fast.entity.GjToday;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.fast.entity.vo.TodayVo;
 
 /**
  * <p>
@@ -19,5 +20,7 @@ public interface GjTodayService extends IService<GjToday> {
      * @param pageObject
      * @return
      */
-    Page<GjToday> page(Page<GjToday> pageObject);
+    Page<TodayVo> page(Page<GjToday> pageObject);
+
+    TodayVo wrapper(GjToday gjToday);
 }

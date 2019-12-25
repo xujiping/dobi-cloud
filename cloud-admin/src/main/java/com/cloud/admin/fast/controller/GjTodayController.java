@@ -3,6 +3,7 @@ package com.cloud.admin.fast.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.fast.entity.GjToday;
+import com.cloud.admin.fast.entity.vo.TodayVo;
 import com.cloud.admin.fast.service.GjTodayService;
 import com.cloud.auth.jwt.PassToken;
 import com.cloud.base.constants.ResponseResult;
@@ -34,7 +35,7 @@ public class GjTodayController {
     @ApiOperation(value = "分页查询")
     @PassToken
     @GetMapping("page")
-    public Page<GjToday> page(@ApiParam(name = "page", value = "页码", defaultValue = "1")
+    public Page<TodayVo> page(@ApiParam(name = "page", value = "页码", defaultValue = "1")
                                      @RequestParam(required = false, defaultValue = "1") Integer page,
                               @ApiParam(name = "size", value = "大小", defaultValue = "10")
                                      @RequestParam(required = false, defaultValue = "10") Integer size){
