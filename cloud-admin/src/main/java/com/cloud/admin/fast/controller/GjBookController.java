@@ -38,7 +38,7 @@ public class GjBookController {
     public Page<GjBookSimpleVo> page(@ApiParam(name = "page", value = "页码", defaultValue = "1")
                                      @RequestParam(required = false, defaultValue = "1") Integer page,
                                      @ApiParam(name = "size", value = "大小", defaultValue = "10")
-                                     @RequestParam(required = false, defaultValue = "10") Integer size){
+                                     @RequestParam(required = false, defaultValue = "100") Integer size){
         Page<GjBook> pageObject = new Page<>(page, size);
         return bookService.page(pageObject);
     }
