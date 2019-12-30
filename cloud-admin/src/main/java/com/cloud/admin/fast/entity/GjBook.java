@@ -3,6 +3,7 @@ package com.cloud.admin.fast.entity;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import java.util.Date;
  * @author xujiping
  * @since 2019-12-12
  */
+@Data
 public class GjBook extends Model<GjBook> {
 
     private static final long serialVersionUID = 1L;
@@ -61,7 +63,7 @@ public class GjBook extends Model<GjBook> {
     /**
      * 出版时间
      */
-    private Date publishTime;
+    private String publishTime;
     /**
      * 原价
      */
@@ -156,14 +158,6 @@ public class GjBook extends Model<GjBook> {
 
     public void setBookDetail(String bookDetail) {
         this.bookDetail = bookDetail;
-    }
-
-    public Date getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(Date publishTime) {
-        this.publishTime = publishTime;
     }
 
     public BigDecimal getRealPrice() {
