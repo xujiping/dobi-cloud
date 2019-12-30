@@ -1,5 +1,7 @@
 package com.cloud.admin.fast.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.admin.fast.entity.GjBook;
@@ -93,6 +95,9 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
 
     @Override
     public Page<GjBookSimpleVo> page(Page<GjBook> page) {
+        Wrapper<GjBook> wrapper = new EntityWrapper<>();
+        wrapper.eq("status", Constants.STATUS_NORMAL);
+        page = selectPage(page, wrapper);
         page = selectPage(page);
         Page<GjBookSimpleVo> simpleVoPage = new Page<>(page.getCurrent(), page.getSize());
         List<GjBook> records = page.getRecords();
