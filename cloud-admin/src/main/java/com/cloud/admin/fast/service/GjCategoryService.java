@@ -13,4 +13,19 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface GjCategoryService extends IService<GjCategory> {
 
+    /**
+     * 获取或创建菜单
+     * @param name
+     * @param parentId
+     * @return
+     */
+    GjCategory getOrAdd(String name, String parentId);
+
+    /**
+     * 获取菜单
+     * @param name
+     * @return
+     */
+    GjCategory getByName(String name);
+
 }

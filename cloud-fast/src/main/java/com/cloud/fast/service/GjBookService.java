@@ -43,7 +43,7 @@ public interface GjBookService extends IService<GjBook> {
      * @param bookDto
      * @return
      */
-    GjBookVo newBook(BookDto bookDto);
+    GjBookVo getOrAdd(BookDto bookDto);
 
     /**
      * 分页查询
@@ -51,5 +51,12 @@ public interface GjBookService extends IService<GjBook> {
      * @return
      */
     Page<GjBookSimpleVo> page(Page<GjBook> page);
+
+    /**
+     * 查询
+     * @param name
+     * @return
+     */
+    GjBook get(String name);
 
 }

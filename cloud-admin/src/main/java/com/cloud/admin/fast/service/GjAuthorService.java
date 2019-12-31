@@ -13,4 +13,11 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface GjAuthorService extends IService<GjAuthor> {
 
+    /**
+     * 获取或创建作者
+     * @param name
+     * @return
+     */
+    GjAuthor getOrAdd(String name);
+
 }

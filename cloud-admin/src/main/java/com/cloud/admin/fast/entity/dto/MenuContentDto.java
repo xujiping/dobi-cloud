@@ -26,4 +26,6 @@ public class MenuContentDto implements Serializable {
     private String transText;
 
     private String annontation;
+
+    private String menuUrl;
 }

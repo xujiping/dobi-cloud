@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
+import com.cloud.fast.entity.GjAuthor;
 import com.cloud.fast.entity.GjBook;
+import com.cloud.fast.entity.GjCategory;
 import com.cloud.fast.entity.dto.BookDto;
 import com.cloud.fast.entity.vo.GjBookSimpleVo;
 import com.cloud.fast.entity.vo.GjBookVo;
@@ -89,7 +91,7 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
     }
 
     @Override
-    public GjBookVo newBook(BookDto bookDto) {
+    public GjBookVo getOrAdd(BookDto bookDto) {
         return null;
     }
 
@@ -103,6 +105,13 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
             simpleVoPage.setRecords(list);
         }
         return simpleVoPage;
+    }
+
+    @Override
+    public GjBook get(String name) {
+        Wrapper<GjBook> wrapper = new EntityWrapper<>();
+        wrapper.eq("book_name", name);
+        return selectOne(wrapper);
     }
 
 }

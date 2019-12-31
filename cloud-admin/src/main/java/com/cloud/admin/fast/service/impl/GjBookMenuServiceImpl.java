@@ -7,12 +7,13 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.cloud.admin.fast.entity.GjBookContent;
-import com.cloud.admin.fast.entity.GjBookMenu;
+import com.cloud.admin.fast.entity.*;
 import com.cloud.admin.fast.entity.dto.MenuContentDto;
 import com.cloud.admin.fast.mapper.GjBookMenuMapper;
+import com.cloud.admin.fast.service.GjAuthorService;
 import com.cloud.admin.fast.service.GjBookContentService;
 import com.cloud.admin.fast.service.GjBookMenuService;
+import com.cloud.admin.fast.service.GjCategoryService;
 import com.cloud.base.constants.Constants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -37,6 +38,11 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
 
     @Autowired
     GjBookContentService contentService;
+
+    @Autowired private GjCategoryService categoryService;
+
+    @Autowired private GjAuthorService authorService;
+
 
     @Override
     public Page<GjBookMenu> page(Page<GjBookMenu> page) {
@@ -150,4 +156,5 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
         wrapper.eq("weight", weight);
         return selectOne(wrapper);
     }
+
 }

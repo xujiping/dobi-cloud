@@ -1,6 +1,7 @@
 package com.cloud.admin.fast.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.cloud.admin.fast.entity.GjBook;
 import com.cloud.admin.fast.entity.GjBookMenu;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.fast.entity.dto.MenuContentDto;
@@ -19,6 +20,7 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
 
     /**
      * 分页查询
+     *
      * @param page
      * @return
      */
@@ -26,6 +28,7 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
 
     /**
      * 新增菜单和内容
+     *
      * @param menuContentDto
      * @return
      */
@@ -33,6 +36,7 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
 
     /**
      * 根绝书籍ID或标题查询目录
+     *
      * @param bookId
      * @return
      */
@@ -40,6 +44,7 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
 
     /**
      * 解析一个html页面
+     *
      * @param url
      * @return
      */
@@ -47,6 +52,7 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
 
     /**
      * 根据权重查询菜单
+     *
      * @param bookId
      * @param weight
      * @return

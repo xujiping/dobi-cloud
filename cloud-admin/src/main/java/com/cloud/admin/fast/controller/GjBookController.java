@@ -54,7 +54,7 @@ public class GjBookController {
     @ApiOperation(value = "添加新书籍", httpMethod = "POST")
     @PostMapping("new")
     public GjBookVo newBook(@RequestBody BookDto bookDto) {
-        return bookService.newBook(bookDto);
+        return bookService.getOrAdd(bookDto);
     }
 
 }

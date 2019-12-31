@@ -19,6 +19,10 @@ public class BookDto implements Serializable {
 
     private Long parentId;
 
+    private String category;
+
+    private String categoryParentId;
+
     private Integer categoryId;
     /**
      * 书名
@@ -28,10 +32,12 @@ public class BookDto implements Serializable {
      * 副标题
      */
     private String subheading;
+
+    private String author;
     /**
      * 作者
      */
-    private String authorId;
+    private Long authorId;
     /**
      * 书籍简介
      */
