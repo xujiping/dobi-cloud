@@ -82,10 +82,14 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
         Integer categoryId = book.getCategoryId();
         String authorId = book.getAuthorId();
         if (categoryId != null) {
-            gjBook.setGjCategory(categoryService.selectById(categoryId));
+            GjCategory category = categoryService.selectById(categoryId);
+            gjBook.setGjCategory(category);
+            gjBook.setCategory(category.getName());
         }
         if (authorId != null) {
-            gjBook.setGjAuthor(authorService.selectById(authorId));
+            GjAuthor author = authorService.selectById(authorId);
+            gjBook.setGjAuthor(author);
+            gjBook.setAuthor(author.getName());
         }
         return gjBook;
     }
@@ -129,7 +133,6 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
     @Override
     public Page<GjBookSimpleVo> page(Page<GjBook> page) {
         Wrapper<GjBook> wrapper = new EntityWrapper<>();
-        wrapper.eq("status", Constants.STATUS_NORMAL);
         page = selectPage(page, wrapper);
         Page<GjBookSimpleVo> simpleVoPage = new Page<>(page.getCurrent(), page.getSize());
         List<GjBook> records = page.getRecords();

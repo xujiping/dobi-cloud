@@ -1,6 +1,7 @@
 package com.cloud.admin.fast.controller;
 
 
+import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.fast.entity.GjBook;
 import com.cloud.admin.fast.entity.dto.BookDto;
@@ -8,12 +9,15 @@ import com.cloud.admin.fast.entity.vo.GjBookSimpleVo;
 import com.cloud.admin.fast.entity.vo.GjBookVo;
 import com.cloud.admin.fast.service.GjBookService;
 import com.cloud.auth.jwt.PassToken;
+import com.cloud.base.constants.Constants;
 import com.cloud.base.constants.ResponseResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -38,8 +42,15 @@ public class GjBookController {
     public Page<GjBookSimpleVo> page(@ApiParam(name = "page", value = "页码", defaultValue = "1")
                                      @RequestParam(required = false, defaultValue = "1") Integer page,
                                      @ApiParam(name = "size", value = "大小", defaultValue = "10")
-                                     @RequestParam(required = false, defaultValue = "100") Integer size){
+                                     @RequestParam(required = false, defaultValue = "100") Integer size,
+                                     @ApiParam(name = "isAll", value = "是否查询全部", defaultValue = "false")
+                                     @RequestParam(required = false, defaultValue = "false") Boolean isAll) {
         Page<GjBook> pageObject = new Page<>(page, size);
+        Map<String, Object> condition = MapUtil.newHashMap(1);
+        if (!isAll){
+            condition.put("status", Constants.STATUS_NORMAL);
+        }
+        pageObject.setCondition(condition);
         return bookService.page(pageObject);
     }
 

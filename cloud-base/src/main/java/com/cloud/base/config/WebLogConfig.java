@@ -1,11 +1,13 @@
 package com.cloud.base.config;
 
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
 import com.cloud.base.util.IpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -24,7 +26,8 @@ import java.util.Arrays;
 @Slf4j
 public class WebLogConfig {
 
-    @Pointcut("execution(public * com.cloud.*.controller..*.*(..))")
+    @Pointcut("execution(public * com.cloud.*.controller..*.*(..))" +
+            " || execution(public * com.cloud.*.fast.controller..*.*(..))")
     public void webLog() {
     }
 
@@ -51,8 +54,8 @@ public class WebLogConfig {
         log.info("****** ARGS : " + Arrays.toString(joinPoint.getArgs()));
         // 处理完请求，返回内容
         String responseStr = null;
-        if (result != null){
-            responseStr = JSONUtil.isJson(result.toString())? JSONUtil.toJsonPrettyStr(result) : result.toString();
+        if (result != null) {
+            responseStr = JSON.toJSONString(result);
         }
         log.info("****** RESPONSE : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint
                 .getSignature().getName() + ": \n" + responseStr);

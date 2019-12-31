@@ -176,4 +176,9 @@ public interface Constants {
 
     String NO_TRANS_MSG = "暂无注释，我们正在努力上传中";
     String NO_ANNOTATION_MSG = "暂无译文，我们正在努力上传中";
+
+    /**
+     * HTTP字符串
+     */
+    String HTTP_STR_OPTIONS = "OPTIONS";
 }

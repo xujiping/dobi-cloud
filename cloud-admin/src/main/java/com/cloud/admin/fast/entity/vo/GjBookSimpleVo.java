@@ -53,7 +53,13 @@ public class GjBookSimpleVo implements Serializable {
      */
     private BigDecimal price;
 
+    private String author;
+
+    private String category;
+
     private GjAuthor gjAuthor;
+
+    private Long categoryId;
 
     private GjCategory gjCategory;
 }

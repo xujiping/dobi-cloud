@@ -2,6 +2,7 @@ package com.cloud.admin.fast.service;
 
 import com.cloud.admin.fast.entity.GjAuthor;
 import com.baomidou.mybatisplus.service.IService;
+import com.cloud.admin.fast.entity.dto.AuthorDto;
 
 /**
  * <p>
@@ -14,10 +15,25 @@ import com.baomidou.mybatisplus.service.IService;
 public interface GjAuthorService extends IService<GjAuthor> {
 
     /**
+     * 创建作者
+     * @param authorDto
+     * @return
+     */
+    GjAuthor newAuthor(AuthorDto authorDto);
+
+    /**
      * 获取或创建作者
      * @param name
      * @return
      */
     GjAuthor getOrAdd(String name);
+
+
+    /**
+     * 获取作者信息
+     * @param authorId
+     * @return
+     */
+    GjAuthor get(Long authorId);
 
 }
