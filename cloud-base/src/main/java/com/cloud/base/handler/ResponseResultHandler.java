@@ -43,7 +43,7 @@ public class ResponseResultHandler implements ResponseBodyAdvice<Object> {
             return o;
         }
         if (o instanceof String){
-            return Result.success().toJson();
+            return Result.success(o).toJson();
         }
         return Result.success(o);
     }

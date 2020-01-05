@@ -39,6 +39,7 @@ swagger:
     email: xjpdyx@hotmail.com
     description: 后台管理系统接口文档
 file:
+    domain: http://file.cwmz.top/
     server: /mnt/cloud/
 wx:
     appid: wx12509072f8865649
