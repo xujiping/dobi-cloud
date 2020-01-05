@@ -48,9 +48,9 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
             return bookVo;
         }
         GjBook book = selectById(bookId);
-        if (book == null || book.getStatus().equals(Constants.STATUS_UNENABLE)) {
-            throw new BusinessException(ResultCode.BOOK_NOT_EXIST);
-        }
+//        if (book == null || book.getStatus().equals(Constants.STATUS_UNENABLE)) {
+//            throw new BusinessException(ResultCode.BOOK_NOT_EXIST);
+//        }
         return wrapper(book);
     }
 
@@ -139,6 +139,7 @@ public class GjBookServiceImpl extends ServiceImpl<GjBookMapper, GjBook> impleme
         if (records != null && records.size() > 0) {
             List<GjBookSimpleVo> list = records.stream().map(this::wrapperSimple).collect(Collectors.toList());
             simpleVoPage.setRecords(list);
+            simpleVoPage.setTotal(page.getTotal());
         }
         return simpleVoPage;
     }

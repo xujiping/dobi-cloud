@@ -13,6 +13,7 @@ import com.cloud.admin.fast.service.GjBookContentService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.admin.fast.service.GjBookMenuService;
 import com.cloud.admin.fast.service.GjBookService;
+import com.cloud.admin.fast.util.BookUtil;
 import com.cloud.base.constants.Constants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,5 +90,18 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
             contentVo.setAnnotation(Constants.NO_ANNOTATION_MSG);
         }
         return contentVo;
+    }
+
+    @Override
+    public BookContentVo update(Long menuId, String content) {
+        GjBookContent bookContent = new GjBookContent();
+        bookContent.setContent(BookUtil.setImg(content));
+        Wrapper<GjBookContent> wrapper = new EntityWrapper<>();
+        wrapper.eq("menu_id", menuId);
+        boolean update = update(bookContent, wrapper);
+        if (update){
+            return getByMenuId(menuId);
+        }
+        return null;
     }
 }

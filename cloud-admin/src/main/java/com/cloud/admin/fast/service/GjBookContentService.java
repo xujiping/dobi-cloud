@@ -28,4 +28,12 @@ public interface GjBookContentService extends IService<GjBookContent> {
      */
     BookContentVo wrapper(GjBookContent bookContent);
 
+    /**
+     * 更新内容
+     * @param menuId
+     * @param content
+     * @return
+     */
+    BookContentVo update(Long menuId, String content);
+
 }
