@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.cloud.admin.fast.entity.*;
 import com.cloud.admin.fast.entity.dto.MenuContentDto;
+import com.cloud.admin.fast.entity.vo.BookContentVo;
 import com.cloud.admin.fast.mapper.GjBookMenuMapper;
 import com.cloud.admin.fast.service.GjAuthorService;
 import com.cloud.admin.fast.service.GjBookContentService;
@@ -39,11 +40,6 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
     @Autowired
     GjBookContentService contentService;
 
-    @Autowired private GjCategoryService categoryService;
-
-    @Autowired private GjAuthorService authorService;
-
-
     @Override
     public Page<GjBookMenu> page(Page<GjBookMenu> page) {
         if (page == null) {
@@ -65,15 +61,19 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
         GjBookContent content;
         GjBookMenu menu = new GjBookMenu();
         BeanUtils.copyProperties(menuContentDto, menu);
+        Integer weight = menu.getWeight();
+        if (weight == null) {
+            menu.setWeight(getMaxWeight(menuContentDto.getBookId()) + 1);
+        }
         boolean insert = insert(menu);
         if (insert) {
             content = new GjBookContent();
             BeanUtils.copyProperties(menuContentDto, content);
             content.setAnnotation(menuContentDto.getAnnontation());
             content.setMenuId(menu.getId());
-            try{
+            try {
                 contentService.insert(content);
-            }catch (Exception e){
+            } catch (Exception e) {
                 content.setContent("数据错误");
                 content.setTransText("");
                 content.setAnnotation("");
@@ -154,6 +154,56 @@ public class GjBookMenuServiceImpl extends ServiceImpl<GjBookMenuMapper, GjBookM
         Wrapper<GjBookMenu> wrapper = new EntityWrapper<>();
         wrapper.eq("book_id", bookId);
         wrapper.eq("weight", weight);
+        return selectOne(wrapper);
+    }
+
+    @Override
+    public int getMaxWeight(Long bookId) {
+        List<GjBookMenu> menus = getByBook(bookId, null);
+        if (menus != null && menus.size() > 0) {
+            return menus.get(menus.size() - 1).getWeight() + 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public BookContentVo addOrUpdate(Long bookId, String title, String desc, Integer weight, String content, String transText, String annotation) {
+        GjBookMenu bookMenu = getByTitle(bookId, title);
+        if (bookMenu != null) {
+            // 更新
+            bookMenu.setTitle(title);
+            bookMenu.setDesc(desc);
+            bookMenu.setWeight(weight);
+            updateById(bookMenu);
+            if (StrUtil.isNotBlank(content) || StrUtil.isNotBlank(transText) || StrUtil.isNotBlank(annotation)) {
+                GjBookContent bookContent = contentService.get(bookMenu.getId());
+                bookContent.setContent(content);
+                bookContent.setTransText(transText);
+                bookContent.setAnnotation(annotation);
+                contentService.updateById(bookContent);
+            }
+            return contentService.getByMenuId(bookMenu.getId());
+        }
+        // 新增
+        MenuContentDto menuContentDto = new MenuContentDto(bookId, title, desc, weight, content, transText, annotation, null);
+        if (!addMenuAndContent(menuContentDto)) {
+            return null;
+        }
+        bookMenu = getByTitle(bookId, title);
+        if (bookMenu == null) {
+            return null;
+        }
+        return contentService.getByMenuId(bookMenu.getId());
+    }
+
+    @Override
+    public GjBookMenu getByTitle(Long bookId, String title) {
+        if (bookId == null || StrUtil.isBlank(title)) {
+            return null;
+        }
+        Wrapper<GjBookMenu> wrapper = new EntityWrapper<>();
+        wrapper.eq("title", title);
+        wrapper.eq("book_id", bookId);
         return selectOne(wrapper);
     }
 

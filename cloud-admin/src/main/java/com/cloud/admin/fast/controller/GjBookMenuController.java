@@ -4,6 +4,8 @@ import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.cloud.admin.fast.entity.GjAuthor;
 import com.cloud.admin.fast.entity.GjBookMenu;
+import com.cloud.admin.fast.entity.dto.MenuContentDto;
+import com.cloud.admin.fast.entity.vo.BookContentVo;
 import com.cloud.admin.fast.entity.vo.BookMenusVo;
 import com.cloud.admin.fast.entity.vo.GjBookVo;
 import com.cloud.admin.fast.service.GjBookMenuService;
@@ -62,6 +64,26 @@ public class GjBookMenuController {
         pageObject.setCondition(condition);
         bookMenusVo.setPage(bookMenuService.page(pageObject));
         return bookMenusVo;
+    }
+
+    @ApiOperation(value = "添加/更新新目录和内容")
+    @PassToken
+    @PostMapping("new/{bookId}")
+    public BookContentVo add(@ApiParam(required = true, name = "bookId", value = "书籍ID")
+                       @PathVariable(name = "bookId") Long bookId,
+                       @ApiParam(required = true, name = "title", value = "目录标题")
+                       @RequestParam String title,
+                       @ApiParam(name = "desc", value = "描述")
+                       @RequestParam(required = false) String desc,
+                       @ApiParam(name = "weight", value = "权重，不填则自动递增")
+                       @RequestParam(required = false) Integer weight,
+                       @ApiParam(name = "content", value = "正文")
+                       @RequestParam(required = false) String content,
+                       @ApiParam(name = "transText", value = "译文")
+                       @RequestParam(required = false) String transText,
+                       @ApiParam(name = "annotation", value = "注释")
+                       @RequestParam(required = false) String annotation) {
+        return bookMenuService.addOrUpdate(bookId, title, desc, weight, content, transText, annotation);
     }
 
 }

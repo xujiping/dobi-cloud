@@ -5,6 +5,7 @@ import com.cloud.admin.fast.entity.GjBook;
 import com.cloud.admin.fast.entity.GjBookMenu;
 import com.baomidou.mybatisplus.service.IService;
 import com.cloud.admin.fast.entity.dto.MenuContentDto;
+import com.cloud.admin.fast.entity.vo.BookContentVo;
 
 import java.util.List;
 
@@ -58,5 +59,35 @@ public interface GjBookMenuService extends IService<GjBookMenu> {
      * @return
      */
     GjBookMenu getByWeight(Long bookId, Integer weight);
+
+    /**
+     * 获取最大的菜单权重
+     *
+     * @param bookId
+     * @return
+     */
+    int getMaxWeight(Long bookId);
+
+    /**
+     * 新增或更新（以title为准）菜单或内容
+     *
+     * @param bookId
+     * @param title
+     * @param desc
+     * @param weight
+     * @param content
+     * @param transText
+     * @param annotation
+     * @return
+     */
+    BookContentVo addOrUpdate(Long bookId, String title, String desc, Integer weight, String content, String transText, String annotation);
+
+    /**
+     * 根据标题获取
+     * @param bookId
+     * @param title
+     * @return
+     */
+    GjBookMenu getByTitle(Long bookId, String title);
 
 }

@@ -24,7 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @ResponseResult
 public class GjBookContentController {
 
-    @Autowired private GjBookContentService bookContentService;
+    @Autowired
+    private GjBookContentService bookContentService;
 
     @ApiOperation(value = "查看内容")
     @GetMapping("{menuId}")
@@ -34,14 +35,18 @@ public class GjBookContentController {
         return bookContentService.getByMenuId(menuId);
     }
 
-    @ApiOperation(value = "更新内容")
+    @ApiOperation(value = "更新")
     @PostMapping("{menuId}")
     @PassToken
     public BookContentVo updateContent(@ApiParam(required = true, name = "menuId", value = "目录ID")
                                        @PathVariable(name = "menuId") Long menuId,
-                                       @ApiParam(required = true, name = "content", value = "正文内容")
-                                       @RequestParam String content){
-        return bookContentService.update(menuId, content);
+                                       @ApiParam(name = "content", value = "正文内容")
+                                       @RequestParam(required = false) String content,
+                                       @ApiParam(name = "transText", value = "译文")
+                                       @RequestParam(required = false) String transText,
+                                       @ApiParam(name = "annotation", value = "注释")
+                                       @RequestParam(required = false) String annotation) {
+        return bookContentService.update(menuId, content, transText, annotation);
     }
 
 }

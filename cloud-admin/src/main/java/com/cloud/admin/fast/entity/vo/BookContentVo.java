@@ -29,6 +29,8 @@ public class BookContentVo implements Serializable {
     private Long menuId;
 
     private String menuTitle;
+
+    private String desc;
     /**
      * 正文
      */
@@ -45,4 +47,6 @@ public class BookContentVo implements Serializable {
     private Long preMenuId;
 
     private Long nextMenuId;
+
+    private Integer weight;
 }

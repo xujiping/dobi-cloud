@@ -34,6 +34,13 @@ public interface GjBookContentService extends IService<GjBookContent> {
      * @param content
      * @return
      */
-    BookContentVo update(Long menuId, String content);
+    BookContentVo update(Long menuId, String content, String transText, String annotation);
+
+    /**
+     * 查询
+     * @param menuId
+     * @return
+     */
+    GjBookContent get(Long menuId);
 
 }

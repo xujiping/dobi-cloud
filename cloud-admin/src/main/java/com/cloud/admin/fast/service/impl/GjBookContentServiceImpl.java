@@ -82,6 +82,8 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
                 }
             }
             contentVo.setMenuTitle(bookMenu.getTitle());
+            contentVo.setDesc(bookMenu.getDesc());
+            contentVo.setWeight(bookMenu.getWeight());
         }
         if (StrUtil.isBlank(transText)) {
             contentVo.setTransText(Constants.NO_TRANS_MSG);
@@ -93,9 +95,17 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
     }
 
     @Override
-    public BookContentVo update(Long menuId, String content) {
+    public BookContentVo update(Long menuId, String content, String transText, String annotation) {
         GjBookContent bookContent = new GjBookContent();
-        bookContent.setContent(BookUtil.setImg(content));
+        if (StrUtil.isNotBlank(content)){
+            bookContent.setContent(BookUtil.setImg(content));
+        }
+        if (StrUtil.isNotBlank(transText)){
+            bookContent.setTransText(transText);
+        }
+        if (StrUtil.isNotBlank(annotation)){
+            bookContent.setAnnotation(annotation);
+        }
         Wrapper<GjBookContent> wrapper = new EntityWrapper<>();
         wrapper.eq("menu_id", menuId);
         boolean update = update(bookContent, wrapper);
@@ -103,5 +113,12 @@ public class GjBookContentServiceImpl extends ServiceImpl<GjBookContentMapper, G
             return getByMenuId(menuId);
         }
         return null;
+    }
+
+    @Override
+    public GjBookContent get(Long menuId) {
+        Wrapper<GjBookContent> wrapper = new EntityWrapper<>();
+        wrapper.eq("menu_id", menuId);
+        return selectOne(wrapper);
     }
 }
