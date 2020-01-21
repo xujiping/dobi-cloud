@@ -91,11 +91,11 @@ public class MyBatisPlusGeneratorUtil {
         String driverName = "com.mysql.jdbc.Driver";
         String author = "xujiping";
         // TODO 检查输出目录是否正确
-        String outputDir = "/Users/jipingxu/GitHub/dobi-cloud/cloud-admin/src/main/java";
+        String outputDir = "D:\\javaProjects\\idea\\dobi-cloud\\cloud-admin\\src\\main\\java";
         String packageName = "com.cloud.admin.fast";
         String superEntity = "com.baomidou.mybatisplus.activerecord.Model";
         generate(url, username, password, driverName, author, outputDir, packageName, superEntity,
-                "gj_today");
+                "sc_author", "sc_poetry");
         System.out.println("代码生成后，记得Entity文件导入Serializable包");
     }
 }
