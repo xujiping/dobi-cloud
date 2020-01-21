@@ -4,20 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.cloud.admin.fast.entity.ScPoetry">
-        <id column="id" property="id" />
-        <result column="type" property="type" />
-        <result column="dynasty" property="dynasty" />
-        <result column="author" property="author" />
-        <result column="title" property="title" />
-        <result column="chapter" property="chapter" />
-        <result column="section" property="section" />
-        <result column="rhythmic" property="rhythmic" />
-        <result column="paragraphs" property="paragraphs" />
-        <result column="notes" property="notes" />
-        <result column="tags" property="tags" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="status" property="status" />
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="dynasty" property="dynasty"/>
+        <result column="author_jt" property="authorJt" />
+        <result column="author" property="author"/>
+        <result column="title_jt" property="titleJt"/>
+        <result column="title" property="title"/>
+        <result column="chapter" property="chapter"/>
+        <result column="section" property="section"/>
+        <result column="rhythmic" property="rhythmic"/>
+        <result column="paragraphs_jt" property="paragraphsJt"/>
+        <result column="paragraphs" property="paragraphs"/>
+        <result column="notes" property="notes"/>
+        <result column="tags" property="tags"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="status" property="status"/>
     </resultMap>
 
 </mapper>

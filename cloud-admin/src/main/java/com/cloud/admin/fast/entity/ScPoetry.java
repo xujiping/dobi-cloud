@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.Data;
 
 /**
  * <p>
@@ -13,6 +14,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
  * @author xujiping
  * @since 2020-01-18
  */
+@Data
 public class ScPoetry extends Model<ScPoetry> {
 
     private static final long serialVersionUID = 1L;
@@ -26,10 +28,16 @@ public class ScPoetry extends Model<ScPoetry> {
      * 朝代
      */
     private String dynasty;
+
+    private String authorJt;
     /**
      * 作者
      */
     private String author;
+    /**
+     * 标题简体
+     */
+    private String titleJt;
     /**
      * 标题
      */
@@ -46,6 +54,11 @@ public class ScPoetry extends Model<ScPoetry> {
      * 韵律
      */
     private String rhythmic;
+
+    /**
+     * 诗词简体
+     */
+    private String paragraphsJt;
     /**
      * 诗词
      */

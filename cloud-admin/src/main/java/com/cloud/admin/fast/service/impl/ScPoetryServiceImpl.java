@@ -1,6 +1,5 @@
 package com.cloud.admin.fast.service.impl;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
@@ -8,12 +7,12 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.cloud.admin.fast.entity.ScAuthor;
 import com.cloud.admin.fast.entity.ScPoetry;
 import com.cloud.admin.fast.entity.vo.ScPoetryVo;
 import com.cloud.admin.fast.mapper.ScPoetryMapper;
 import com.cloud.admin.fast.service.ScPoetryService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.cloud.admin.fast.util.JianFanUtil;
 import com.cloud.base.constants.ResultCode;
 import com.cloud.base.exception.BusinessException;
 import org.springframework.beans.BeanUtils;
@@ -90,18 +89,47 @@ public class ScPoetryServiceImpl extends ServiceImpl<ScPoetryMapper, ScPoetry> i
     @Override
     public ScPoetryVo wrapper(ScPoetry poetry) {
         ScPoetryVo poetryVo = new ScPoetryVo();
-        if (poetry == null){
+        if (poetry == null) {
             return poetryVo;
         }
-        BeanUtils.copyProperties(poetry, poetryVo);
         String paragraphs = poetry.getParagraphs();
+        String authorJt = poetry.getAuthorJt();
+        String titleJt = poetry.getTitleJt();
+        if (StrUtil.isBlank(authorJt)) {
+            com.alibaba.fastjson.JSONObject fanJson = new com.alibaba.fastjson.JSONObject();
+            fanJson.put("author", poetry.getAuthor());
+            fanJson.put("title", poetry.getTitle());
+            fanJson.put("paragraphs", poetry.getParagraphs());
+            String jianStr = JianFanUtil.toJian(fanJson.toJSONString());
+            if (StrUtil.isNotBlank(jianStr)){
+                com.alibaba.fastjson.JSONObject jianJson = com.alibaba.fastjson.JSONObject.parseObject(jianStr);
+                String authorJt2 = jianJson.getString("author");
+                String titleJt2 = jianJson.getString("title");
+                String paragraphsJt2 = jianJson.getString("paragraphs");
+                poetry.setTitleJt(titleJt2);
+                poetry.setAuthorJt(authorJt2);
+                poetry.setParagraphsJt(paragraphsJt2);
+                updateById(poetry);
+            }
+        }
+        BeanUtils.copyProperties(poetry, poetryVo);
         List<String> paragraphsList = new ArrayList<>();
-        if (StrUtil.isNotBlank(paragraphs)){
+        List<String> paragraphsJtList = new ArrayList<>();
+        if (StrUtil.isNotBlank(paragraphs)) {
             String[] split = StrUtil.split(paragraphs, "\",\"");
             for (String str : split) {
                 paragraphsList.add(StrUtil.removeAll(str, '[', ']', '"'));
             }
             poetryVo.setParagraphs(paragraphsList);
+        }
+
+        String paragraphsJt = poetry.getParagraphsJt();
+        if (StrUtil.isNotBlank(paragraphsJt)) {
+            String[] split = StrUtil.split(paragraphsJt, "\",\"");
+            for (String str : split) {
+                paragraphsJtList.add(StrUtil.removeAll(str, '[', ']', '"'));
+            }
+            poetryVo.setParagraphsJt(paragraphsJtList);
         }
         return poetryVo;
     }

@@ -28,6 +28,8 @@ public class ScPoetryVo implements Serializable {
      * 作者
      */
     private String author;
+
+    private String titleJt;
     /**
      * 标题
      */
@@ -44,6 +46,8 @@ public class ScPoetryVo implements Serializable {
      * 韵律
      */
     private String rhythmic;
+
+    private List<String> paragraphsJt;
     /**
      * 诗词
      */

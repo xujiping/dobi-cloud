@@ -1,8 +1,6 @@
 package com.cloud.admin.fast.controller;
 
-
 import com.baomidou.mybatisplus.plugins.Page;
-import com.cloud.admin.fast.entity.ScPoetry;
 import com.cloud.admin.fast.entity.ScPoetry;
 import com.cloud.admin.fast.entity.vo.ScPoetryVo;
 import com.cloud.admin.fast.service.ScPoetryService;
@@ -14,7 +12,8 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,7 +29,8 @@ import org.springframework.stereotype.Controller;
 @ResponseResult
 public class ScPoetryController {
 
-    @Autowired private ScPoetryService poetryService;
+    @Autowired
+    private ScPoetryService poetryService;
 
     @PassToken
     @ApiOperation(value = "读取诗词", httpMethod = "GET")
@@ -38,7 +38,7 @@ public class ScPoetryController {
     public Long json2Sc(@ApiParam(required = true, name = "path", value = "路径")
                         @RequestParam String path) {
         for (int i = 5; i < 255; i++) {
-            path = "D:\\javaProjects\\github\\chinese-poetry\\json\\poet.song." + i * 1000 +".json";
+            path = "D:\\javaProjects\\github\\chinese-poetry\\json\\poet.song." + i * 1000 + ".json";
             poetryService.json2Sc(path);
         }
         return 0L;
@@ -47,19 +47,30 @@ public class ScPoetryController {
     @PassToken
     @ApiOperation(value = "分页列表", httpMethod = "GET")
     @GetMapping("page")
-    public Page<ScPoetry> page(@ApiParam(name = "currentPage", value = "当前页码")
-                               @RequestParam(required = false, defaultValue = "1") Integer currentPage,
-                               @ApiParam(name = "size", value = "大小")
-                               @RequestParam(required = false, defaultValue = "20") Integer size) {
+    public Page<ScPoetryVo> page(@ApiParam(name = "currentPage", value = "当前页码")
+                                 @RequestParam(required = false, defaultValue = "1") Integer currentPage,
+                                 @ApiParam(name = "size", value = "大小")
+                                 @RequestParam(required = false, defaultValue = "20") Integer size) {
         Page<ScPoetry> page = new Page<>(currentPage, size);
-        return poetryService.selectPage(page);
+        Page<ScPoetryVo> voPage = new Page<>();
+        page = poetryService.selectPage(page);
+        List<ScPoetry> records = page.getRecords();
+        List<ScPoetryVo> list;
+        if (records != null) {
+            list = records.stream().map(poetry -> poetryService.wrapper(poetry)).collect(Collectors.toList());
+            voPage.setRecords(list);
+            voPage.setTotal(page.getTotal());
+            voPage.setCurrent(page.getCurrent());
+            voPage.setSize(page.getSize());
+        }
+        return voPage;
     }
 
     @PassToken
     @ApiOperation(value = "诗词详情", httpMethod = "GET")
     @GetMapping("info/{id}")
     public ScPoetryVo info(@ApiParam(required = true, name = "id", value = "主键ID")
-                         @PathVariable(value = "id") String id) {
+                           @PathVariable(value = "id") String id) {
         return poetryService.wrapper(poetryService.selectById(id));
     }
 
